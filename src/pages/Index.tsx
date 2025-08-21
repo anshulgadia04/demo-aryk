@@ -125,12 +125,22 @@ const Index = () => {
 
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
+  // Wishlist
+  const [wishlist, setWishlist] = useState<number[]>(() => {
+    const saved = localStorage.getItem('aryk_wishlist');
+    return saved ? JSON.parse(saved) : [];
+  });
+  useEffect(() => {
+    localStorage.setItem('aryk_wishlist', JSON.stringify(wishlist));
+  }, [wishlist]);
+
   return (
     <div className="min-h-screen bg-background">
       <Header 
         onCartClick={() => setIsCartOpen(true)}
         onAuthClick={() => setIsAuthModalOpen(true)}
         cartCount={cartCount}
+        variant="transparent"
       />
       
       <main>
