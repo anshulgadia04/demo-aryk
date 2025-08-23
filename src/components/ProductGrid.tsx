@@ -31,8 +31,8 @@ const ProductGrid = ({ onAddToCart }: ProductGridProps) => {
     <section className="py-16 md:py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-          {/* Left: sticky info panel */}
-          <div className="md:col-span-4 sticky top-4 self-start z-10">
+          {/* Left: info panel */}
+          <div className="md:col-span-4">
             <h2 className="text-3xl font-serif font-light text-foreground mb-2">Bestsellers</h2>
             <p className="text-muted-foreground max-w-sm">
               Elevate your skincare ritual with our self-care essentials.
