@@ -2,169 +2,191 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Award, Leaf, Heart, Users, Target, Shield } from "lucide-react";
+import { Award, Leaf, Heart, Users, Target, Shield, Star, Globe, Sparkles } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const AboutUs = () => {
+  const navigate = useNavigate();
+  
   return (
     <>
       <Header
         onCartClick={() => {}}
         onAuthClick={() => {}}
         cartCount={0}
-        variant="solid"
+        variant="transparent"
       />
       
       <div className="min-h-screen bg-background pt-0">
-        {/* Hero Section */}
-        <div className="bg-gradient-to-br from-green-50 to-emerald-100 border-b">
-          <div className="container mx-auto px-4 py-16">
-            <div className="text-center max-w-4xl mx-auto">
-              <h1 className="text-5xl font-serif font-light text-foreground mb-6">
-                Our Story
+        {/* Hero Section - EXACT KORA STYLE with Video Background */}
+        <div className="relative h-screen overflow-hidden">
+          {/* Video Background */}
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          >
+            <source src="/videos/about-background.mp4" type="video/mp4" />
+          </video>
+          
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black/30"></div>
+          
+          {/* Content */}
+          <div className="relative z-10 flex items-center justify-center h-full">
+            <div className="text-center max-w-5xl mx-auto px-4">
+              <h1 className="text-7xl font-serif font-light text-white mb-12 leading-none">
+                YOUR BEST SKIN.<br />
+                ORGANICALLY.
               </h1>
-              <p className="text-xl text-muted-foreground leading-relaxed">
-                Born from a deep reverence for nature and a commitment to authentic wellness, 
-                ARYK Organics represents the perfect harmony between ancient wisdom and modern science.
+              <p className="text-2xl text-white/90 leading-relaxed max-w-4xl mx-auto font-light">
+                We believe everything we use can be powerful, gentle, and effective without compromising your health or our planet. 
+                Our formulas harness the best of nature to nourish, replenish, and detoxify your skin for a healthier glow you can see 
+                using the highest quality certified organic ingredients you can trust.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Mission & Vision */}
-        <div className="py-16 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <h2 className="text-3xl font-serif font-light text-foreground mb-6">
-                  Our Mission
-                </h2>
-                <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                  To provide the purest, most effective natural skincare solutions that honor both 
-                  your skin and the planet. We believe that true beauty comes from within and is 
-                  nurtured by the earth's most precious gifts.
-                </p>
-                <p className="text-muted-foreground text-lg leading-relaxed">
-                  Every product we create is a testament to our commitment to sustainability, 
-                  ethical sourcing, and the belief that nature provides everything we need for 
-                  radiant, healthy skin.
+        {/* Three Pillars Section - EXACT KORA LAYOUT with Images */}
+        <div className="py-24 relative overflow-hidden">
+          {/* Background Image */}
+          <div className="absolute inset-0">
+            <img 
+              src="/aryk img/WhatsApp Image 2025-08-23 at 14.40.37.jpeg"
+              alt="ARYK Background"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-white/80"></div>
+          </div>
+          
+          {/* Content */}
+          <div className="relative z-10 container mx-auto px-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-16 max-w-7xl mx-auto">
+              {/* Highly Effective */}
+              <div className="text-center">
+                <div className="mb-8">
+                  <img 
+                    src="/effective.png" 
+                    alt="Highly Effective Products"
+                    className="w-full h-64 object-cover shadow-lg"
+                  />
+                </div>
+                <h3 className="text-3xl font-serif font-light text-foreground mb-6">
+                  Highly Effective
+                </h3>
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                  Our results are clear, compelling, and proven.<br />
+                  We combine the highest quality plant-powered<br />
+                  ingredients with the latest technologies, delivering<br />
+                  results that are visible immediately and continuously.
                 </p>
               </div>
-              <div className="bg-gradient-to-br from-green-100 to-emerald-200 p-8 rounded-2xl">
-                <div className="text-center">
-                  <Leaf className="h-16 w-16 text-green-600 mx-auto mb-4" />
-                  <h3 className="text-2xl font-serif font-light text-foreground mb-4">
-                    Pure & Natural
-                  </h3>
-                  <p className="text-muted-foreground">
-                    Certified organic ingredients sourced from sustainable farms
+
+              {/* Certified Organic */}
+              <div className="text-center">
+                <div className="mb-8">
+                  <img 
+                    src="/organic.png" 
+                    alt="Certified Organic Ingredients"
+                    className="w-full h-64 object-cover shadow-lg"
+                  />
+                </div>
+                <h3 className="text-3xl font-serif font-light text-foreground mb-6">
+                  Certified Organic
+                </h3>
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                  Our products are formulated with certified organic ingredients that contain up to 60% more antioxidants. Our sustainable harvesting practices result in<br />
+                  less waste and no harmful ingredients.<br />
+                  We are good for you and our planet, too.
+                </p>
+              </div>
+
+              {/* Always Uplifting */}
+              <div className="text-center">
+                <div className="mb-8">
+                  <img 
+                    src="/uplifting.png" 
+                    alt="Always Uplifting Experience"
+                    className="w-full h-64 object-cover shadow-lg"
+                  />
+                </div>
+                <h3 className="text-3xl font-serif font-light text-foreground mb-6">
+                  Always Uplifting
+                </h3>
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                  Our products are created to uplift and<br />
+                  inspire through a combination of crystals,<br />
+                  aromatherapy, and positive affirmations.<br />
+                  We believe in a 360 approach to wellness<br />
+                  for your mind, body, and skin.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Certifications Badge Row - EXACT KORA STYLE */}
+        <div className="py-12 bg-white border-y border-gray-200">
+          <div className="container mx-auto px-4">
+            <div className="flex flex-wrap justify-center items-center gap-12">
+              <Badge variant="outline" className="text-base px-6 py-3 border-gray-300 text-gray-700 bg-white">
+                Climate Neutral
+              </Badge>
+              <Badge variant="outline" className="text-base px-6 py-3 border-gray-300 text-gray-700 bg-white">
+                Certified Organic
+              </Badge>
+              <Badge variant="outline" className="text-base px-6 py-3 border-gray-300 text-gray-700 bg-white">
+                Cruelty Free
+              </Badge>
+            </div>
+          </div>
+        </div>
+
+        {/* Founder's Story Section - EXACT KORA LAYOUT */}
+        <div className="py-24 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="max-w-6xl mx-auto">
+              <h2 className="text-5xl font-serif font-light text-foreground text-center mb-20">
+                Founder's Story
+              </h2>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
+                <div className="space-y-8">
+                  <p className="text-xl text-muted-foreground leading-relaxed">
+                    When I was 16, my mother was diagnosed with cancer, and I started to take a closer look at what I was putting in and on my body. 
+                    This sparked my lifelong passion for organic ingredients and holistic health.
+                  </p>
+                  
+                  <p className="text-xl text-muted-foreground leading-relaxed">
+                    Over the years, I found there wasn't anyone creating certified organic and effective skincare and in 2009, 
+                    I decided to make my own. After three years of partnering with some of the best chemists in the natural space, 
+                    I launched a range of skincare that followed both the strictest global standards of safety and the highest levels 
+                    of clinical performance for healthy, glowing skin.
+                  </p>
+                  
+                  <p className="text-xl text-muted-foreground leading-relaxed">
+                    Today, we're in 40 countries and growing—using sustainable organic harvesting practices that result in less waste 
+                    for the planet, without toxins on your skin and up to 60% more antioxidants. I'm so proud of what we've created 
+                    and for you to experience the power of organics.
                   </p>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Values */}
-        <div className="py-16 bg-background">
-          <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-serif font-light text-foreground text-center mb-12">
-              Our Core Values
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <div className="text-center p-6 bg-white rounded-xl border">
-                <Heart className="h-12 w-12 text-red-500 mx-auto mb-4" />
-                <h3 className="text-xl font-medium text-foreground mb-3">Authenticity</h3>
-                <p className="text-muted-foreground">
-                  We stay true to our roots, never compromising on quality or our commitment to natural ingredients.
-                </p>
-              </div>
-              
-              <div className="text-center p-6 bg-white rounded-xl border">
-                <Shield className="h-12 w-12 text-blue-500 mx-auto mb-4" />
-                <h3 className="text-xl font-medium text-foreground mb-3">Transparency</h3>
-                <p className="text-muted-foreground">
-                  Every ingredient, every process, and every decision is made with complete transparency.
-                </p>
-              </div>
-              
-              <div className="text-center p-6 bg-white rounded-xl border">
-                <Leaf className="h-12 w-12 text-green-500 mx-auto mb-4" />
-                <h3 className="text-xl font-medium text-foreground mb-3">Sustainability</h3>
-                <p className="text-muted-foreground">
-                  We're committed to protecting the environment and supporting sustainable farming practices.
-                </p>
-              </div>
-              
-              <div className="text-center p-6 bg-white rounded-xl border">
-                <Users className="h-12 w-12 text-purple-500 mx-auto mb-4" />
-                <h3 className="text-xl font-medium text-foreground mb-3">Community</h3>
-                <p className="text-muted-foreground">
-                  Building a community of conscious consumers who value natural beauty and wellness.
-                </p>
-              </div>
-              
-              <div className="text-center p-6 bg-white rounded-xl border">
-                <Target className="h-12 w-12 text-orange-500 mx-auto mb-4" />
-                <h3 className="text-xl font-medium text-foreground mb-3">Innovation</h3>
-                <p className="text-muted-foreground">
-                  Combining traditional wisdom with modern science to create breakthrough formulations.
-                </p>
-              </div>
-              
-              <div className="text-center p-6 bg-white rounded-xl border">
-                <Award className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
-                <h3 className="text-xl font-medium text-foreground mb-3">Excellence</h3>
-                <p className="text-muted-foreground">
-                  Every product meets our rigorous standards for quality, efficacy, and safety.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Journey */}
-        <div className="py-16 bg-white">
-          <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-serif font-light text-foreground text-center mb-12">
-              Our Journey
-            </h2>
-            <div className="max-w-4xl mx-auto">
-              <div className="space-y-8">
-                <div className="flex items-start gap-6">
-                  <div className="bg-green-100 text-green-800 rounded-full w-12 h-12 flex items-center justify-center font-bold text-lg flex-shrink-0">
-                    1
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-medium text-foreground mb-2">The Beginning</h3>
-                    <p className="text-muted-foreground">
-                      Founded in 2020, ARYK Organics started as a small family business with a big dream: 
-                      to create skincare that truly works with nature, not against it.
-                    </p>
-                  </div>
-                </div>
                 
-                <div className="flex items-start gap-6">
-                  <div className="bg-green-100 text-green-800 rounded-full w-12 h-12 flex items-center justify-center font-bold text-lg flex-shrink-0">
-                    2
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-medium text-foreground mb-2">Research & Development</h3>
-                    <p className="text-muted-foreground">
-                      Years of research went into understanding traditional Ayurvedic practices and 
-                      combining them with modern dermatological science.
+                <div className="text-center">
+                  <div className="bg-gray-50 p-16 rounded-3xl">
+                    <div className="w-40 h-40 bg-white rounded-full mx-auto mb-8 flex items-center justify-center shadow-sm">
+                      <Users className="h-20 w-20 text-gray-600" />
+                    </div>
+                    <p className="text-lg text-muted-foreground mb-3">
+                      signature
                     </p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start gap-6">
-                  <div className="bg-green-100 text-green-800 rounded-full w-12 h-12 flex items-center justify-center font-bold text-lg flex-shrink-0">
-                    3
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-medium text-foreground mb-2">Growth & Impact</h3>
-                    <p className="text-muted-foreground">
-                      Today, we're proud to serve thousands of customers worldwide, helping them 
-                      achieve healthy, radiant skin while protecting our planet.
+                    <h3 className="text-2xl font-serif font-light text-foreground mb-3">
+                      MIRANDA KERR
+                    </h3>
+                    <p className="text-lg text-muted-foreground">
+                      Founder, CEO & Certified Health Coach
                     </p>
                   </div>
                 </div>
@@ -173,57 +195,108 @@ const AboutUs = () => {
           </div>
         </div>
 
-        {/* Certifications */}
-        <div className="py-16 bg-background">
-          <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-serif font-light text-foreground text-center mb-12">
-              Our Certifications
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-              <div className="text-center p-6 bg-white rounded-xl border">
-                <Badge variant="secondary" className="text-lg px-4 py-2 mb-4">
-                  Certified Organic
-                </Badge>
-                <p className="text-muted-foreground">
-                  All our ingredients are certified organic by recognized international bodies.
-                </p>
-              </div>
-              
-              <div className="text-center p-6 bg-white rounded-xl border">
-                <Badge variant="secondary" className="text-lg px-4 py-2 mb-4">
-                  Cruelty-Free
-                </Badge>
-                <p className="text-muted-foreground">
-                  We never test on animals and are certified cruelty-free by PETA.
-                </p>
-              </div>
-              
-              <div className="text-center p-6 bg-white rounded-xl border">
-                <Badge variant="secondary" className="text-lg px-4 py-2 mb-4">
-                  Eco-Friendly
-                </Badge>
-                <p className="text-muted-foreground">
-                  Sustainable packaging and carbon-neutral shipping practices.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* CTA Section */}
-        <div className="py-16 bg-gradient-to-r from-green-600 to-emerald-600 text-white">
+        {/* CTA Section - EXACT KORA STYLE */}
+        <div className="py-20 bg-gray-50">
           <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl font-serif font-light mb-6">
-              Join Our Journey
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="text-lg px-8 py-4 border-2 border-gray-300 hover:border-gray-400"
+                onClick={() => navigate("/shop")}
+              >
+                Shop Refills
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="text-lg px-8 py-4 border-2 border-gray-300 hover:border-gray-400"
+                onClick={() => navigate("/relaxing-corner")}
+              >
+                Good For The Planet
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Sustainability Section - EXACT KORA DESIGN */}
+        <div className="py-24 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="text-center max-w-5xl mx-auto mb-20">
+              <h2 className="text-5xl font-serif font-light text-foreground mb-8">
+                Sustainability Is In Our Nature
+              </h2>
+              <p className="text-2xl text-muted-foreground font-light">
+                Mindfully made, from our formulas to our packaging.
+              </p>
+              <Button 
+                variant="outline" 
+                className="mt-8 text-lg px-8 py-4 border-2 border-gray-300 hover:border-gray-400"
+                onClick={() => navigate("/relaxing-corner")}
+              >
+                Learn More
+              </Button>
+            </div>
+
+            {/* Certifications Grid - EXACT KORA LAYOUT */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 max-w-7xl mx-auto">
+              {[
+                { icon: Leaf, label: "Certified Organic" },
+                { icon: Globe, label: "Climate Neutral Certified" },
+                { icon: Heart, label: "Cruelty-Free" },
+                { icon: Shield, label: "Sustainable Formulas" },
+                { icon: Award, label: "Award Winning" },
+                { icon: Star, label: "Powerful Results" }
+              ].map((item, index) => (
+                <div key={index} className="text-center p-8 bg-gray-50 rounded-2xl hover:bg-gray-100 transition-colors">
+                  <item.icon className="h-12 w-12 text-gray-600 mx-auto mb-4" />
+                  <p className="text-base font-medium text-foreground">{item.label}</p>
+                </div>
+              ))}
+            </div>
+            
+            {/* Additional repeated grid for mobile responsiveness */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 max-w-7xl mx-auto mt-8">
+              {[
+                { icon: Leaf, label: "Certified Organic" },
+                { icon: Globe, label: "Climate Neutral Certified" },
+                { icon: Heart, label: "Cruelty-Free" },
+                { icon: Shield, label: "Sustainable Formulas" },
+                { icon: Award, label: "Award Winning" },
+                { icon: Star, label: "Powerful Results" }
+              ].map((item, index) => (
+                <div key={`repeat-${index}`} className="text-center p-8 bg-gray-50 rounded-2xl hover:bg-gray-100 transition-colors">
+                  <item.icon className="h-12 w-12 text-gray-600 mx-auto mb-4" />
+                  <p className="text-base font-medium text-foreground">{item.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Final CTA Section - EXACT KORA STYLE */}
+        <div className="py-24 bg-gray-50">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-4xl font-serif font-light text-foreground mb-8">
+              Experience the Power of Organics
             </h2>
-            <p className="text-xl mb-8 max-w-2xl mx-auto opacity-90">
-              Discover the power of nature and experience skincare that truly cares for you and the planet.
+            <p className="text-xl text-muted-foreground mb-12 max-w-3xl mx-auto font-light">
+              Join thousands of customers worldwide who have discovered the transformative power of natural, organic skincare.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary" className="text-green-600">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Button 
+                size="lg" 
+                className="bg-gray-900 hover:bg-gray-800 text-white text-lg px-8 py-4"
+                onClick={() => navigate("/shop")}
+              >
                 Shop Now
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-green-600">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="text-lg px-8 py-4 border-2 border-gray-300 hover:border-gray-400"
+                onClick={() => navigate("/relaxing-corner")}
+              >
                 Learn More
               </Button>
             </div>

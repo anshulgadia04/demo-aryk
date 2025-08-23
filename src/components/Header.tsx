@@ -53,9 +53,13 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
 
             {/* Centered logo */}
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-              <h1 className={`text-3xl md:text-4xl font-serif font-light tracking-wide ${variant === 'transparent' ? 'text-white' : 'text-foreground'} select-none`}>
+              <Button
+                variant="ghost"
+                className={`p-0 h-auto text-3xl md:text-4xl font-serif font-light tracking-wide ${variant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent select-none cursor-pointer transition-colors duration-200`}
+                onClick={() => navigate("/")}
+              >
                 ARYK
-              </h1>
+              </Button>
             </div>
 
             {/* Right: search underline + icons */}
@@ -169,46 +173,22 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
           {/* Sidebar Content */}
           <div className="p-6">
             <nav className="space-y-4">
-              {/* Home */}
-              <Button
-                variant="ghost"
-                className="w-full justify-start h-16 text-lg font-medium hover:bg-green-50 hover:text-green-700 transition-all duration-300 group"
-                onClick={() => { navigate("/"); setIsMenuOpen(false); }}
-              >
-                <div className="flex items-center gap-4 w-full">
-                  <div className="p-3 bg-green-100 rounded-xl group-hover:bg-green-200 group-hover:scale-110 transition-all duration-300">
-                    <Home className="h-6 w-6 text-green-600" />
-                  </div>
-                  <span>Home</span>
-                </div>
-              </Button>
-
               {/* About */}
               <Button
                 variant="ghost"
-                className="w-full justify-start h-16 text-lg font-medium hover:bg-blue-50 hover:text-blue-700 transition-all duration-300 group"
+                className="w-full justify-start h-12 text-sm font-medium uppercase tracking-wide hover:!bg-transparent relative after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-foreground after:transition-transform after:duration-300 hover:after:scale-x-100"
                 onClick={() => { navigate("/about"); setIsMenuOpen(false); }}
               >
-                <div className="flex items-center gap-4 w-full">
-                  <div className="p-3 bg-blue-100 rounded-xl group-hover:bg-blue-200 group-hover:scale-110 transition-all duration-300">
-                    <Info className="h-6 w-6 text-blue-600" />
-                  </div>
-                  <span>About Us</span>
-                </div>
+                ABOUT US
               </Button>
 
               {/* Contact */}
               <Button
                 variant="ghost"
-                className="w-full justify-start h-16 text-lg font-medium hover:bg-purple-50 hover:text-purple-700 transition-all duration-300 group"
+                className="w-full justify-start h-12 text-sm font-medium uppercase tracking-wide hover:!bg-transparent relative after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-foreground after:transition-transform after:duration-300 hover:after:scale-x-100"
                 onClick={() => { navigate("/contact"); setIsMenuOpen(false); }}
               >
-                <div className="flex items-center gap-4 w-full">
-                  <div className="p-3 bg-purple-100 rounded-xl group-hover:bg-purple-200 group-hover:scale-110 transition-all duration-300">
-                    <Phone className="h-6 w-6 text-purple-600" />
-                  </div>
-                  <span>Contact Us</span>
-                </div>
+                CONTACT US
               </Button>
             </nav>
 
@@ -221,24 +201,24 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
               <div className="space-y-2">
                 <Button
                   variant="ghost"
-                  className="w-full justify-start text-sm text-gray-600 hover:text-gray-900"
+                  className="w-full justify-start text-sm font-medium uppercase tracking-wide hover:!bg-transparent relative after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-foreground after:transition-transform after:duration-300 hover:after:scale-x-100"
                   onClick={() => { navigate("/shop"); setIsMenuOpen(false); }}
                 >
-                  Shop All Products
+                  SHOP ALL PRODUCTS
                 </Button>
                 <Button
                   variant="ghost"
-                  className="w-full justify-start text-sm text-gray-600 hover:text-gray-900"
+                  className="w-full justify-start text-sm font-medium uppercase tracking-wide hover:!bg-transparent relative after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-foreground after:transition-transform after:duration-300 hover:after:scale-x-100"
                   onClick={() => { navigate("/relaxing-corner"); setIsMenuOpen(false); }}
                 >
-                  Relaxing Corner
+                  RELAXING CORNER
                 </Button>
                 <Button
                   variant="ghost"
-                  className="w-full justify-start text-sm text-gray-600 hover:text-gray-900"
+                  className="w-full justify-start text-sm font-medium uppercase tracking-wide hover:!bg-transparent relative after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-foreground after:transition-transform after:duration-300 hover:after:scale-x-100"
                   onClick={() => { navigate("/favorites"); setIsMenuOpen(false); }}
                 >
-                  My Favorites
+                  MY FAVORITES
                 </Button>
               </div>
             </div>

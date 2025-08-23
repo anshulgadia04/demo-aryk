@@ -36,7 +36,7 @@ const HeroSection = () => {
           
           <Button 
             size="lg" 
-            className="bg-white text-primary hover:bg-white/90 px-8 py-6 text-lg"
+            className="bg-transparent text-white border-2 border-white hover:bg-white/10 px-8 py-6 text-lg"
           >
             DISCOVER PRODUCTS
           </Button>

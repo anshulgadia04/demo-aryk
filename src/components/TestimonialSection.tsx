@@ -52,7 +52,7 @@ const TestimonialSection = () => {
         <div className="flex items-center justify-between max-w-6xl mx-auto">
           {/* Left side - Product image */}
           <div className="hidden lg:block w-1/3">
-            <div className="aspect-square rounded-lg overflow-hidden">
+            <div className="aspect-square overflow-hidden">
               <img
                 src={testimonials[currentSlide].image}
                 alt={testimonials[currentSlide].product}
