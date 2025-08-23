@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, User, ShoppingBag, Menu, X, Heart } from "lucide-react";
+import { Search, User, ShoppingBag, Menu, X, Heart, Home, Info, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -37,7 +37,7 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
                 <Button
                   variant="ghost"
                   className={`relative ${variant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 ${variant === 'transparent' ? 'after:bg-white' : 'after:bg-foreground'} after:transition-transform after:duration-300 hover:after:scale-x-100`}
-                  onClick={() => navigate("/")}
+                  onClick={() => navigate("/shop")}
                 >
                   SHOP
                 </Button>
@@ -114,7 +114,7 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
                 <Button
                   variant="ghost"
                   className={`w-full justify-start ${variant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent relative after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 ${variant === 'transparent' ? 'after:bg-white' : 'after:bg-foreground'} after:transition-transform after:duration-300 hover:after:scale-x-100`}
-                  onClick={() => { navigate("/"); setIsMenuOpen(false); }}
+                  onClick={() => { navigate("/shop"); setIsMenuOpen(false); }}
                 >
                   SHOP
                 </Button>
@@ -142,6 +142,117 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
           )}
         </div>
       </header>
+
+      {/* Animated Sidebar Menu */}
+      <div className={`fixed inset-0 z-50 transition-all duration-500 ease-in-out ${isMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
+        {/* Backdrop */}
+        <div 
+          className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-500 ${isMenuOpen ? 'opacity-100' : 'opacity-0'}`}
+          onClick={() => setIsMenuOpen(false)}
+        />
+        
+        {/* Sidebar */}
+        <div className={`absolute left-0 top-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl transform transition-transform duration-500 ease-in-out ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+          {/* Sidebar Header */}
+          <div className="flex items-center justify-between p-6 border-b">
+            <h2 className="text-2xl font-serif font-light text-foreground">Menu</h2>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsMenuOpen(false)}
+              className="hover:bg-gray-100"
+            >
+              <X className="h-5 w-5" />
+            </Button>
+          </div>
+
+          {/* Sidebar Content */}
+          <div className="p-6">
+            <nav className="space-y-4">
+              {/* Home */}
+              <Button
+                variant="ghost"
+                className="w-full justify-start h-16 text-lg font-medium hover:bg-green-50 hover:text-green-700 transition-all duration-300 group"
+                onClick={() => { navigate("/"); setIsMenuOpen(false); }}
+              >
+                <div className="flex items-center gap-4 w-full">
+                  <div className="p-3 bg-green-100 rounded-xl group-hover:bg-green-200 group-hover:scale-110 transition-all duration-300">
+                    <Home className="h-6 w-6 text-green-600" />
+                  </div>
+                  <span>Home</span>
+                </div>
+              </Button>
+
+              {/* About */}
+              <Button
+                variant="ghost"
+                className="w-full justify-start h-16 text-lg font-medium hover:bg-blue-50 hover:text-blue-700 transition-all duration-300 group"
+                onClick={() => { navigate("/about"); setIsMenuOpen(false); }}
+              >
+                <div className="flex items-center gap-4 w-full">
+                  <div className="p-3 bg-blue-100 rounded-xl group-hover:bg-blue-200 group-hover:scale-110 transition-all duration-300">
+                    <Info className="h-6 w-6 text-blue-600" />
+                  </div>
+                  <span>About Us</span>
+                </div>
+              </Button>
+
+              {/* Contact */}
+              <Button
+                variant="ghost"
+                className="w-full justify-start h-16 text-lg font-medium hover:bg-purple-50 hover:text-purple-700 transition-all duration-300 group"
+                onClick={() => { navigate("/contact"); setIsMenuOpen(false); }}
+              >
+                <div className="flex items-center gap-4 w-full">
+                  <div className="p-3 bg-purple-100 rounded-xl group-hover:bg-purple-200 group-hover:scale-110 transition-all duration-300">
+                    <Phone className="h-6 w-6 text-purple-600" />
+                  </div>
+                  <span>Contact Us</span>
+                </div>
+              </Button>
+            </nav>
+
+            {/* Divider */}
+            <div className="my-8 border-t border-gray-200" />
+
+            {/* Additional Info */}
+            <div className="space-y-4">
+              <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">Quick Links</h3>
+              <div className="space-y-2">
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start text-sm text-gray-600 hover:text-gray-900"
+                  onClick={() => { navigate("/shop"); setIsMenuOpen(false); }}
+                >
+                  Shop All Products
+                </Button>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start text-sm text-gray-600 hover:text-gray-900"
+                  onClick={() => { navigate("/relaxing-corner"); setIsMenuOpen(false); }}
+                >
+                  Relaxing Corner
+                </Button>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start text-sm text-gray-600 hover:text-gray-900"
+                  onClick={() => { navigate("/favorites"); setIsMenuOpen(false); }}
+                >
+                  My Favorites
+                </Button>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="absolute bottom-6 left-6 right-6">
+              <div className="text-center">
+                <p className="text-xs text-gray-400 mb-2">ARYK Organics</p>
+                <p className="text-xs text-gray-400">Natural Beauty, Naturally You</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
