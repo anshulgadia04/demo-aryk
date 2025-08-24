@@ -6,6 +6,7 @@ import TestimonialSection from "@/components/TestimonialSection";
 import Footer from "@/components/Footer";
 import AuthModal from "@/components/AuthModal";
 import CartSidebar from "@/components/CartSidebar";
+import ScrollToTop from "@/components/ScrollToTop";
 import { useToast } from "@/hooks/use-toast";
 
 interface CartItem {
@@ -165,6 +166,8 @@ const Index = () => {
         onRemoveItem={removeFromCart}
         onCheckout={handleCheckout}
       />
+
+      <ScrollToTop />
     </div>
   );
 };
