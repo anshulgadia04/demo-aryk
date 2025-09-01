@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import ProductGrid from "@/components/ProductGrid";
 import TestimonialSection from "@/components/TestimonialSection";
+import YouTubeCarousel from "@/components/YouTubeCarousel";
 import Footer from "@/components/Footer";
 import AuthModal from "@/components/AuthModal";
 import CartSidebar from "@/components/CartSidebar";
@@ -147,6 +148,17 @@ const Index = () => {
       <main>
         <HeroSection />
         <ProductGrid onAddToCart={addToCart} />
+        <YouTubeCarousel
+          videoIds={[
+            "dQw4w9WgXcQ",
+            "3JZ_D3ELwOQ",
+            "oHg5SJYRHA0",
+            "V-_O7nl0Ii0",
+            "tVj0ZTS4WF4"
+          ]}
+          title="Our YouTube Channel"
+          subtitle="Scroll to explore our latest videos"
+        />
         <TestimonialSection />
       </main>
       

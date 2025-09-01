@@ -150,8 +150,8 @@ const Shop = () => {
         {/* Page Header */}
         <div className="bg-white border-b">
           <div className="container mx-auto px-4 py-3">
-            <h1 className="text-4xl font-serif font-light text-foreground mb-2">Shop</h1>
-            <p className="text-muted-foreground max-w-2xl">
+            <h1 className="text-2xl md:text-4xl font-serif font-light text-foreground mb-1 md:mb-2">Shop</h1>
+            <p className="text-sm md:text-base text-muted-foreground max-w-2xl">
               Discover our complete collection of natural skincare essentials, carefully crafted to nourish and enhance your natural beauty.
             </p>
           </div>
@@ -159,8 +159,8 @@ const Shop = () => {
 
         {/* Filters and Search */}
         <div className="bg-white border-b sticky top-0 z-10">
-          <div className="container mx-auto px-4 py-4">
-            <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
+          <div className="container mx-auto px-4 py-3 md:py-4">
+            <div className="flex flex-col lg:flex-row gap-3 md:gap-4 items-center justify-between">
               {/* Search */}
               <div className="relative w-full lg:w-80">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -168,14 +168,14 @@ const Shop = () => {
                   placeholder="Search products..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
+                  className="pl-10 h-10 md:h-11 text-sm md:text-base"
                 />
               </div>
 
               {/* Filters */}
-              <div className="flex gap-3 items-center">
+              <div className="flex gap-2 md:gap-3 items-center w-full md:w-auto">
                 <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                  <SelectTrigger className="w-40">
+                  <SelectTrigger className="w-full md:w-40 h-10 md:h-11 text-sm md:text-base">
                     <SelectValue placeholder="Category" />
                   </SelectTrigger>
                   <SelectContent>
@@ -188,7 +188,7 @@ const Shop = () => {
                 </Select>
 
                 <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger className="w-40">
+                  <SelectTrigger className="w-full md:w-40 h-10 md:h-11 text-sm md:text-base">
                     <SelectValue placeholder="Sort by" />
                   </SelectTrigger>
                   <SelectContent>
@@ -200,7 +200,7 @@ const Shop = () => {
                 </Select>
 
                 {/* View Mode Toggle */}
-                <div className="flex border rounded-md">
+                <div className="hidden sm:flex border rounded-md">
                   <Button
                     variant={viewMode === "grid" ? "default" : "ghost"}
                     size="sm"
@@ -256,7 +256,7 @@ const Shop = () => {
         </div>
 
         {/* Products Grid */}
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-6 md:py-8">
           {filteredProducts.length === 0 ? (
             <div className="text-center py-16">
               <h3 className="text-xl font-medium text-muted-foreground mb-2">No products found</h3>
@@ -264,14 +264,14 @@ const Shop = () => {
             </div>
           ) : (
             <>
-              <div className="mb-6">
-                <p className="text-muted-foreground">
+              <div className="mb-4 md:mb-6">
+                <p className="text-sm md:text-base text-muted-foreground">
                   Showing {filteredProducts.length} of {products.length} products
                 </p>
               </div>
 
               {viewMode === "grid" ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                   {filteredProducts.map((product) => (
                     <div key={product.id} className="w-full">
                       <ProductCard

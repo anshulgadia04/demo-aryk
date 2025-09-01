@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, User, ShoppingBag, Menu, X, Heart, Home, Info, Phone } from "lucide-react";
+import { Search, User, ShoppingBag, Menu, X, Heart, Home, Info, Phone, Gamepad2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -33,15 +33,15 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
   return (
     <>
       {/* Header */}
-      <header className={`${headerVariant === 'transparent' ? 'absolute bg-transparent' : 'sticky top-0 bg-background/90 supports-[backdrop-filter]:bg-background/70 border-b border-border backdrop-blur'} left-0 right-0 z-50 transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]`}>
+      <header className={`${headerVariant === 'transparent' ? 'absolute bg-transparent' : 'sticky top-0 bg-background/90 supports-[backdrop-filter]:bg-background/70 border-b border-border backdrop-blur'} left-0 right-0 z-50 transition-all duration-700 ease-out`}>
         <div className="container mx-auto px-4 relative">
-          <div className={`flex items-center justify-between h-16 md:h-20 transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${headerVariant === 'transparent' ? 'text-white' : 'text-foreground'}`}>
+          <div className={`flex items-center justify-between h-14 md:h-20 transition-all duration-700 ease-out ${headerVariant === 'transparent' ? 'text-white' : 'text-foreground'}`}>
             {/* Left: burger always visible + desktop links */}
             <div className="flex items-center gap-4 md:gap-6">
               <Button
                 variant="ghost"
                 size="icon"
-                className={`${headerVariant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-110 hover:shadow-md`}
+                className={`${headerVariant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent transition-all duration-500 ease-out hover:scale-110 hover:shadow-md`}
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
                 {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -57,7 +57,7 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
                 </Button>
                 <Button
                   variant="ghost"
-                  className={`relative ${headerVariant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 ${headerVariant === 'transparent' ? 'after:bg-white' : 'after:bg-foreground'} after:transition-transform after:duration-500 after:ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:after:scale-x-100 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-105`}
+                  className={`relative ${headerVariant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 ${headerVariant === 'transparent' ? 'after:bg-white' : 'after:bg-foreground'} after:transition-transform after:duration-500 after:ease-out hover:after:scale-x-100 transition-all duration-500 ease-out hover:scale-105`}
                   onClick={() => navigate("/relaxing-corner")}
                 >
                   RELAXING CORNER
@@ -65,11 +65,22 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
               </nav>
             </div>
 
-            {/* Centered logo */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            {/* Centered logo (desktop/tablet) */}
+            <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <Button
                 variant="ghost"
-                className={`p-0 h-auto text-3xl md:text-4xl font-serif font-light tracking-wide ${headerVariant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent select-none cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-110`}
+                className={`p-0 h-auto text-3xl md:text-4xl font-serif font-light tracking-wide ${headerVariant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent select-none cursor-pointer transition-all duration-500 ease-out hover:scale-110`}
+                onClick={() => navigate("/")}
+              >
+                ARYK
+              </Button>
+            </div>
+
+            {/* Mobile centered logo (in-flow) */}
+            <div className="md:hidden flex-1 text-center">
+              <Button
+                variant="ghost"
+                className={`p-0 h-auto text-2xl font-serif font-light tracking-wide ${headerVariant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent select-none cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]`}
                 onClick={() => navigate("/")}
               >
                 ARYK
@@ -85,25 +96,35 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
                     placeholder="SEARCH"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className={`bg-transparent border-0 border-b ${headerVariant === 'transparent' ? 'border-white/70 text-white placeholder:text-white/70' : 'border-foreground/70 text-foreground placeholder:text-muted-foreground'} rounded-none pr-10 focus-visible:ring-0 focus-visible:ring-offset-0 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] focus:border-opacity-100 focus:scale-[1.02]`}
+                    className={`bg-transparent border-0 border-b ${headerVariant === 'transparent' ? 'border-white/70 text-white placeholder:text-white/70' : 'border-foreground/70 text-foreground placeholder:text-muted-foreground'} rounded-none pr-10 focus-visible:ring-0 focus-visible:ring-offset-0 transition-all duration-500 ease-out focus:border-opacity-100 focus:scale-[1.02]`}
                   />
                   <Search className={`absolute right-2 top-1/2 -translate-y-1/2 h-4 w-4 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${headerVariant === 'transparent' ? 'text-white/70' : 'text-muted-foreground'}`} />
                 </div>
               </div>
 
               <div className="flex items-center gap-2">
+                {/* Mobile Relaxing Corner icon */}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={`${headerVariant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent transition-all duration-500 ease-out hover:scale-110 hover:shadow-md md:hidden`}
+                  onClick={() => navigate('/relaxing-corner')}
+                  aria-label="Relaxing Corner"
+                >
+                  <Gamepad2 className="h-5 w-5" />
+                </Button>
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={onAuthClick}
-                  className={`${headerVariant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-110 hover:shadow-md`}
+                  className={`${headerVariant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent transition-all duration-500 ease-out hover:scale-110 hover:shadow-md`}
                 >
                   <User className="h-5 w-5" />
                 </Button>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className={`${headerVariant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-110 hover:shadow-md`}
+                  className={`${headerVariant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent transition-all duration-500 ease-out hover:scale-110 hover:shadow-md`}
                   onClick={() => navigate('/favorites')}
                 >
                   <Heart className="h-5 w-5" />
@@ -112,11 +133,11 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
                   variant="ghost"
                   size="icon"
                   onClick={onCartClick}
-                  className={`relative ${headerVariant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-110 hover:shadow-md`}
+                  className={`relative ${headerVariant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent transition-all duration-500 ease-out hover:scale-110 hover:shadow-md`}
                 >
                   <ShoppingBag className="h-5 w-5" />
                   {cartCount > 0 && (
-                    <span className={`absolute -top-1 -right-1 ${headerVariant === 'transparent' ? 'bg-white text-black' : 'bg-foreground text-background'} text-xs rounded-full h-5 w-5 flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] animate-in zoom-in-50`}>
+                    <span className={`absolute -top-1 -right-1 ${headerVariant === 'transparent' ? 'bg-white text-black' : 'bg-foreground text-background'} text-xs rounded-full h-5 w-5 flex items-center justify-center transition-all duration-500 ease-out animate-in zoom-in-50`}>
                       {cartCount}
                     </span>
                   )}
@@ -125,52 +146,20 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
             </div>
           </div>
 
-          {/* Mobile menu */}
-          {isMenuOpen && (
-            <div className={`md:hidden border-t ${headerVariant === 'transparent' ? 'border-white/20 text-white' : 'border-border text-foreground'} transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] animate-in slide-in-from-top-2`}>
-              <nav className="py-4 space-y-2">
-                <Button
-                  variant="ghost"
-                  className={`w-full justify-start ${headerVariant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent relative after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 ${headerVariant === 'transparent' ? 'after:bg-white' : 'after:bg-foreground'} after:transition-transform after:duration-500 after:ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:after:scale-x-100 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]`}
-                  onClick={() => { navigate("/shop"); setIsMenuOpen(false); }}
-                >
-                  SHOP
-                </Button>
-                <Button
-                  variant="ghost"
-                  className={`w-full justify-start ${headerVariant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent relative after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 ${headerVariant === 'transparent' ? 'after:bg-white' : 'after:bg-foreground'} after:transition-transform after:duration-500 after:ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:after:scale-x-100 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]`}
-                  onClick={() => { navigate("/relaxing-corner"); setIsMenuOpen(false); }}
-                >
-                  RELAXING CORNER
-                </Button>
-                <div className="pt-4">
-                  <div className="relative">
-                    <Input
-                      type="text"
-                      placeholder="SEARCH"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className={`bg-transparent border-0 border-b ${headerVariant === 'transparent' ? 'border-white/70 text-white placeholder:text-white/70' : 'border-foreground/70 text-foreground placeholder:text-muted-foreground'} rounded-none pr-10 focus-visible:ring-0 focus-visible:ring-offset-0 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] focus:border-opacity-100 focus:scale-[1.02]`}
-                    />
-                    <Search className={`absolute right-2 top-1/2 -translate-y-1/2 h-4 w-4 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${headerVariant === 'transparent' ? 'text-white/70' : 'text-muted-foreground'}`} />
-                  </div>
-                </div>
-              </nav>
-            </div>
-          )}
+          {/* Mobile inline menu removed to prevent duplicate menus. Sidebar menu below remains. */}
         </div>
       </header>
 
       {/* Animated Sidebar Menu */}
-      <div className={`fixed inset-0 z-50 transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${isMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
+      <div className={`fixed inset-0 z-50 transition-all duration-700 ease-out ${isMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
         {/* Backdrop */}
         <div 
-          className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${isMenuOpen ? 'opacity-100' : 'opacity-0'}`}
+          className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-700 ease-out ${isMenuOpen ? 'opacity-100' : 'opacity-0'}`}
           onClick={() => setIsMenuOpen(false)}
         />
         
         {/* Sidebar */}
-        <div className={`absolute left-0 top-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl transform transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className={`absolute left-0 top-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl transform transition-all duration-700 ease-out ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
           {/* Sidebar Header */}
           <div className="flex items-center justify-between p-6 border-b">
             <h2 className="text-2xl font-serif font-light text-foreground">Menu</h2>
@@ -178,7 +167,7 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
               variant="ghost"
               size="icon"
               onClick={() => setIsMenuOpen(false)}
-              className="hover:bg-gray-100 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-110 hover:shadow-md"
+              className="hover:bg-gray-100 transition-all duration-500 ease-out hover:scale-110 hover:shadow-md"
             >
               <X className="h-5 w-5" />
             </Button>
@@ -187,10 +176,19 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
           {/* Sidebar Content */}
           <div className="p-6">
             <nav className="space-y-4">
+              {/* Shop CTA */}
+              <Button
+                variant="ghost"
+                className="md:hidden w-full justify-start h-12 text-sm font-medium uppercase tracking-wide hover:!bg-transparent relative after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-foreground after:transition-transform after:duration-500 after:ease-out hover:after:scale-x-100 transition-all duration-500 ease-out hover:scale-105"
+                onClick={() => { navigate('/shop'); setIsMenuOpen(false); }}
+              >
+                SHOP
+              </Button>
+
               {/* About */}
               <Button
                 variant="ghost"
-                className="w-full justify-start h-12 text-sm font-medium uppercase tracking-wide hover:!bg-transparent relative after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-foreground after:transition-transform after:duration-500 after:ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:after:scale-x-100 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-105"
+                className="w-full justify-start h-12 text-sm font-medium uppercase tracking-wide hover:!bg-transparent relative after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-foreground after:transition-transform after:duration-500 after:ease-out hover:after:scale-x-100 transition-all duration-500 ease-out hover:scale-105"
                 onClick={() => { navigate("/about"); setIsMenuOpen(false); }}
               >
                 ABOUT US
@@ -199,7 +197,7 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
               {/* Contact */}
               <Button
                 variant="ghost"
-                className="w-full justify-start h-12 text-sm font-medium uppercase tracking-wide hover:!bg-transparent relative after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-foreground after:transition-transform after:duration-500 after:ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:after:scale-x-100 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-105"
+                className="w-full justify-start h-12 text-sm font-medium uppercase tracking-wide hover:!bg-transparent relative after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-foreground after:transition-transform after:duration-500 after:ease-out hover:after:scale-x-100 transition-all duration-500 ease-out hover:scale-105"
                 onClick={() => { navigate("/contact"); setIsMenuOpen(false); }}
               >
                 CONTACT US
@@ -215,21 +213,21 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
               <div className="space-y-2">
                 <Button
                   variant="ghost"
-                  className="w-full justify-start text-sm font-medium uppercase tracking-wide hover:!bg-transparent relative after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-foreground after:transition-transform after:duration-500 after:ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:after:scale-x-100 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-105"
+                  className="w-full justify-start text-sm font-medium uppercase tracking-wide hover:!bg-transparent relative after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-foreground after:transition-transform after:duration-500 after:ease-out hover:after:scale-x-100 transition-all duration-500 ease-out hover:scale-105"
                   onClick={() => { navigate("/shop"); setIsMenuOpen(false); }}
                 >
                   SHOP ALL PRODUCTS
                 </Button>
                 <Button
                   variant="ghost"
-                  className="w-full justify-start text-sm font-medium uppercase tracking-wide hover:!bg-transparent relative after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-foreground after:transition-transform after:duration-500 after:ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:after:scale-x-100 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-105"
+                  className="w-full justify-start text-sm font-medium uppercase tracking-wide hover:!bg-transparent relative after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-foreground after:transition-transform after:duration-500 after:ease-out hover:after:scale-x-100 transition-all duration-500 ease-out hover:scale-105"
                   onClick={() => { navigate("/relaxing-corner"); setIsMenuOpen(false); }}
                 >
                   RELAXING CORNER
                 </Button>
                 <Button
                   variant="ghost"
-                  className="w-full justify-start text-sm font-medium uppercase tracking-wide hover:!bg-transparent relative after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-foreground after:transition-transform after:duration-500 after:ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:after:scale-x-100 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-105"
+                  className="w-full justify-start text-sm font-medium uppercase tracking-wide hover:!bg-transparent relative after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-foreground after:transition-transform after:duration-500 after:ease-out hover:after:scale-x-100 transition-all duration-500 ease-out hover:scale-105"
                   onClick={() => { navigate("/favorites"); setIsMenuOpen(false); }}
                 >
                   MY FAVORITES

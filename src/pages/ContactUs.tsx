@@ -42,12 +42,12 @@ const ContactUs = () => {
       <div className="min-h-screen bg-background pt-0">
         {/* Hero Section */}
         <div className="bg-gradient-to-br from-blue-50 to-indigo-100 border-b">
-          <div className="container mx-auto px-4 py-16">
+          <div className="container mx-auto px-4 py-12 md:py-16">
             <div className="text-center max-w-4xl mx-auto">
-              <h1 className="text-5xl font-serif font-light text-foreground mb-6">
+              <h1 className="text-3xl md:text-5xl font-serif font-light text-foreground mb-4 md:mb-6">
                 Get in Touch
               </h1>
-              <p className="text-xl text-muted-foreground leading-relaxed">
+              <p className="text-base md:text-xl text-muted-foreground leading-relaxed px-2">
                 We'd love to hear from you! Whether you have a question about our products, 
                 need help with your order, or want to share your experience, we're here to help.
               </p>
@@ -56,38 +56,38 @@ const ContactUs = () => {
         </div>
 
         {/* Contact Information */}
-        <div className="py-16 bg-white">
+        <div className="py-12 md:py-16 bg-white">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="text-center p-6 bg-background rounded-xl border">
-                <Mail className="h-12 w-12 text-blue-500 mx-auto mb-4" />
-                <h3 className="text-xl font-medium text-foreground mb-3">Email Us</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+              <div className="text-center p-5 md:p-6 bg-background rounded-xl border">
+                <Mail className="h-8 w-8 md:h-12 md:w-12 text-blue-500 mx-auto mb-3 md:mb-4" />
+                <h3 className="text-lg md:text-xl font-medium text-foreground mb-2 md:mb-3">Email Us</h3>
                 <p className="text-muted-foreground mb-2">
                   hello@arykorganics.com
                 </p>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-muted-foreground text-xs md:text-sm">
                   We'll respond within 24 hours
                 </p>
               </div>
               
-              <div className="text-center p-6 bg-background rounded-xl border">
-                <Phone className="h-12 w-12 text-green-500 mx-auto mb-4" />
-                <h3 className="text-xl font-medium text-foreground mb-3">Call Us</h3>
+              <div className="text-center p-5 md:p-6 bg-background rounded-xl border">
+                <Phone className="h-8 w-8 md:h-12 md:w-12 text-green-500 mx-auto mb-3 md:mb-4" />
+                <h3 className="text-lg md:text-xl font-medium text-foreground mb-2 md:mb-3">Call Us</h3>
                 <p className="text-muted-foreground mb-2">
                   +91 98765 43210
                 </p>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-muted-foreground text-xs md:text-sm">
                   Mon-Sat, 9 AM - 6 PM IST
                 </p>
               </div>
               
-              <div className="text-center p-6 bg-background rounded-xl border">
-                <MessageCircle className="h-12 w-12 text-purple-500 mx-auto mb-4" />
-                <h3 className="text-xl font-medium text-foreground mb-3">Live Chat</h3>
+              <div className="text-center p-5 md:p-6 bg-background rounded-xl border">
+                <MessageCircle className="h-8 w-8 md:h-12 md:w-12 text-purple-500 mx-auto mb-3 md:mb-4" />
+                <h3 className="text-lg md:text-xl font-medium text-foreground mb-2 md:mb-3">Live Chat</h3>
                 <p className="text-muted-foreground mb-2">
                   Available 24/7
                 </p>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-muted-foreground text-xs md:text-sm">
                   Get instant help anytime
                 </p>
               </div>
@@ -96,12 +96,12 @@ const ContactUs = () => {
         </div>
 
         {/* Contact Form & Info */}
-        <div className="py-16 bg-background">
+        <div className="py-12 md:py-16 bg-background">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
               {/* Contact Form */}
-              <div className="bg-white p-8 rounded-2xl border">
-                <h2 className="text-3xl font-serif font-light text-foreground mb-6">
+              <div className="bg-white p-6 md:p-8 rounded-2xl border">
+                <h2 className="text-2xl md:text-3xl font-serif font-light text-foreground mb-4 md:mb-6">
                   Send us a Message
                 </h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -176,7 +176,7 @@ const ContactUs = () => {
                     />
                   </div>
                   
-                  <Button type="submit" size="lg" className="w-full">
+                  <Button type="submit" size="lg" className="w-full py-3 md:py-4 text-base md:text-lg">
                     <Send className="h-4 w-4 mr-2" />
                     Send Message
                   </Button>
@@ -184,12 +184,12 @@ const ContactUs = () => {
               </div>
 
               {/* Contact Details */}
-              <div className="space-y-8">
+              <div className="space-y-6 md:space-y-8">
                 <div>
-                  <h2 className="text-3xl font-serif font-light text-foreground mb-6">
+                  <h2 className="text-2xl md:text-3xl font-serif font-light text-foreground mb-4 md:mb-6">
                     Visit Our Office
                   </h2>
-                  <div className="bg-white p-6 rounded-xl border">
+                  <div className="bg-white p-5 md:p-6 rounded-xl border">
                     <div className="flex items-start gap-4 mb-4">
                       <MapPin className="h-6 w-6 text-blue-500 mt-1" />
                       <div>
@@ -229,17 +229,17 @@ const ContactUs = () => {
 
                 {/* Social Media */}
                 <div>
-                  <h3 className="text-xl font-medium text-foreground mb-4">
+                  <h3 className="text-lg md:text-xl font-medium text-foreground mb-3 md:mb-4">
                     Follow Us
                   </h3>
-                  <div className="flex gap-4">
-                    <Button variant="outline" size="icon" className="rounded-full">
+                  <div className="flex gap-3 md:gap-4">
+                    <Button variant="outline" size="icon" className="rounded-full h-10 w-10 md:h-12 md:w-12">
                       <Instagram className="h-5 w-5" />
                     </Button>
-                    <Button variant="outline" size="icon" className="rounded-full">
+                    <Button variant="outline" size="icon" className="rounded-full h-10 w-10 md:h-12 md:w-12">
                       <Facebook className="h-5 w-5" />
                     </Button>
-                    <Button variant="outline" size="icon" className="rounded-full">
+                    <Button variant="outline" size="icon" className="rounded-full h-10 w-10 md:h-12 md:w-12">
                       <Twitter className="h-5 w-5" />
                     </Button>
                   </div>
@@ -247,20 +247,20 @@ const ContactUs = () => {
 
                 {/* FAQ Quick Links */}
                 <div>
-                  <h3 className="text-xl font-medium text-foreground mb-4">
+                  <h3 className="text-lg md:text-xl font-medium text-foreground mb-3 md:mb-4">
                     Quick Help
                   </h3>
                   <div className="space-y-2">
-                    <Button variant="ghost" className="w-full justify-start text-left">
+                    <Button variant="ghost" className="w-full justify-start text-left py-3">
                       How to track my order?
                     </Button>
-                    <Button variant="ghost" className="w-full justify-start text-left">
+                    <Button variant="ghost" className="w-full justify-start text-left py-3">
                       What's your return policy?
                     </Button>
-                    <Button variant="ghost" className="w-full justify-start text-left">
+                    <Button variant="ghost" className="w-full justify-start text-left py-3">
                       How to choose the right product?
                     </Button>
-                    <Button variant="ghost" className="w-full justify-start text-left">
+                    <Button variant="ghost" className="w-full justify-start text-left py-3">
                       Are your products cruelty-free?
                     </Button>
                   </div>
@@ -271,15 +271,15 @@ const ContactUs = () => {
         </div>
 
         {/* Map Section */}
-        <div className="py-16 bg-white">
+        <div className="py-12 md:py-16 bg-white">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-serif font-light text-foreground text-center mb-12">
+            <h2 className="text-2xl md:text-3xl font-serif font-light text-foreground text-center mb-8 md:mb-12">
               Find Us
             </h2>
-            <div className="bg-gray-200 rounded-2xl h-96 flex items-center justify-center">
+            <div className="bg-gray-200 rounded-2xl h-64 md:h-96 flex items-center justify-center">
               <div className="text-center">
-                <MapPin className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                <p className="text-gray-500 text-lg">
+                <MapPin className="h-10 w-10 md:h-16 md:w-16 text-gray-400 mx-auto mb-3 md:mb-4" />
+                <p className="text-gray-500 text-base md:text-lg">
                   Interactive Map Coming Soon
                 </p>
                 <p className="text-gray-400">
@@ -291,19 +291,19 @@ const ContactUs = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="py-16 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+        <div className="py-12 md:py-16 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
           <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl font-serif font-light mb-6">
+            <h2 className="text-2xl md:text-3xl font-serif font-light mb-4 md:mb-6">
               Still Have Questions?
             </h2>
-            <p className="text-xl mb-8 max-w-2xl mx-auto opacity-90">
+            <p className="text-base md:text-xl mb-6 md:mb-8 max-w-2xl mx-auto opacity-90 px-2">
               Our customer support team is here to help you with any questions or concerns.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary" className="text-blue-600">
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
+              <Button size="lg" variant="secondary" className="text-blue-600 px-6 md:px-8 py-3 md:py-4 text-base md:text-lg">
                 Call Now
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-6 md:px-8 py-3 md:py-4 text-base md:text-lg">
                 Live Chat
               </Button>
             </div>

@@ -44,9 +44,14 @@ const RelaxingCorner = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [user, setUser] = useState<User | null>(null);
 
-  // Simple video testimonials data (replace sources with your own files in /public/videos)
+  // Video testimonials data (demo: repeat available videos)
   const videoTestimonials = [
     { id: 1, src: "/videos/hero.mp4", title: "Customer Testimonial #1" },
+    { id: 2, src: "/videos/about-background.mp4", title: "Customer Testimonial #2" },
+    { id: 3, src: "/videos/hero.mp4", title: "Customer Testimonial #3" },
+    { id: 4, src: "/videos/about-background.mp4", title: "Customer Testimonial #4" },
+    { id: 5, src: "/videos/hero.mp4", title: "Customer Testimonial #5" },
+    { id: 6, src: "/videos/about-background.mp4", title: "Customer Testimonial #6" },
   ];
 
   type Review = {
@@ -245,27 +250,34 @@ const RelaxingCorner = () => {
         </div>
       </div>
 
-      {/* Video Testimonials */}
+      {/* Video Testimonials - Horizontal scroller */}
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="mb-8">
             <h3 className="text-2xl font-serif font-light text-foreground">Video Testimonials</h3>
-            <p className="text-muted-foreground">Real stories from our community.</p>
+            <p className="text-muted-foreground">Swipe sideways to watch more videos.</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {videoTestimonials.map((vid) => (
-              <div key={vid.id} className="rounded-xl overflow-hidden border border-border bg-card">
-                <video
-                  className="w-full h-auto block"
-                  src={vid.src}
-                  controls
-                  preload="metadata"
-                />
-                <div className="p-4">
-                  <div className="text-sm text-muted-foreground">{vid.title}</div>
+          <div className="relative">
+            <div className="flex gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth py-2 [-ms-overflow-style:none] [scrollbar-width:none]">
+              <style>{`.container ::-webkit-scrollbar{display:none}`}</style>
+              {videoTestimonials.map((vid) => (
+                <div key={vid.id} className="snap-start shrink-0 w-[280px] sm:w-[360px] md:w-[420px]">
+                  <div className="rounded-xl overflow-hidden border border-border bg-card">
+                    <div className="aspect-video bg-black">
+                      <video
+                        className="w-full h-full block"
+                        src={vid.src}
+                        controls
+                        preload="metadata"
+                      />
+                    </div>
+                    <div className="p-3 sm:p-4">
+                      <div className="text-sm text-muted-foreground">{vid.title}</div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>

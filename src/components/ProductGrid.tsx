@@ -42,18 +42,18 @@ const ProductGrid = ({ onAddToCart }: ProductGridProps) => {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
           {/* Left: info panel */}
           <div 
-            className={`md:col-span-4 transition-all duration-1200 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] delay-200 ${
+            className={`md:col-span-4 transition-all duration-1200 ease-out delay-200 ${
               isSectionVisible 
                 ? 'opacity-100 scale-100 translate-x-0' 
                 : 'opacity-0 scale-95 -translate-x-8'
             }`}
           >
-            <h2 className={`text-3xl font-serif font-light text-foreground mb-2 transition-all duration-1000 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] delay-300 ${
+            <h2 className={`text-3xl font-serif font-light text-foreground mb-2 transition-all duration-1000 ease-out delay-300 ${
               isSectionVisible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-6'
             }`}>
               Bestsellers
             </h2>
-            <p className={`text-muted-foreground max-w-sm transition-all duration-1000 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] delay-400 ${
+            <p className={`text-muted-foreground max-w-sm transition-all duration-1000 ease-out delay-400 ${
               isSectionVisible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-6'
             }`}>
               Elevate your skincare ritual with our self-care essentials.
@@ -62,7 +62,7 @@ const ProductGrid = ({ onAddToCart }: ProductGridProps) => {
 
           {/* Right: horizontal scroller */}
           <div 
-            className={`md:col-span-8 relative transition-all duration-1200 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] delay-400 ${
+            className={`md:col-span-8 relative transition-all duration-1200 ease-out delay-400 ${
               isSectionVisible 
                 ? 'opacity-100 scale-100 translate-x-0' 
                 : 'opacity-0 scale-95 translate-x-8'
@@ -70,14 +70,14 @@ const ProductGrid = ({ onAddToCart }: ProductGridProps) => {
           >
             <div
               ref={scrollerRef}
-              className="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth py-2 [-ms-overflow-style:none] [scrollbar-width:none]"
+              className="flex gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth py-2 [-ms-overflow-style:none] [scrollbar-width:none]"
             >
               {/* hide scrollbar for WebKit */}
               <style>{`.container ::-webkit-scrollbar{display:none}`}</style>
               {products.map((product, index) => (
                 <div 
                   key={product.id} 
-                  className={`snap-start shrink-0 w-72 sm:w-80 md:w-96 transition-all duration-1000 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] delay-${Math.min(index * 200 + 600, 1400)} ${
+                  className={`snap-start shrink-0 w-64 sm:w-80 md:w-96 transition-all duration-1000 ease-out delay-${Math.min(index * 200 + 600, 1400)} ${
                     isSectionVisible 
                       ? 'opacity-100 scale-100 translate-y-0' 
                       : 'opacity-0 scale-95 translate-y-8'
@@ -99,7 +99,7 @@ const ProductGrid = ({ onAddToCart }: ProductGridProps) => {
                 aria-label="Previous"
                 size="icon"
                 variant="ghost"
-                className="pointer-events-auto ml-2 rounded-full bg-white/60 hover:bg-white text-foreground border border-black/10 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-110 hover:shadow-lg"
+                className="pointer-events-auto ml-1 sm:ml-2 rounded-full bg-white/60 hover:bg-white text-foreground border border-black/10 transition-all duration-500 ease-out hover:scale-110 hover:shadow-lg"
                 onClick={() => scrollerRef.current?.scrollBy({ left: -320, behavior: "smooth" })}
               >
                 <ChevronLeft className="h-4 w-4" />
@@ -108,7 +108,7 @@ const ProductGrid = ({ onAddToCart }: ProductGridProps) => {
                 aria-label="Next"
                 size="icon"
                 variant="ghost"
-                className="pointer-events-auto mr-2 rounded-full bg-white/60 hover:bg-white text-foreground border border-black/10 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-110 hover:shadow-lg"
+                className="pointer-events-auto mr-1 sm:mr-2 rounded-full bg-white/60 hover:bg-white text-foreground border border-black/10 transition-all duration-500 ease-out hover:scale-110 hover:shadow-lg"
                 onClick={() => scrollerRef.current?.scrollBy({ left: 320, behavior: "smooth" })}
               >
                 <ChevronRight className="h-4 w-4" />
