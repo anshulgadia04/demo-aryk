@@ -8,6 +8,16 @@ export type Product = {
   reviewCount: number;
   image: string;
   badges?: string[];
+  // Shopify-specific fields
+  handle?: string;
+  description?: string;
+  variants?: Array<{
+    id: string;
+    title: string;
+    price: number;
+    availableForSale: boolean;
+    image: string;
+  }>;
 };
 
 import img1 from "../../aryk img/WhatsApp Image 2025-08-19 at 20.33.55_f82027bb.jpg";

@@ -8,6 +8,7 @@ import RelaxingCorner from "./pages/RelaxingCorner";
 import NotFound from "./pages/NotFound";
 import Favorites from "./pages/Favorites";
 import Shop from "./pages/Shop";
+import ShopifyShop from "./pages/ShopifyShop";
 import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
 
@@ -22,6 +23,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/shop" element={<Shop />} />
+          <Route path="/shopify-shop" element={<ShopifyShop />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/relaxing-corner" element={<RelaxingCorner />} />

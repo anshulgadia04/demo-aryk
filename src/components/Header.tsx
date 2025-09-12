@@ -36,7 +36,7 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
       <header className={`${headerVariant === 'transparent' ? 'absolute bg-transparent' : 'sticky top-0 bg-background/90 supports-[backdrop-filter]:bg-background/70 border-b border-border backdrop-blur'} left-0 right-0 z-50 transition-all duration-700 ease-out`}>
         <div className="container mx-auto px-4 relative">
           <div className={`flex items-center justify-between h-14 md:h-20 transition-all duration-700 ease-out ${headerVariant === 'transparent' ? 'text-white' : 'text-foreground'}`}>
-            {/* Left: burger always visible + desktop links */}
+            {/* Left: burger + mobile relaxing corner + desktop links */}
             <div className="flex items-center gap-4 md:gap-6">
               <Button
                 variant="ghost"
@@ -45,6 +45,17 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
                 {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </Button>
+
+              {/* Mobile Relaxing Corner icon - moved to left */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className={`${headerVariant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent transition-all duration-500 ease-out hover:scale-110 hover:shadow-md md:hidden`}
+                onClick={() => navigate('/relaxing-corner')}
+                aria-label="Relaxing Corner"
+              >
+                <Gamepad2 className="h-5 w-5" />
               </Button>
 
               <nav className="hidden md:flex items-center gap-6 uppercase tracking-wide text-sm">
@@ -76,8 +87,8 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
               </Button>
             </div>
 
-            {/* Mobile centered logo (in-flow) */}
-            <div className="md:hidden flex-1 text-center">
+            {/* Mobile centered logo - using absolute positioning for true centering */}
+            <div className="md:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <Button
                 variant="ghost"
                 className={`p-0 h-auto text-2xl font-serif font-light tracking-wide ${headerVariant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent select-none cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]`}
@@ -103,16 +114,6 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
               </div>
 
               <div className="flex items-center gap-2">
-                {/* Mobile Relaxing Corner icon */}
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className={`${headerVariant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent transition-all duration-500 ease-out hover:scale-110 hover:shadow-md md:hidden`}
-                  onClick={() => navigate('/relaxing-corner')}
-                  aria-label="Relaxing Corner"
-                >
-                  <Gamepad2 className="h-5 w-5" />
-                </Button>
                 <Button
                   variant="ghost"
                   size="icon"

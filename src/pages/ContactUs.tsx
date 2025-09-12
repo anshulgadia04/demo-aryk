@@ -270,25 +270,6 @@ const ContactUs = () => {
           </div>
         </div>
 
-        {/* Map Section */}
-        <div className="py-12 md:py-16 bg-white">
-          <div className="container mx-auto px-4">
-            <h2 className="text-2xl md:text-3xl font-serif font-light text-foreground text-center mb-8 md:mb-12">
-              Find Us
-            </h2>
-            <div className="bg-gray-200 rounded-2xl h-64 md:h-96 flex items-center justify-center">
-              <div className="text-center">
-                <MapPin className="h-10 w-10 md:h-16 md:w-16 text-gray-400 mx-auto mb-3 md:mb-4" />
-                <p className="text-gray-500 text-base md:text-lg">
-                  Interactive Map Coming Soon
-                </p>
-                <p className="text-gray-400">
-                  We're working on adding an interactive map to help you find us easily
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* CTA Section */}
         <div className="py-12 md:py-16 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
