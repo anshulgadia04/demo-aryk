@@ -50,6 +50,13 @@ const ShopifyShop = () => {
     }
   }, []);
 
+  // Read query param q to prefill search
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get('q');
+    if (q) setSearchQuery(q);
+  }, []);
+
   // Get unique categories from products (normalize to avoid empty values)
   const categories = useMemo(() => {
     const cats = products

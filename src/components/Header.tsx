@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, User, ShoppingBag, Menu, X, Heart, Home, Info, Phone, Gamepad2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ShopifyService } from "@/lib/shopifyService";
 
 interface HeaderProps {
   onCartClick: () => void;
@@ -14,6 +15,17 @@ interface HeaderProps {
 const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [suggestions, setSuggestions] = useState<Array<{ id: string | number; name: string; image: string; handle?: string }>>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [highlighted, setHighlighted] = useState<number>(-1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [recent, setRecent] = useState<string[]>(() => {
+    try {
+      const raw = localStorage.getItem('aryk_recent_searches');
+      return raw ? JSON.parse(raw) : [];
+    } catch { return []; }
+  });
+  const searchWrapRef = useRef<HTMLDivElement | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
 
@@ -29,6 +41,96 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
 
   // Determine header variant based on scroll and prop
   const headerVariant = variant === 'transparent' && !isScrolled ? 'transparent' : 'solid';
+
+  // Fetch lightweight suggestions as user types
+  useEffect(() => {
+    const controller = new AbortController();
+    const load = async () => {
+      const q = searchQuery.trim();
+      if (!q) {
+        setSuggestions([]);
+        return;
+      }
+      try {
+        setIsLoading(true);
+        const result = await ShopifyService.getProducts(10);
+        const products = result.products.map(ShopifyService.convertToProduct);
+        const filtered = products
+          .filter(p => p.name.toLowerCase().includes(q.toLowerCase()))
+          .slice(0, 5)
+          .map(p => ({ id: p.id, name: p.name, image: p.image, handle: p.handle }));
+        setSuggestions(filtered);
+      } catch {
+        setSuggestions([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    const t = setTimeout(load, 200);
+    return () => { clearTimeout(t); controller.abort(); };
+  }, [searchQuery]);
+
+  const submitSearch = () => {
+    const q = searchQuery.trim();
+    if (!q) return;
+    // record recent searches (unique, max 5)
+    try {
+      const updated = [q, ...recent.filter(r => r.toLowerCase() !== q.toLowerCase())].slice(0, 5);
+      setRecent(updated);
+      localStorage.setItem('aryk_recent_searches', JSON.stringify(updated));
+    } catch {}
+    navigate(`/shopify-shop?q=${encodeURIComponent(q)}`);
+    setShowSuggestions(false);
+    setHighlighted(-1);
+  };
+
+  // Keyboard navigation
+  const handleKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const total = suggestions.length + (recent.length && !searchQuery ? recent.length : 0);
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setShowSuggestions(true);
+      setHighlighted((h) => Math.min(h + 1, Math.max(total - 1, 0)));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setHighlighted((h) => Math.max(h - 1, -1));
+    } else if (e.key === 'Enter') {
+      if (highlighted >= 0) {
+        const items = searchQuery ? suggestions : recent.map((q) => ({ q })) as any;
+        const sel: any = items[highlighted];
+        if (sel?.id) {
+          navigate(`/product/${sel.id}`);
+          setShowSuggestions(false);
+          setHighlighted(-1);
+          return;
+        }
+        if (sel?.q) {
+          setSearchQuery(sel.q);
+          navigate(`/shopify-shop?q=${encodeURIComponent(sel.q)}`);
+          setShowSuggestions(false);
+          setHighlighted(-1);
+          return;
+        }
+      }
+      submitSearch();
+    } else if (e.key === 'Escape') {
+      setShowSuggestions(false);
+      setHighlighted(-1);
+    }
+  };
+
+  // Close suggestions on outside click
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      if (!searchWrapRef.current) return;
+      if (!searchWrapRef.current.contains(e.target as Node)) {
+        setShowSuggestions(false);
+        setHighlighted(-1);
+      }
+    };
+    document.addEventListener('mousedown', onClick);
+    return () => document.removeEventListener('mousedown', onClick);
+  }, []);
 
   return (
     <>
@@ -101,15 +203,81 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
             {/* Right: search underline + icons */}
             <div className="flex items-center gap-3 md:gap-4">
               <div className="hidden md:block w-72 lg:w-96">
-                <div className="relative">
+                <div className="relative" ref={searchWrapRef}>
                   <Input
                     type="text"
                     placeholder="SEARCH"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
+                    onFocus={() => setShowSuggestions(true)}
+                    onKeyDown={handleKey}
                     className={`bg-transparent border-0 border-b ${headerVariant === 'transparent' ? 'border-white/70 text-white placeholder:text-white/70' : 'border-foreground/70 text-foreground placeholder:text-muted-foreground'} rounded-none pr-10 focus-visible:ring-0 focus-visible:ring-offset-0 transition-all duration-500 ease-out focus:border-opacity-100 focus:scale-[1.02]`}
                   />
-                  <Search className={`absolute right-2 top-1/2 -translate-y-1/2 h-4 w-4 transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] ${headerVariant === 'transparent' ? 'text-white/70' : 'text-muted-foreground'}`} />
+                  <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                    {isLoading && <span className={`h-3 w-3 rounded-full border-2 border-current border-t-transparent animate-spin ${headerVariant === 'transparent' ? 'text-white/70' : 'text-muted-foreground'}`} />}
+                    {searchQuery && (
+                      <button
+                        className={`${headerVariant === 'transparent' ? 'text-white/70 hover:text-white' : 'text-muted-foreground hover:text-foreground'} text-xs`}
+                        aria-label="Clear"
+                        onClick={() => { setSearchQuery(''); setSuggestions([]); setHighlighted(-1); }}
+                      >
+                        ✕
+                      </button>
+                    )}
+                    <Search className={`h-4 w-4 transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] ${headerVariant === 'transparent' ? 'text-white/70' : 'text-muted-foreground'}`} />
+                  </div>
+                  {showSuggestions && suggestions.length > 0 && (
+                    <div className={`absolute left-0 right-0 mt-2 rounded-xl border ${headerVariant === 'transparent' ? 'border-white/20 bg-black/60 text-white' : 'border-border bg-white text-foreground'} shadow-lg overflow-hidden z-50`}>
+                      {suggestions.map((s, idx) => (
+                        <button
+                          key={s.id}
+                          className={`w-full flex items-center gap-3 px-3 py-2 text-left transition-colors ${idx === highlighted ? 'bg-muted/50' : 'hover:bg-muted/40'}`}
+                          onMouseDown={(e) => { e.preventDefault(); }}
+                          onMouseEnter={() => setHighlighted(idx)}
+                          onClick={() => { navigate(`/product/${s.id}`); setShowSuggestions(false); setHighlighted(-1); }}
+                        >
+                          <img src={s.image || '/placeholder.svg'} alt={s.name} className="h-8 w-8 rounded object-cover" />
+                          <span className="truncate">{s.name}</span>
+                        </button>
+                      ))}
+                      <div className="border-t border-border/50" />
+                      <button
+                        className="w-full px-3 py-2 text-sm hover:bg-muted/40"
+                        onMouseDown={(e) => e.preventDefault()}
+                        onClick={submitSearch}
+                      >
+                        Search for “{searchQuery.trim()}”
+                      </button>
+                    </div>
+                  )}
+                  {showSuggestions && !isLoading && suggestions.length === 0 && (searchQuery ? (
+                    <div className={`absolute left-0 right-0 mt-2 rounded-xl border ${headerVariant === 'transparent' ? 'border-white/20 bg-black/60 text-white' : 'border-border bg-white text-foreground'} shadow-lg overflow-hidden z-50`}>
+                      <div className="px-3 py-2 text-sm">No results. Press Enter to search all.</div>
+                    </div>
+                  ) : recent.length > 0 ? (
+                    <div className={`absolute left-0 right-0 mt-2 rounded-xl border ${headerVariant === 'transparent' ? 'border-white/20 bg-black/60 text-white' : 'border-border bg-white text-foreground'} shadow-lg overflow-hidden z-50`}>
+                      {recent.map((q, idx) => (
+                        <button
+                          key={q+idx}
+                          className={`w-full flex items-center gap-3 px-3 py-2 text-left transition-colors ${idx === highlighted ? 'bg-muted/50' : 'hover:bg-muted/40'}`}
+                          onMouseDown={(e) => e.preventDefault()}
+                          onMouseEnter={() => setHighlighted(idx)}
+                          onClick={() => { setSearchQuery(q); navigate(`/shopify-shop?q=${encodeURIComponent(q)}`); setShowSuggestions(false); setHighlighted(-1); }}
+                        >
+                          <Search className="h-4 w-4" />
+                          <span className="truncate">{q}</span>
+                        </button>
+                      ))}
+                      <div className="border-t border-border/50" />
+                      <button
+                        className="w-full px-3 py-2 text-xs text-muted-foreground hover:bg-muted/40"
+                        onMouseDown={(e) => e.preventDefault()}
+                        onClick={() => { setRecent([]); localStorage.removeItem('aryk_recent_searches'); }}
+                      >
+                        Clear recent searches
+                      </button>
+                    </div>
+                  ) : null)}
                 </div>
               </div>
 
