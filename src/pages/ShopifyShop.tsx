@@ -206,7 +206,7 @@ const ShopifyShop = () => {
       <Header
         onCartClick={() => setIsCartOpen(true)}
         onAuthClick={() => setIsAuthModalOpen(true)}
-        cartCount={getCartCount()}
+        cartCount={getCartItemCount()}
         variant="solid"
       />
       
@@ -352,20 +352,16 @@ const ShopifyShop = () => {
       <CartSidebar
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
-        items={globalCartItems}
-        onUpdateQuantity={(id, quantity) => {
-          // For now, just show a message that items need to be managed in Shopify
-          toast({
-            title: "Cart Management",
-            description: "Please manage your cart items in the Shopify checkout.",
-          });
+        items={cartItems}
+        onUpdateQuantity={async (id, quantity) => {
+          if (quantity <= 0) {
+            await removeFromCart(String(id));
+            return;
+          }
+          await updateCartItem(String(id), quantity);
         }}
-        onRemoveItem={(id) => {
-          // For now, just show a message that items need to be managed in Shopify
-          toast({
-            title: "Cart Management", 
-            description: "Please manage your cart items in the Shopify checkout.",
-          });
+        onRemoveItem={async (id) => {
+          await removeFromCart(String(id));
         }}
         onCheckout={handleCheckout}
       />
