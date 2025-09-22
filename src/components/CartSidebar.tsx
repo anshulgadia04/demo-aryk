@@ -2,22 +2,14 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Minus, Plus, X } from "lucide-react";
-
-interface CartItem {
-  id: number;
-  name: string;
-  category: string;
-  price: number;
-  image: string;
-  quantity: number;
-}
+import { CartItem } from "@/contexts/CartContext";
 
 interface CartSidebarProps {
   isOpen: boolean;
   onClose: () => void;
   items: CartItem[];
-  onUpdateQuantity: (id: number, quantity: number) => void;
-  onRemoveItem: (id: number) => void;
+  onUpdateQuantity: (id: string | number, quantity: number) => void;
+  onRemoveItem: (id: string | number) => void;
   onCheckout: () => void;
 }
 
@@ -151,6 +143,19 @@ const CartSidebar = ({
                 onClick={onCheckout}
               >
                 Proceed to Checkout
+              </Button>
+
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={() => {
+                  const domain = (import.meta as any).env?.VITE_SHOPIFY_STORE_DOMAIN;
+                  if (domain) {
+                    window.open(`https://${domain}/account`, '_blank');
+                  }
+                }}
+              >
+                View My Orders
               </Button>
             </div>
           )}

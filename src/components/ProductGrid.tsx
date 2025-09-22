@@ -1,19 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 import ProductCard from "./ProductCard";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { products, Product } from "@/lib/products";
+import { Product } from "@/lib/products";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
+import { useShopifyProducts } from "@/hooks/useShopify";
+import { ShopifyService } from "@/lib/shopifyService";
 
 interface ProductGridProps {
   onAddToCart: (product: any) => void;
 }
 
 const ProductGrid = ({ onAddToCart }: ProductGridProps) => {
-  const [wishlist, setWishlist] = useState<number[]>(() => {
+  const [wishlist, setWishlist] = useState<(number | string)[]>(() => {
     const saved = localStorage.getItem('aryk_wishlist');
     return saved ? JSON.parse(saved) : [];
   });
+  const [shopifyProducts, setShopifyProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const scrollerRef = useRef<HTMLDivElement | null>(null);
   
   const { elementRef: sectionRef, isVisible: isSectionVisible } = useScrollAnimation({
@@ -21,11 +25,31 @@ const ProductGrid = ({ onAddToCart }: ProductGridProps) => {
     rootMargin: '0px 0px -100px 0px'
   });
 
+  // Fetch Shopify products
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const result = await ShopifyService.getProducts(6); // Get first 6 products
+        const convertedProducts = result.products.map(ShopifyService.convertToProduct);
+        setShopifyProducts(convertedProducts);
+      } catch (error) {
+        console.error('Error fetching Shopify products:', error);
+        // Fallback to empty array if Shopify fails
+        setShopifyProducts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   useEffect(() => {
     localStorage.setItem('aryk_wishlist', JSON.stringify(wishlist));
   }, [wishlist]);
 
-  const toggleWishlist = (productId: number) => {
+  const toggleWishlist = (productId: number | string) => {
     setWishlist(prev => 
       prev.includes(productId)
         ? prev.filter(id => id !== productId)
@@ -51,12 +75,12 @@ const ProductGrid = ({ onAddToCart }: ProductGridProps) => {
             <h2 className={`text-3xl font-serif font-light text-foreground mb-2 transition-all duration-1000 ease-out delay-300 ${
               isSectionVisible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-6'
             }`}>
-              Bestsellers
+              Shop Products
             </h2>
             <p className={`text-muted-foreground max-w-sm transition-all duration-1000 ease-out delay-400 ${
               isSectionVisible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-6'
             }`}>
-              Elevate your skincare ritual with our self-care essentials.
+              Discover our premium organic skincare collection for healthy, glowing skin.
             </p>
           </div>
 
@@ -74,23 +98,34 @@ const ProductGrid = ({ onAddToCart }: ProductGridProps) => {
             >
               {/* hide scrollbar for WebKit */}
               <style>{`.container ::-webkit-scrollbar{display:none}`}</style>
-              {products.map((product, index) => (
-                <div 
-                  key={product.id} 
-                  className={`snap-start shrink-0 w-64 sm:w-80 md:w-96 transition-all duration-1000 ease-out delay-${Math.min(index * 200 + 600, 1400)} ${
-                    isSectionVisible 
-                      ? 'opacity-100 scale-100 translate-y-0' 
-                      : 'opacity-0 scale-95 translate-y-8'
-                  }`}
-                >
-                  <ProductCard
-                    {...product}
-                    onAddToCart={onAddToCart}
-                    onToggleWishlist={toggleWishlist}
-                    isWishlisted={wishlist.includes(product.id)}
-                  />
+              {loading ? (
+                <div className="flex items-center justify-center w-full py-16">
+                  <Loader2 className="h-8 w-8 animate-spin" />
+                  <span className="ml-2">Loading products...</span>
                 </div>
-              ))}
+              ) : shopifyProducts.length === 0 ? (
+                <div className="flex items-center justify-center w-full py-16">
+                  <p className="text-muted-foreground">No products available</p>
+                </div>
+              ) : (
+                shopifyProducts.map((product, index) => (
+                  <div 
+                    key={product.id} 
+                    className={`snap-start shrink-0 w-64 sm:w-80 md:w-96 transition-all duration-1000 ease-out delay-${Math.min(index * 200 + 600, 1400)} ${
+                      isSectionVisible 
+                        ? 'opacity-100 scale-100 translate-y-0' 
+                        : 'opacity-0 scale-95 translate-y-8'
+                    }`}
+                  >
+                    <ProductCard
+                      {...product}
+                      onAddToCart={onAddToCart}
+                      onToggleWishlist={toggleWishlist}
+                      isWishlisted={wishlist.includes(product.id)}
+                    />
+                  </div>
+                ))
+              )}
             </div>
 
             {/* Scroll controls */}

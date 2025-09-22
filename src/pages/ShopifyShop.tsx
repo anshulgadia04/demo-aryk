@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { useShopifyProducts, useShopifyCart } from "@/hooks/useShopify";
+import { ShopifyService } from "@/lib/shopifyService";
 import ProductCard from "@/components/ProductCard";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -11,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { Search, Filter, Grid, List, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useCart } from "@/contexts/CartContext";
 
 const ShopifyShop = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -18,9 +20,16 @@ const ShopifyShop = () => {
   const [sortBy, setSortBy] = useState<string>("name");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
   const { toast } = useToast();
+
+  // Global cart context
+  const { 
+    cartItems: globalCartItems, 
+    isCartOpen, 
+    setIsCartOpen, 
+    getCartCount 
+  } = useCart();
 
   // Shopify hooks
   const { products, loading, error, pageInfo, refetch } = useShopifyProducts(50);
@@ -41,9 +50,11 @@ const ShopifyShop = () => {
     }
   }, []);
 
-  // Get unique categories from products
+  // Get unique categories from products (normalize to avoid empty values)
   const categories = useMemo(() => {
-    const cats = products.map(p => p.category);
+    const cats = products
+      .map(p => (p.category || '').trim().toUpperCase() || 'UNCATEGORIZED')
+      .filter(Boolean);
     return ["all", ...Array.from(new Set(cats))];
   }, [products]);
 
@@ -51,8 +62,9 @@ const ShopifyShop = () => {
   const filteredProducts = useMemo(() => {
     let filtered = products.filter(product => {
       const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           product.category.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesCategory = selectedCategory === "all" || product.category === selectedCategory;
+                           (product.category || '').toLowerCase().includes(searchQuery.toLowerCase());
+      const normalizedCategory = (product.category || '').trim().toUpperCase() || 'UNCATEGORIZED';
+      const matchesCategory = selectedCategory === "all" || normalizedCategory === selectedCategory;
       return matchesSearch && matchesCategory;
     });
 
@@ -76,20 +88,36 @@ const ShopifyShop = () => {
 
   const handleAddToCart = async (product: any) => {
     try {
-      // For now, we'll use the first variant if available
-      const variantId = product.variants?.[0]?.id;
-      if (variantId) {
-        await addToCart(variantId, 1);
-      } else {
-        // Fallback: show error or use a default variant
+      // Prefer first available-for-sale variant, then any
+      let variantId = product.variants?.find((v: any) => v.availableForSale)?.id || product.variants?.[0]?.id;
+
+      // Fallback: fetch full product from Shopify to get variant ID
+      if (!variantId && product.handle) {
+        try {
+          const full = await ShopifyService.getProduct(product.handle);
+          // Try to get first available variant from raw response
+          const edges = full?.variants?.edges || [];
+          const availableEdge = edges.find((e: any) => e?.node?.availableForSale);
+          variantId = availableEdge?.node?.id || edges[0]?.node?.id;
+        } catch (e) {
+          // ignore, will show error below
+        }
+      }
+
+      if (!variantId) {
         toast({
           title: "Error",
           description: "Product variant not available",
           variant: "destructive",
         });
+        return;
       }
+
+      await addToCart(variantId, 1);
+      toast({ title: "Added to cart", description: "Item has been added to your cart." });
     } catch (error) {
       console.error('Error adding to cart:', error);
+      toast({ title: "Error", description: "Failed to add to cart", variant: "destructive" });
     }
   };
 
@@ -106,20 +134,20 @@ const ShopifyShop = () => {
     await removeFromCart(lineId);
   };
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     if (!user) {
       setIsAuthModalOpen(true);
       return;
     }
-    
+    try {
+      if (cart?.id) {
+        await ShopifyService.attachCustomerToCart(cart.id);
+      }
+    } catch (_) {}
     if (cart?.checkoutUrl) {
       window.open(cart.checkoutUrl, '_blank');
     } else {
-      toast({
-        title: "Error",
-        description: "No checkout URL available",
-        variant: "destructive",
-      });
+      toast({ title: "Error", description: "No checkout URL available", variant: "destructive" });
     }
   };
 
@@ -136,10 +164,10 @@ const ShopifyShop = () => {
     if (!cart) return [];
     
     return cart.lines.edges.map(edge => ({
-      id: parseInt(edge.node.id.split('/').pop() || '0'),
+      id: edge.node.id,
       name: edge.node.merchandise.product.title,
       category: edge.node.merchandise.product.title, // Use title as category for now
-      price: parseFloat(edge.node.merchandise.price.amount) * 100, // Convert to cents
+      price: parseFloat(edge.node.merchandise.price.amount),
       image: edge.node.merchandise.product.images.edges[0]?.node.url || '/placeholder.svg',
       quantity: edge.node.quantity,
       lineId: edge.node.id
@@ -152,7 +180,7 @@ const ShopifyShop = () => {
         <Header
           onCartClick={() => setIsCartOpen(true)}
           onAuthClick={() => setIsAuthModalOpen(true)}
-          cartCount={getCartItemCount()}
+          cartCount={getCartCount()}
           variant="solid"
         />
         <div className="pt-28 pb-16">
@@ -178,7 +206,7 @@ const ShopifyShop = () => {
       <Header
         onCartClick={() => setIsCartOpen(true)}
         onAuthClick={() => setIsAuthModalOpen(true)}
-        cartCount={getCartItemCount()}
+        cartCount={getCartCount()}
         variant="solid"
       />
       
@@ -315,7 +343,7 @@ const ShopifyShop = () => {
       <AuthModal
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
-        onSuccess={(userData) => {
+        onLogin={(userData) => {
           setUser(userData);
           setIsAuthModalOpen(false);
         }}
@@ -324,18 +352,20 @@ const ShopifyShop = () => {
       <CartSidebar
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
-        items={cartItems}
+        items={globalCartItems}
         onUpdateQuantity={(id, quantity) => {
-          const item = cartItems.find(item => item.id === id);
-          if (item?.lineId) {
-            handleUpdateCartQuantity(item.lineId, quantity);
-          }
+          // For now, just show a message that items need to be managed in Shopify
+          toast({
+            title: "Cart Management",
+            description: "Please manage your cart items in the Shopify checkout.",
+          });
         }}
         onRemoveItem={(id) => {
-          const item = cartItems.find(item => item.id === id);
-          if (item?.lineId) {
-            handleRemoveFromCart(item.lineId);
-          }
+          // For now, just show a message that items need to be managed in Shopify
+          toast({
+            title: "Cart Management", 
+            description: "Please manage your cart items in the Shopify checkout.",
+          });
         }}
         onCheckout={handleCheckout}
       />

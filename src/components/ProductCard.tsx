@@ -1,9 +1,10 @@
 import { Heart, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useNavigate } from "react-router-dom";
 
 interface ProductCardProps {
-  id: number;
+  id: number | string; // Allow both number and string IDs
   name: string;
   category: string;
   price: number;
@@ -12,8 +13,10 @@ interface ProductCardProps {
   reviewCount: number;
   image: string;
   badges?: string[];
+  handle?: string;
+  variants?: Array<{ id: string; availableForSale?: boolean; }>;
   onAddToCart: (product: any) => void;
-  onToggleWishlist: (productId: number) => void;
+  onToggleWishlist: (productId: number | string) => void;
   isWishlisted: boolean;
 }
 
@@ -27,11 +30,18 @@ const ProductCard = ({
   reviewCount,
   image,
   badges = [],
+  handle,
+  variants,
   onAddToCart,
   onToggleWishlist,
   isWishlisted
 }: ProductCardProps) => {
-  const product = { id, name, category, price, image };
+  const navigate = useNavigate();
+  const product = { id, name, category, price, image, handle, variants };
+
+  const handleProductClick = () => {
+    navigate(`/product/${id}`);
+  };
 
   return (
     <Card className="group overflow-hidden border-0 shadow-sm hover:shadow-xl transition-all duration-700 ease-out h-full rounded-xl sm:rounded-2xl hover:-translate-y-1 hover:scale-[1.01]">
@@ -45,7 +55,8 @@ const ProductCard = ({
             if ((e.currentTarget as HTMLImageElement).src.endsWith("placeholder.svg")) return;
             (e.currentTarget as HTMLImageElement).src = "/placeholder.svg";
           }}
-          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 cursor-pointer"
+          onClick={handleProductClick}
         />
         
         {/* Badges */}
@@ -102,7 +113,10 @@ const ProductCard = ({
       <CardContent className="p-3 sm:p-4">
         {/* Title */}
         <div className="mb-1">
-          <h3 className="font-medium text-foreground group-hover:text-primary transition-colors duration-500 ease-out text-sm sm:text-base">
+          <h3 
+            className="font-medium text-foreground group-hover:text-primary transition-colors duration-500 ease-out text-sm sm:text-base cursor-pointer"
+            onClick={handleProductClick}
+          >
             {name}
           </h3>
         </div>

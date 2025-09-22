@@ -11,6 +11,13 @@ export default defineConfig(({ mode }) => ({
       '.ngrok-free.app',  // Add the exact ngrok URL
       'all',  // Optionally, you can keep this to allow all hosts
     ],
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
   },
   plugins: [
     react(),

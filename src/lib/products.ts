@@ -1,5 +1,5 @@
 export type Product = {
-  id: number;
+  id: number | string; // Allow both number and string IDs for Shopify compatibility
   name: string;
   category: string;
   price: number;
@@ -7,6 +7,7 @@ export type Product = {
   rating: number;
   reviewCount: number;
   image: string;
+  images?: string[]; // Optional gallery images; falls back to single image
   badges?: string[];
   // Shopify-specific fields
   handle?: string;

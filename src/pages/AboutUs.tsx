@@ -1,19 +1,29 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import CartSidebar from "@/components/CartSidebar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Award, Leaf, Heart, Users, Target, Shield, Star, Globe, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "@/contexts/CartContext";
 
 const AboutUs = () => {
   const navigate = useNavigate();
+  const { 
+    cartItems, 
+    isCartOpen, 
+    setIsCartOpen, 
+    updateCartQuantity, 
+    removeFromCart, 
+    getCartCount 
+  } = useCart();
   
   return (
     <>
       <Header
-        onCartClick={() => {}}
+        onCartClick={() => setIsCartOpen(true)}
         onAuthClick={() => {}}
-        cartCount={0}
+        cartCount={getCartCount()}
         variant="transparent"
       />
       
@@ -279,6 +289,25 @@ const AboutUs = () => {
       </div>
       
       <Footer />
+
+      <CartSidebar
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        items={cartItems}
+        onUpdateQuantity={updateCartQuantity}
+        onRemoveItem={removeFromCart}
+        onCheckout={() => {
+          // Check if user is signed in
+          const savedUser = localStorage.getItem('aryk_user');
+          if (!savedUser) {
+            // Show auth modal or redirect to sign in
+            window.location.href = '/shopify-shop';
+            return;
+          }
+          // Redirect to Shopify shop for checkout
+          window.location.href = '/shopify-shop';
+        }}
+      />
     </>
   );
 };

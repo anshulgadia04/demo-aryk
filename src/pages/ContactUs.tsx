@@ -1,12 +1,14 @@
 import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import CartSidebar from "@/components/CartSidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Mail, Phone, MapPin, Clock, MessageCircle, Send, Instagram, Facebook, Twitter } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -16,6 +18,14 @@ const ContactUs = () => {
     message: "",
     inquiryType: ""
   });
+  const { 
+    cartItems, 
+    isCartOpen, 
+    setIsCartOpen, 
+    updateCartQuantity, 
+    removeFromCart, 
+    getCartCount 
+  } = useCart();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,9 +43,9 @@ const ContactUs = () => {
   return (
     <>
       <Header
-        onCartClick={() => {}}
+        onCartClick={() => setIsCartOpen(true)}
         onAuthClick={() => {}}
-        cartCount={0}
+        cartCount={getCartCount()}
         variant="solid"
       />
       
@@ -293,6 +303,25 @@ const ContactUs = () => {
       </div>
       
       <Footer />
+
+      <CartSidebar
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        items={cartItems}
+        onUpdateQuantity={updateCartQuantity}
+        onRemoveItem={removeFromCart}
+        onCheckout={() => {
+          // Check if user is signed in
+          const savedUser = localStorage.getItem('aryk_user');
+          if (!savedUser) {
+            // Redirect to sign in
+            window.location.href = '/shopify-shop';
+            return;
+          }
+          // Redirect to Shopify shop for checkout
+          window.location.href = '/shopify-shop';
+        }}
+      />
     </>
   );
 };

@@ -5,7 +5,8 @@ import {
   CREATE_CART_MUTATION,
   ADD_TO_CART_MUTATION,
   UPDATE_CART_MUTATION,
-  REMOVE_FROM_CART_MUTATION
+  REMOVE_FROM_CART_MUTATION,
+  CART_SET_BUYER_IDENTITY_MUTATION
 } from './shopify';
 
 // Types for Shopify data
@@ -269,6 +270,34 @@ export class ShopifyService {
     }
   }
 
+  // Attach customer to cart so orders are linked to their account
+  static async attachCustomerToCart(cartId: string) {
+    try {
+      // Call via backend proxy so it injects the customerAccessToken from session
+      const resp = await fetch('/api/shopify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          query: CART_SET_BUYER_IDENTITY_MUTATION,
+          variables: {
+            cartId,
+            input: {}
+          }
+        })
+      });
+      if (!resp.ok) throw new Error('Failed to attach customer to cart');
+      const data = await resp.json();
+      const userErrors = data?.data?.cartBuyerIdentityUpdate?.userErrors;
+      if (userErrors && userErrors.length) throw new Error(userErrors[0].message);
+      return data?.data?.cartBuyerIdentityUpdate?.cart;
+    } catch (error) {
+      console.error('Error attaching customer to cart:', error);
+      // Non-fatal: proceed without attachment
+      return null;
+    }
+  }
+
   // Helper function to convert Shopify product to our Product type
   static convertToProduct(shopifyProduct: ShopifyProduct) {
     const variant = shopifyProduct.variants.edges[0]?.node;
@@ -279,11 +308,11 @@ export class ShopifyService {
     const image = shopifyProduct.images.edges[0]?.node;
     
     return {
-      id: parseInt(shopifyProduct.id.split('/').pop() || '0'),
+      id: shopifyProduct.id.split('/').pop() || shopifyProduct.id, // Use the numeric part or full ID
       name: shopifyProduct.title,
       category: shopifyProduct.productType.toUpperCase(),
-      price: parseFloat(variant.price.amount) * 100, // Convert to cents
-      originalPrice: variant.compareAtPrice ? parseFloat(variant.compareAtPrice.amount) * 100 : undefined,
+      price: parseFloat(variant.price.amount),
+      originalPrice: variant.compareAtPrice ? parseFloat(variant.compareAtPrice.amount) : undefined,
       rating: 4.5, // Default rating since Shopify doesn't provide this
       reviewCount: 0, // Default review count
       image: image?.url || '/placeholder.svg',
@@ -293,7 +322,7 @@ export class ShopifyService {
       variants: shopifyProduct.variants.edges.map(edge => ({
         id: edge.node.id,
         title: edge.node.title,
-        price: parseFloat(edge.node.price.amount) * 100,
+        price: parseFloat(edge.node.price.amount),
         availableForSale: edge.node.availableForSale,
         image: edge.node.image?.url || image?.url || '/placeholder.svg'
       }))

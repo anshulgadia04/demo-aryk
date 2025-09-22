@@ -420,3 +420,15 @@ export const REMOVE_FROM_CART_MUTATION = `
     }
   }
 `;
+
+export const CART_SET_BUYER_IDENTITY_MUTATION = `
+  mutation cartBuyerIdentityUpdate($cartId: ID!, $input: CartBuyerIdentityInput!) {
+    cartBuyerIdentityUpdate(cartId: $cartId, buyerIdentity: $input) {
+      cart {
+        id
+        checkoutUrl
+      }
+      userErrors { field message }
+    }
+  }
+`;

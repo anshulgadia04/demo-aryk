@@ -2,24 +2,78 @@ import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
-import { products } from "@/lib/products";
+import CartSidebar from "@/components/CartSidebar";
+import { Product } from "@/lib/products";
+import { ShopifyService } from "@/lib/shopifyService";
+import { useCart } from "@/contexts/CartContext";
+import { Loader2 } from "lucide-react";
 
 const Favorites = () => {
-  const [favorites, setFavorites] = useState<number[]>([]);
+  const [favorites, setFavorites] = useState<(number | string)[]>([]);
+  const [shopifyProducts, setShopifyProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { 
+    cartItems, 
+    isCartOpen, 
+    setIsCartOpen, 
+    addToCart, 
+    updateCartQuantity, 
+    removeFromCart, 
+    getCartCount 
+  } = useCart();
 
   useEffect(() => {
     const saved = localStorage.getItem("aryk_wishlist");
     if (saved) setFavorites(JSON.parse(saved));
   }, []);
 
-  const favoriteProducts = products.filter((p) => favorites.includes(p.id));
+  // Fetch Shopify products
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const result = await ShopifyService.getProducts(50); // Get more products for favorites
+        const convertedProducts = result.products.map(ShopifyService.convertToProduct);
+        setShopifyProducts(convertedProducts);
+      } catch (error) {
+        console.error('Error fetching Shopify products:', error);
+        setShopifyProducts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const toggleWishlist = (productId: number | string) => {
+    setFavorites(prev => {
+      const newFavorites = prev.includes(productId)
+        ? prev.filter(id => id !== productId)
+        : [...prev, productId];
+      localStorage.setItem('aryk_wishlist', JSON.stringify(newFavorites));
+      return newFavorites;
+    });
+  };
+
+  const favoriteProducts = shopifyProducts.filter((p) => favorites.includes(p.id));
 
   return (
     <div className="min-h-screen bg-background">
-      <Header onCartClick={() => {}} onAuthClick={() => {}} cartCount={0} variant="solid" />
+      <Header 
+        onCartClick={() => setIsCartOpen(true)} 
+        onAuthClick={() => {}} 
+        cartCount={getCartCount()} 
+        variant="solid" 
+      />
       <main className="container mx-auto px-4 py-16">
         <h1 className="text-3xl font-serif font-light text-foreground mb-6">Your Favorites</h1>
-        {favoriteProducts.length === 0 ? (
+        {loading ? (
+          <div className="flex items-center justify-center py-16">
+            <Loader2 className="h-8 w-8 animate-spin" />
+            <span className="ml-2">Loading favorites...</span>
+          </div>
+        ) : favoriteProducts.length === 0 ? (
           <p className="text-muted-foreground">You haven't liked any products yet.</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -27,8 +81,8 @@ const Favorites = () => {
               <ProductCard
                 key={p.id}
                 {...p}
-                onAddToCart={() => {}}
-                onToggleWishlist={() => {}}
+                onAddToCart={addToCart}
+                onToggleWishlist={toggleWishlist}
                 isWishlisted={true}
               />
             ))}
@@ -36,6 +90,25 @@ const Favorites = () => {
         )}
       </main>
       <Footer />
+
+      <CartSidebar
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        items={cartItems}
+        onUpdateQuantity={updateCartQuantity}
+        onRemoveItem={removeFromCart}
+        onCheckout={() => {
+          // Check if user is signed in
+          const savedUser = localStorage.getItem('aryk_user');
+          if (!savedUser) {
+            // Redirect to sign in
+            window.location.href = '/shopify-shop';
+            return;
+          }
+          // Redirect to Shopify shop for checkout
+          window.location.href = '/shopify-shop';
+        }}
+      />
     </div>
   );
 };

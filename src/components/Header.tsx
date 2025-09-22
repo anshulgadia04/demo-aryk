@@ -61,8 +61,8 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
               <nav className="hidden md:flex items-center gap-6 uppercase tracking-wide text-sm">
                 <Button
                   variant="ghost"
-                  className={`relative ${headerVariant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 ${headerVariant === 'transparent' ? 'after:bg-white' : 'after:bg-foreground'} after:transition-transform after:duration-500 after:ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:after:scale-x-100 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-105`}
-                  onClick={() => navigate("/shop")}
+                  className={`relative ${headerVariant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 ${headerVariant === 'transparent' ? 'after:bg-white' : 'after:bg-foreground'} after:transition-transform after:duration-500 after:[transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] hover:after:scale-x-100 transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-105`}
+                  onClick={() => navigate("/shopify-shop")}
                 >
                   SHOP
                 </Button>
@@ -91,7 +91,7 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
             <div className="md:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <Button
                 variant="ghost"
-                className={`p-0 h-auto text-2xl font-serif font-light tracking-wide ${headerVariant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent select-none cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]`}
+                className={`p-0 h-auto text-2xl font-serif font-light tracking-wide ${headerVariant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent select-none cursor-pointer transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)]`}
                 onClick={() => navigate("/")}
               >
                 ARYK
@@ -109,7 +109,7 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className={`bg-transparent border-0 border-b ${headerVariant === 'transparent' ? 'border-white/70 text-white placeholder:text-white/70' : 'border-foreground/70 text-foreground placeholder:text-muted-foreground'} rounded-none pr-10 focus-visible:ring-0 focus-visible:ring-offset-0 transition-all duration-500 ease-out focus:border-opacity-100 focus:scale-[1.02]`}
                   />
-                  <Search className={`absolute right-2 top-1/2 -translate-y-1/2 h-4 w-4 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${headerVariant === 'transparent' ? 'text-white/70' : 'text-muted-foreground'}`} />
+                  <Search className={`absolute right-2 top-1/2 -translate-y-1/2 h-4 w-4 transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] ${headerVariant === 'transparent' ? 'text-white/70' : 'text-muted-foreground'}`} />
                 </div>
               </div>
 
@@ -117,7 +117,14 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={onAuthClick}
+                  onClick={() => {
+                    const domain = (import.meta as any).env?.VITE_SHOPIFY_STORE_DOMAIN;
+                    if (domain) {
+                      window.open(`https://${domain}/account`, '_blank');
+                    } else {
+                      onAuthClick();
+                    }
+                  }}
                   className={`${headerVariant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent transition-all duration-500 ease-out hover:scale-110 hover:shadow-md`}
                 >
                   <User className="h-5 w-5" />
@@ -181,7 +188,7 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
               <Button
                 variant="ghost"
                 className="md:hidden w-full justify-start h-12 text-sm font-medium uppercase tracking-wide hover:!bg-transparent relative after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-foreground after:transition-transform after:duration-500 after:ease-out hover:after:scale-x-100 transition-all duration-500 ease-out hover:scale-105"
-                onClick={() => { navigate('/shop'); setIsMenuOpen(false); }}
+                onClick={() => { navigate('/shopify-shop'); setIsMenuOpen(false); }}
               >
                 SHOP
               </Button>
@@ -215,7 +222,7 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
                 <Button
                   variant="ghost"
                   className="w-full justify-start text-sm font-medium uppercase tracking-wide hover:!bg-transparent relative after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-foreground after:transition-transform after:duration-500 after:ease-out hover:after:scale-x-100 transition-all duration-500 ease-out hover:scale-105"
-                  onClick={() => { navigate("/shop"); setIsMenuOpen(false); }}
+                  onClick={() => { navigate("/shopify-shop"); setIsMenuOpen(false); }}
                 >
                   SHOP ALL PRODUCTS
                 </Button>
