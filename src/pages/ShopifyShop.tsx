@@ -210,15 +210,16 @@ const ShopifyShop = () => {
         variant="solid"
       />
       
-      <div className="pt-28 pb-16">
-        {/* Hero Section */}
-        <div className="bg-gradient-to-br from-amber-50 via-orange-50 to-rose-50 py-16 md:py-24">
-          <div className="container mx-auto px-4 text-center">
-            <h1 className="text-4xl md:text-6xl font-serif font-light text-foreground mb-6">
-              Our Products
+      <div className="pt-8 pb-6">
+        {/* Page Header */}
+        <div className="py-4 md:py-6">
+          <div className="container mx-auto px-4">
+            <h1 className="text-4xl md:text-4xl font-serif font-light text-foreground mb-3">
+              Shop
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-              Discover our carefully curated collection of organic beauty products
+            <p className="text-base md:text-lg text-muted-foreground max-w-3xl">
+              Discover our complete collection of natural skincare essentials, carefully crafted to
+              nourish and enhance your natural beauty.
             </p>
           </div>
         </div>
@@ -229,20 +230,20 @@ const ShopifyShop = () => {
             {/* Search */}
             <div className="flex-1">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   type="text"
                   placeholder="Search products..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
+                  className="pl-11 h-12 rounded-xl bg-muted/30"
                 />
               </div>
             </div>
 
             {/* Category Filter */}
             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-full lg:w-48">
+              <SelectTrigger className="w-full lg:w-48 h-12 rounded-xl bg-muted/30">
                 <SelectValue placeholder="Category" />
               </SelectTrigger>
               <SelectContent>
@@ -256,11 +257,11 @@ const ShopifyShop = () => {
 
             {/* Sort */}
             <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-full lg:w-48">
+              <SelectTrigger className="w-full lg:w-48 h-12 rounded-xl bg-muted/30">
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="name">Name</SelectItem>
+                <SelectItem value="name">Name A-Z</SelectItem>
                 <SelectItem value="price-low">Price: Low to High</SelectItem>
                 <SelectItem value="price-high">Price: High to Low</SelectItem>
                 <SelectItem value="rating">Rating</SelectItem>
@@ -268,18 +269,22 @@ const ShopifyShop = () => {
             </Select>
 
             {/* View Mode */}
-            <div className="flex gap-2">
+            <div className="inline-flex rounded-xl overflow-hidden border border-border">
               <Button
-                variant={viewMode === "grid" ? "default" : "outline"}
+                variant="ghost"
                 size="icon"
+                className={`${viewMode === 'grid' ? 'bg-amber-900 text-white' : 'bg-muted/30 text-foreground'} h-12 w-12 rounded-none`}
                 onClick={() => setViewMode("grid")}
+                aria-pressed={viewMode === 'grid'}
               >
                 <Grid className="h-4 w-4" />
               </Button>
               <Button
-                variant={viewMode === "list" ? "default" : "outline"}
+                variant="ghost"
                 size="icon"
+                className={`${viewMode === 'list' ? 'bg-amber-900 text-white' : 'bg-muted/30 text-foreground'} h-12 w-12 rounded-none`}
                 onClick={() => setViewMode("list")}
+                aria-pressed={viewMode === 'list'}
               >
                 <List className="h-4 w-4" />
               </Button>
@@ -319,15 +324,58 @@ const ShopifyShop = () => {
                   ))}
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {filteredProducts.map((product) => (
-                    <div key={product.id} className="w-full">
-                      <ProductCard
-                        {...product}
-                        onAddToCart={handleAddToCart}
-                        onToggleWishlist={handleToggleWishlist}
-                        isWishlisted={false}
-                      />
+                    <div
+                      key={product.id}
+                      className="w-full rounded-xl border border-border bg-card hover:shadow-md transition-all duration-300 ease-out p-3 sm:p-4"
+                    >
+                      <div className="flex gap-3 sm:gap-4 items-stretch">
+                        {/* Image */}
+                        <div className="relative h-24 w-24 sm:h-28 sm:w-28 flex-shrink-0 overflow-hidden rounded-lg">
+                          <img
+                            src={product.image || '/placeholder.svg'}
+                            alt={product.name}
+                            className="h-full w-full object-cover"
+                          />
+                        </div>
+
+                        {/* Info */}
+                        <div className="flex-1 min-w-0 flex flex-col justify-between">
+                          <div>
+                            <h3 className="text-base sm:text-lg font-medium text-foreground truncate">
+                              {product.name}
+                            </h3>
+                            <p className="text-xs sm:text-sm text-muted-foreground uppercase mt-0.5">
+                              {(product.category || 'Product')}
+                            </p>
+                          </div>
+                          <div className="mt-2 sm:mt-3 flex items-center gap-2">
+                            <span className="text-base sm:text-lg font-medium text-foreground">₹{product.price.toLocaleString()}</span>
+                            {product.originalPrice && product.originalPrice > product.price && (
+                              <span className="text-xs sm:text-sm text-muted-foreground line-through">₹{product.originalPrice.toLocaleString()}</span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Actions */}
+                        <div className="flex flex-col justify-center gap-2 sm:gap-3">
+                          <button
+                            className="inline-flex items-center justify-center whitespace-nowrap rounded-full border border-black/20 bg-white px-4 h-9 sm:h-10 text-sm font-medium shadow-sm transition hover:shadow-md"
+                            onClick={() => handleAddToCart(product)}
+                          >
+                            Add to cart
+                          </button>
+                          <button
+                            className="inline-flex items-center justify-center whitespace-nowrap rounded-full border border-transparent bg-muted/50 px-4 h-9 sm:h-10 text-sm font-medium"
+                            onClick={() => {
+                              window.location.href = `/product/${product.id}`;
+                            }}
+                          >
+                            View
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>
