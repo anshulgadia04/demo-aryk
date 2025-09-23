@@ -57,21 +57,32 @@ const ShopifyShop = () => {
     if (q) setSearchQuery(q);
   }, []);
 
-  // Get unique categories from products (normalize to avoid empty values)
+  // Get unique categories from Shopify product types and tags
   const categories = useMemo(() => {
-    const cats = products
-      .map(p => (p.category || '').trim().toUpperCase() || 'UNCATEGORIZED')
-      .filter(Boolean);
-    return ["all", ...Array.from(new Set(cats))];
+    const set = new Set<string>();
+    set.add('all');
+    for (const p of products) {
+      const type = (p.category || '').trim().toUpperCase();
+      if (type) set.add(type);
+      if (p.tags && p.tags.length) {
+        for (const tag of p.tags) {
+          const t = (tag || '').trim().toUpperCase();
+          if (t) set.add(t);
+        }
+      }
+    }
+    return Array.from(set);
   }, [products]);
 
   // Filter and sort products
   const filteredProducts = useMemo(() => {
     let filtered = products.filter(product => {
       const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           (product.category || '').toLowerCase().includes(searchQuery.toLowerCase());
-      const normalizedCategory = (product.category || '').trim().toUpperCase() || 'UNCATEGORIZED';
-      const matchesCategory = selectedCategory === "all" || normalizedCategory === selectedCategory;
+                           (product.category || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+                           (product.tags || []).some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
+      const normalizedCategory = (product.category || '').trim().toUpperCase();
+      const hasTag = (product.tags || []).some(t => (t || '').trim().toUpperCase() === selectedCategory);
+      const matchesCategory = selectedCategory === "all" || normalizedCategory === selectedCategory || hasTag;
       return matchesSearch && matchesCategory;
     });
 

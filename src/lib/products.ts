@@ -9,6 +9,7 @@ export type Product = {
   image: string;
   images?: string[]; // Optional gallery images; falls back to single image
   badges?: string[];
+  tags?: string[];
   // Shopify-specific fields
   handle?: string;
   description?: string;

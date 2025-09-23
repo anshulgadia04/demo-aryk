@@ -306,6 +306,17 @@ export class ShopifyService {
     }
 
     const image = shopifyProduct.images.edges[0]?.node;
+    // Collect all unique image URLs from product and variants
+    const imageUrlSet = new Set<string>();
+    for (const edge of shopifyProduct.images.edges) {
+      const url = edge?.node?.url;
+      if (url) imageUrlSet.add(url);
+    }
+    for (const vEdge of shopifyProduct.variants.edges) {
+      const vUrl = vEdge?.node?.image?.url;
+      if (vUrl) imageUrlSet.add(vUrl);
+    }
+    const allImages = Array.from(imageUrlSet);
     
     return {
       id: shopifyProduct.id.split('/').pop() || shopifyProduct.id, // Use the numeric part or full ID
@@ -316,7 +327,9 @@ export class ShopifyService {
       rating: 4.5, // Default rating since Shopify doesn't provide this
       reviewCount: 0, // Default review count
       image: image?.url || '/placeholder.svg',
+      images: allImages,
       badges: shopifyProduct.tags.slice(0, 3), // Use tags as badges
+      tags: shopifyProduct.tags,
       handle: shopifyProduct.handle,
       description: shopifyProduct.description,
       variants: shopifyProduct.variants.edges.map(edge => ({

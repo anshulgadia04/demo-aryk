@@ -202,15 +202,16 @@ const ProductDetail = () => {
               />
             </div>
             {(product.images && product.images.length > 1) && (
-              <div className="grid grid-cols-5 gap-2">
+              <div className="flex gap-2 overflow-x-auto snap-x snap-mandatory py-1 [-ms-overflow-style:none] [scrollbar-width:none]">
+                <style>{`.container ::-webkit-scrollbar{display:none}`}</style>
                 {(product.images as string[]).map((img, idx) => (
                   <button
                     key={idx}
                     onClick={() => setActiveImageIdx(idx)}
-                    className={`relative aspect-square overflow-hidden rounded-lg border ${activeImageIdx === idx ? 'border-foreground' : 'border-transparent'} transition-colors`}
+                    className={`relative snap-start h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg border ${activeImageIdx === idx ? 'border-foreground' : 'border-transparent'} transition-colors`}
                     aria-label={`View image ${idx + 1}`}
                   >
-                    <img src={img} alt={`${product.name} ${idx + 1}`} className="w-full h-full object-cover" />
+                    <img src={img} alt={`${product.name} ${idx + 1}`} className="h-full w-full object-cover" />
                   </button>
                 ))}
               </div>
