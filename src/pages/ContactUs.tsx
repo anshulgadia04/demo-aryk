@@ -1,4 +1,5 @@
 import { useState } from "react";
+import contactBg from "../../aryk img/pexels-vinta-supply-co-nyc-268013-842948.jpg";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CartSidebar from "@/components/CartSidebar";
@@ -50,17 +51,39 @@ const ContactUs = () => {
       />
       
       <div className="min-h-screen bg-background pt-0">
-        {/* Hero Section */}
-        <div className="bg-gradient-to-br from-blue-50 to-indigo-100 border-b">
-          <div className="container mx-auto px-4 py-12 md:py-16">
-            <div className="text-center max-w-4xl mx-auto">
-              <h1 className="text-3xl md:text-5xl font-serif font-light text-foreground mb-4 md:mb-6">
+        {/* Hero Section with background image */}
+        <div
+          className="relative border-b"
+          style={{
+            backgroundImage: `url(${contactBg})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/40" />
+          <div className="container mx-auto px-4 py-16 md:py-24 relative">
+            <div className="max-w-3xl mx-auto text-center text-white">
+              <h1 className="text-4xl md:text-5xl font-serif font-light mb-4 md:mb-6">
                 Get in Touch
               </h1>
-              <p className="text-base md:text-xl text-muted-foreground leading-relaxed px-2">
-                We'd love to hear from you! Whether you have a question about our products, 
-                need help with your order, or want to share your experience, we're here to help.
+              <p className="text-base md:text-lg/relaxed opacity-90 mb-6">
+                We'd love to hear from you. Questions, feedback or partnerships — say hello!
               </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Button
+                  onClick={() => { window.location.href = 'mailto:hello@arykorganics.com'; }}
+                  className="backdrop-blur bg-white/90 text-foreground hover:bg-white rounded-full px-6 h-11"
+                >
+                  <Mail className="h-4 w-4 mr-2" /> Email Us
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => { window.location.href = 'tel:+919876543210'; }}
+                  className="border-white text-white hover:bg-white hover:text-black rounded-full px-6 h-11"
+                >
+                  <Phone className="h-4 w-4 mr-2" /> Call Now
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -69,18 +92,25 @@ const ContactUs = () => {
         <div className="py-12 md:py-16 bg-white">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-              <div className="text-center p-5 md:p-6 bg-background rounded-xl border">
+              <div className="text-center p-5 md:p-6 bg-background/80 backdrop-blur rounded-xl border transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                 <Mail className="h-8 w-8 md:h-12 md:w-12 text-blue-500 mx-auto mb-3 md:mb-4" />
                 <h3 className="text-lg md:text-xl font-medium text-foreground mb-2 md:mb-3">Email Us</h3>
                 <p className="text-muted-foreground mb-2">
                   hello@arykorganics.com
                 </p>
-                <p className="text-muted-foreground text-xs md:text-sm">
-                  We'll respond within 24 hours
-                </p>
+                <div className="flex items-center justify-center gap-2 text-xs md:text-sm text-muted-foreground">
+                  <button
+                    className="underline hover:text-foreground"
+                    onClick={() => navigator.clipboard?.writeText('hello@arykorganics.com')}
+                  >
+                    Copy email
+                  </button>
+                  <span>•</span>
+                  <span>We'll respond within 24 hours</span>
+                </div>
               </div>
               
-              <div className="text-center p-5 md:p-6 bg-background rounded-xl border">
+              <div className="text-center p-5 md:p-6 bg-background/80 backdrop-blur rounded-xl border transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                 <Phone className="h-8 w-8 md:h-12 md:w-12 text-green-500 mx-auto mb-3 md:mb-4" />
                 <h3 className="text-lg md:text-xl font-medium text-foreground mb-2 md:mb-3">Call Us</h3>
                 <p className="text-muted-foreground mb-2">
@@ -91,7 +121,7 @@ const ContactUs = () => {
                 </p>
               </div>
               
-              <div className="text-center p-5 md:p-6 bg-background rounded-xl border">
+              <div className="text-center p-5 md:p-6 bg-background/80 backdrop-blur rounded-xl border transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                 <MessageCircle className="h-8 w-8 md:h-12 md:w-12 text-purple-500 mx-auto mb-3 md:mb-4" />
                 <h3 className="text-lg md:text-xl font-medium text-foreground mb-2 md:mb-3">Live Chat</h3>
                 <p className="text-muted-foreground mb-2">
@@ -100,6 +130,11 @@ const ContactUs = () => {
                 <p className="text-muted-foreground text-xs md:text-sm">
                   Get instant help anytime
                 </p>
+                <div className="mt-3">
+                  <Button variant="outline" className="rounded-full" onClick={() => alert('Live chat coming soon!')}>
+                    Start chat
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
@@ -199,7 +234,7 @@ const ContactUs = () => {
                   <h2 className="text-2xl md:text-3xl font-serif font-light text-foreground mb-4 md:mb-6">
                     Visit Our Office
                   </h2>
-                  <div className="bg-white p-5 md:p-6 rounded-xl border">
+              <div className="bg-white p-5 md:p-6 rounded-xl border">
                     <div className="flex items-start gap-4 mb-4">
                       <MapPin className="h-6 w-6 text-blue-500 mt-1" />
                       <div>
@@ -275,6 +310,16 @@ const ContactUs = () => {
                     </Button>
                   </div>
                 </div>
+                {/* Map preview */}
+                <div className="mt-4 rounded-xl overflow-hidden border">
+                  <iframe
+                    title="Office map"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30267.638!2d72.8777!3d19.076!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDA0JzMzLjYiTiA3MsKwNTInNDAuMCJF!5e0!3m2!1sen!2sin!4v1686400000000"
+                    className="w-full h-56"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -291,7 +336,13 @@ const ContactUs = () => {
               Our customer support team is here to help you with any questions or concerns.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
-              <Button size="lg" variant="secondary" className="text-blue-600 px-6 md:px-8 py-3 md:py-4 text-base md:text-lg">
+              <Button
+                size="lg"
+                aria-label="Call now"
+                className="bg-white text-black px-6 md:px-8 py-3 md:py-4 text-base md:text-lg rounded-full shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-black/30"
+                onClick={() => { window.location.href = 'tel:+919876543210'; }}
+              >
+                <Phone className="h-4 w-4 mr-2" />
                 Call Now
               </Button>
               <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-6 md:px-8 py-3 md:py-4 text-base md:text-lg">

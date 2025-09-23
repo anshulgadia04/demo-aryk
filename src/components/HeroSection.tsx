@@ -74,7 +74,7 @@ const HeroSection = () => {
                 ? 'opacity-100 scale-100 translate-y-0' 
                 : 'opacity-0 scale-95 translate-y-8'
             }`}
-            onClick={() => navigate('/shop')}
+            onClick={() => navigate('/shopify-shop')}
           >
             DISCOVER PRODUCTS
           </Button>

@@ -8,7 +8,7 @@ import Index from "./pages/Index";
 import RelaxingCorner from "./pages/RelaxingCorner";
 import NotFound from "./pages/NotFound";
 import Favorites from "./pages/Favorites";
-import Shop from "./pages/Shop";
+// Removed legacy Shop page in favor of ShopifyShop
 import ShopifyShop from "./pages/ShopifyShop";
 import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
@@ -28,7 +28,7 @@ const App = () => (
           <ScrollToTopOnRoute />
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/shop" element={<Shop />} />
+            <Route path="/shop" element={<ShopifyShop />} />
             <Route path="/shopify-shop" element={<ShopifyShop />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/about" element={<AboutUs />} />
