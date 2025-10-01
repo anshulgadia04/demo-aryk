@@ -177,6 +177,10 @@ app.post('/api/auth/logout', (req, res) => {
 // Optional: proxy Storefront API using session customer token when needed
 app.post('/api/shopify', async (req, res) => {
   try {
+    // If Shopify is not configured, return a clear service-unavailable response
+    if (!SHOPIFY_STORE_DOMAIN || !SHOPIFY_STOREFRONT_ACCESS_TOKEN) {
+      return res.status(503).json({ message: 'Shopify not configured on server' });
+    }
     const { query, variables } = req.body || {};
     if (!query) return res.status(400).json({ message: 'Missing query' });
     // For customer queries that require token, ensure session has it and pass as variable
@@ -198,6 +202,46 @@ app.post('/api/shopify', async (req, res) => {
     console.error('Shopify proxy error:', e);
     return res.status(500).json({ message: 'Error proxying request' });
   }
+});
+
+// Returns the Shopify customer registration URL without exposing the domain in the frontend
+app.get('/api/shopify/register-url', (req, res) => {
+  try {
+    if (!SHOPIFY_STORE_DOMAIN) {
+      return res.status(503).json({ message: 'Shopify not configured on server' });
+    }
+    const baseUrl = `https://${SHOPIFY_STORE_DOMAIN}/account/register`;
+    const params = new URLSearchParams();
+    const email = (req.query.email || req.query["customer[email]"] || req.query["checkout[email]"]);
+    const phone = (req.query.phone || req.query["customer[phone]"] || req.query["checkout[shipping_address][phone]"]);
+
+    // Hint the form type for some themes
+    params.set('form_type', 'customer');
+
+    if (email && /@/.test(email)) {
+      params.set('email', email);
+      params.set('customer[email]', email);
+      params.set('checkout[email]', email);
+    }
+    if (phone && /\d{7,}/.test(phone)) {
+      params.set('phone', phone);
+      params.set('customer[phone]', phone);
+      params.set('checkout[shipping_address][phone]', phone);
+    }
+    const finalUrl = params.toString() ? `${baseUrl}?${params.toString()}` : baseUrl;
+    return res.status(200).json({ url: finalUrl });
+  } catch (e) {
+    return res.status(500).json({ message: 'Failed to build register url' });
+  }
+});
+
+// Simple health endpoint to help debug proxy connectivity without requiring Shopify config
+app.get('/api/health', (_req, res) => {
+  return res.status(200).json({
+    ok: true,
+    shopifyConfigured: Boolean(SHOPIFY_STORE_DOMAIN && SHOPIFY_STOREFRONT_ACCESS_TOKEN),
+    port: PORT,
+  });
 });
 
 app.listen(PORT, () => {

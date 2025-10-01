@@ -114,10 +114,10 @@ const ProductDetail = () => {
       quantity: quantity
     };
 
-    addToCart(productToAdd);
+    addToCart(productToAdd, quantity);
     toast({
       title: "Added to cart",
-      description: `${product.name} has been added to your cart.`,
+      description: `${product.name} x${quantity} has been added to your cart.`,
     });
   };
 

@@ -153,20 +153,15 @@ const ShopifyShop = () => {
   };
 
   const handleCheckout = async () => {
-    if (!user) {
-      setIsAuthModalOpen(true);
+    const checkoutUrl = cart?.checkoutUrl;
+    if (!checkoutUrl) {
+      toast({ title: "Error", description: "No checkout URL available", variant: "destructive" });
       return;
     }
-    try {
-      if (cart?.id) {
-        await ShopifyService.attachCustomerToCart(cart.id);
-      }
-    } catch (_) {}
-    if (cart?.checkoutUrl) {
-      window.open(cart.checkoutUrl, '_blank');
-    } else {
-      toast({ title: "Error", description: "No checkout URL available", variant: "destructive" });
+    if (cart?.id) {
+      ShopifyService.attachCustomerToCart(cart.id).catch(() => {});
     }
+    window.location.href = checkoutUrl;
   };
 
   const handleToggleWishlist = (productId: number) => {

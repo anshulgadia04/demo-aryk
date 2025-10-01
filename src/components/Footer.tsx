@@ -3,12 +3,53 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Instagram, Music, Facebook, Youtube, ChevronUp } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
+import { useState } from "react";
 
 const Footer = () => {
   const { elementRef: footerRef, isVisible: isFooterVisible } = useScrollAnimation({
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
   });
+
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [consent, setConsent] = useState(false);
+
+  const handleSignup = async () => {
+    const trimmedEmail = email.trim();
+    const trimmedPhone = phone.trim();
+    // Lightweight validation (non-blocking)
+    const hasEmail = /@/.test(trimmedEmail);
+    const hasPhone = /\d{7,}/.test(trimmedPhone);
+
+    // Prefer store domain from Vite env if present
+    try {
+      // Ask backend for the register URL; keeps domain private
+      const resp = await fetch('/api/shopify/register-url');
+      if (!resp.ok) {
+        // If backend not configured, do nothing silently
+        return;
+      }
+      const data = await resp.json();
+      if (!data?.url) return;
+      const params = new URLSearchParams();
+      // Add multiple common keys so themes can pick up any they support
+      if (hasEmail) {
+        params.set('email', trimmedEmail);
+        params.set('customer[email]', trimmedEmail);
+        params.set('checkout[email]', trimmedEmail);
+      }
+      if (hasPhone) {
+        params.set('phone', trimmedPhone);
+        params.set('customer[phone]', trimmedPhone);
+        params.set('checkout[shipping_address][phone]', trimmedPhone);
+      }
+      const finalUrl = params.toString() ? `${data.url}?${params.toString()}` : data.url;
+      window.open(finalUrl, '_blank');
+    } catch {
+      // Silent failure
+    }
+  };
 
   return (
     <footer 
@@ -44,6 +85,8 @@ const Footer = () => {
                   type="email"
                   placeholder="Email"
                   className="border-b border-foreground rounded-none bg-transparent transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] focus:border-primary focus:border-opacity-100 focus:scale-[1.02]"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               
@@ -55,13 +98,15 @@ const Footer = () => {
                   type="tel"
                   placeholder="Phone"
                   className="border-b border-foreground rounded-none bg-transparent flex-1 transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] focus:border-primary focus:border-opacity-100 focus:scale-[1.02]"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                 />
               </div>
               
               <div className={`flex items-start gap-2 transition-all duration-1000 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] delay-600 ${
                 isFooterVisible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-6'
               }`}>
-                <Checkbox id="consent" className="mt-1 transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-110 hover:border-primary" />
+                <Checkbox id="consent" className="mt-1 transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-110 hover:border-primary" checked={consent} onCheckedChange={(v) => setConsent(Boolean(v))} />
                 <label htmlFor="consent" className="text-xs text-muted-foreground">
                   I consent to receive SMS messages from ARYK Organics
                 </label>
@@ -70,7 +115,7 @@ const Footer = () => {
               <div className={`transition-all duration-1000 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] delay-700 ${
                 isFooterVisible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-6'
               }`}>
-                <Button className="w-full bg-foreground text-background hover:bg-foreground/90 transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-[1.02] hover:shadow-lg">
+                <Button className="w-full bg-foreground text-background hover:bg-foreground/90 transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-[1.02] hover:shadow-lg" onClick={handleSignup}>
                   SIGN UP
                 </Button>
               </div>

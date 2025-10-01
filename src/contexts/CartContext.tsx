@@ -14,7 +14,7 @@ interface CartContextType {
   cartItems: CartItem[];
   isCartOpen: boolean;
   setIsCartOpen: (open: boolean) => void;
-  addToCart: (product: Omit<CartItem, 'quantity'>) => void;
+  addToCart: (product: Omit<CartItem, 'quantity'>, quantity?: number) => void;
   updateCartQuantity: (id: string | number, quantity: number) => void;
   removeFromCart: (id: string | number) => void;
   clearCart: () => void;
@@ -59,17 +59,18 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     localStorage.setItem('aryk_cart', JSON.stringify(cartItems));
   }, [cartItems]);
 
-  const addToCart = (product: Omit<CartItem, 'quantity'>) => {
+  const addToCart = (product: Omit<CartItem, 'quantity'>, addQuantity: number = 1) => {
+    const safeQuantity = Math.max(1, Math.floor(addQuantity));
     setCartItems(prev => {
       const existingItem = prev.find(item => item.id === product.id);
       if (existingItem) {
         return prev.map(item =>
           item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: item.quantity + safeQuantity }
             : item
         );
       }
-      return [...prev, { ...product, quantity: 1 }];
+      return [...prev, { ...product, quantity: safeQuantity }];
     });
 
     toast({

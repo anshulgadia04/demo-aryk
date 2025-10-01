@@ -46,25 +46,19 @@ const Index = () => {
   }, []);
 
   const handleCheckout = async () => {
-    if (!user) {
-      setIsCartOpen(false);
-      setIsAuthModalOpen(true);
-      toast({
-        title: "Please sign in",
-        description: "You need to sign in to proceed with checkout.",
-      });
+    // Allow guest checkout to work across browsers (localStorage won't sync across browsers)
+    const checkoutUrl = cart?.checkoutUrl;
+    if (!checkoutUrl) {
+      toast({ title: "Error", description: "No checkout URL available", variant: "destructive" });
       return;
     }
-    try {
-      if (cart?.id) {
-        await ShopifyService.attachCustomerToCart(cart.id);
-      }
-    } catch (_) {}
-    if (cart?.checkoutUrl) {
-      window.open(cart.checkoutUrl, '_blank');
-    } else {
-      toast({ title: "Error", description: "No checkout URL available", variant: "destructive" });
+    // Best-effort: attach customer in background if logged in on server
+    if (cart?.id) {
+      // Fire-and-forget to avoid popup blockers; do not await before navigation
+      ShopifyService.attachCustomerToCart(cart.id).catch(() => {});
     }
+    // Same-tab redirect avoids popup blockers in some browsers
+    window.location.href = checkoutUrl;
   };
 
   const handleLogin = (newUser: User) => {

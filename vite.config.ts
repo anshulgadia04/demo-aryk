@@ -5,15 +5,12 @@ import path from "path";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
-    host: "::", // Allow all IPv6 addresses
+    host: true,
     port: 8081,
-    allowedHosts: [
-      '.ngrok-free.app',  // Add the exact ngrok URL
-      'all',  // Optionally, you can keep this to allow all hosts
-    ],
+    allowedHosts: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'http://127.0.0.1:3000',
         changeOrigin: true,
         secure: false,
       },
