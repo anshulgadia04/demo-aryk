@@ -1,9 +1,6 @@
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Instagram, Music, Facebook, Youtube, ChevronUp } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
-import { useState } from "react";
 
 const Footer = () => {
   const { elementRef: footerRef, isVisible: isFooterVisible } = useScrollAnimation({
@@ -11,45 +8,7 @@ const Footer = () => {
     rootMargin: '0px 0px -50px 0px'
   });
 
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [consent, setConsent] = useState(false);
-
-  const handleSignup = async () => {
-    const trimmedEmail = email.trim();
-    const trimmedPhone = phone.trim();
-    // Lightweight validation (non-blocking)
-    const hasEmail = /@/.test(trimmedEmail);
-    const hasPhone = /\d{7,}/.test(trimmedPhone);
-
-    // Prefer store domain from Vite env if present
-    try {
-      // Ask backend for the register URL; keeps domain private
-      const resp = await fetch('/api/shopify/register-url');
-      if (!resp.ok) {
-        // If backend not configured, do nothing silently
-        return;
-      }
-      const data = await resp.json();
-      if (!data?.url) return;
-      const params = new URLSearchParams();
-      // Add multiple common keys so themes can pick up any they support
-      if (hasEmail) {
-        params.set('email', trimmedEmail);
-        params.set('customer[email]', trimmedEmail);
-        params.set('checkout[email]', trimmedEmail);
-      }
-      if (hasPhone) {
-        params.set('phone', trimmedPhone);
-        params.set('customer[phone]', trimmedPhone);
-        params.set('checkout[shipping_address][phone]', trimmedPhone);
-      }
-      const finalUrl = params.toString() ? `${data.url}?${params.toString()}` : data.url;
-      window.open(finalUrl, '_blank');
-    } catch {
-      // Silent failure
-    }
-  };
+  // Signup button removed from footer
 
   return (
     <footer 
@@ -58,7 +17,7 @@ const Footer = () => {
     >
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Newsletter */}
+          {/* ARYK Brand Info (replaces Newsletter) */}
           <div 
             className={`md:col-span-1 transition-all duration-1200 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] ${
               isFooterVisible 
@@ -66,67 +25,22 @@ const Footer = () => {
                 : 'opacity-0 scale-95 translate-y-8'
             }`}
           >
-            <h3 className={`text-lg font-medium text-foreground mb-4 transition-all duration-1000 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] delay-200 ${
+            <div className={`transition-all duration-1000 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] delay-200 ${
               isFooterVisible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-6'
             }`}>
-              NEWSLETTER
-            </h3>
-            <p className={`text-sm text-muted-foreground mb-6 transition-all duration-1000 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] delay-300 ${
+              <h2 className="text-2xl font-serif font-bold text-foreground">ARYK ORGANICS</h2>
+            </div>
+            <p className={`text-sm text-muted-foreground mt-3 transition-all duration-1000 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] delay-300 ${
               isFooterVisible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-6'
             }`}>
-              Sign up & save 15% on your first order
+              Natural Beauty, Naturally You. Clean, organic skincare crafted with care.
             </p>
-            
-            <div className="space-y-4">
-              <div className={`transition-all duration-1000 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] delay-400 ${
-                isFooterVisible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-6'
-              }`}>
-                <Input
-                  type="email"
-                  placeholder="Email"
-                  className="border-b border-foreground rounded-none bg-transparent transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] focus:border-primary focus:border-opacity-100 focus:scale-[1.02]"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              
-              <div className={`flex gap-2 transition-all duration-1000 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] delay-500 ${
-                isFooterVisible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-6'
-              }`}>
-                <span className="text-sm bg-muted px-2 py-1 rounded transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-110 hover:bg-primary/10">🇮🇳</span>
-                <Input
-                  type="tel"
-                  placeholder="Phone"
-                  className="border-b border-foreground rounded-none bg-transparent flex-1 transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] focus:border-primary focus:border-opacity-100 focus:scale-[1.02]"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                />
-              </div>
-              
-              <div className={`flex items-start gap-2 transition-all duration-1000 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] delay-600 ${
-                isFooterVisible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-6'
-              }`}>
-                <Checkbox id="consent" className="mt-1 transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-110 hover:border-primary" checked={consent} onCheckedChange={(v) => setConsent(Boolean(v))} />
-                <label htmlFor="consent" className="text-xs text-muted-foreground">
-                  I consent to receive SMS messages from ARYK Organics
-                </label>
-              </div>
-              
-              <div className={`transition-all duration-1000 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] delay-700 ${
-                isFooterVisible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-6'
-              }`}>
-                <Button className="w-full bg-foreground text-background hover:bg-foreground/90 transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-[1.02] hover:shadow-lg" onClick={handleSignup}>
-                  SIGN UP
-                </Button>
-              </div>
-              
-            <p className={`text-xs text-muted-foreground transition-all duration-1000 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] delay-800 ${
-                isFooterVisible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-6'
-              }`}>
-                By joining, you agree to receive email marketing of the contacts provided. 
-                Unsubscribe at any time. Consent is not a condition of purchase. 
-                View our Privacy Policy and Terms of Service.
-              </p>
+            <div className={`mt-6 space-y-2 text-sm transition-all duration-1000 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] delay-400 ${
+              isFooterVisible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-6'
+            }`}>
+              <div className="text-muted-foreground">Customer Care: support@arykorganics.com</div>
+              <div className="text-muted-foreground">Hours: Mon–Fri, 9am–6pm IST</div>
+              <div className="text-muted-foreground">Made in India • Sustainably Sourced</div>
             </div>
           </div>
 

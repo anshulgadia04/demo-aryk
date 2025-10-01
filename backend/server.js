@@ -235,6 +235,30 @@ app.get('/api/shopify/register-url', (req, res) => {
   }
 });
 
+// Returns the Shopify customer login URL without exposing the domain in the frontend
+app.get('/api/shopify/login-url', (req, res) => {
+  try {
+    if (!SHOPIFY_STORE_DOMAIN) {
+      return res.status(503).json({ message: 'Shopify not configured on server' });
+    }
+    const baseUrl = `https://${SHOPIFY_STORE_DOMAIN}/account/login`;
+    const params = new URLSearchParams();
+    const email = (req.query.email || req.query["customer[email]"] || req.query["checkout[email]"]);
+
+    // Some themes respect prefilled email
+    if (email && /@/.test(email)) {
+      params.set('email', email);
+      params.set('customer[email]', email);
+      params.set('checkout[email]', email);
+    }
+
+    const finalUrl = params.toString() ? `${baseUrl}?${params.toString()}` : baseUrl;
+    return res.status(200).json({ url: finalUrl });
+  } catch (e) {
+    return res.status(500).json({ message: 'Failed to build login url' });
+  }
+});
+
 // Simple health endpoint to help debug proxy connectivity without requiring Shopify config
 app.get('/api/health', (_req, res) => {
   return res.status(200).json({
