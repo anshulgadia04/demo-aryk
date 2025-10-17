@@ -6,8 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { createCustomer, authenticateCustomer, convertToLocalUser } from "@/lib/shopifyCustomer";
-import { migrateUserData } from "@/lib/userData";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -25,88 +23,31 @@ const AuthModal = ({ isOpen, onClose, onLogin }: AuthModalProps) => {
     setIsLoading(true);
 
     const formData = new FormData(e.currentTarget);
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
-    const name = formData.get('name') as string;
+    const email = (formData.get('email') as string) || '';
+    const name = ((formData.get('name') as string) || '').trim();
 
     try {
-      let user;
-
-      if (isSignup) {
-        // Validate name input
-        if (!name || name.trim().length === 0) {
-          throw new Error('Please enter your full name');
-        }
-
-        // Create new customer in Shopify using Storefront API
-        const nameParts = name.trim().split(' ');
-        const firstName = nameParts[0] || '';
-        const lastName = nameParts.slice(1).join(' ').trim() || 'Customer';
-
-        const result = await createCustomer({
-          input: {
-            firstName,
-            lastName,
-            email,
-            password,
-            acceptsMarketing: true,
-          }
-        });
-
-        user = convertToLocalUser(result.customer);
-        
-        toast({
-          title: "Account created!",
-          description: "Your account has been created successfully. You can now shop and track your orders.",
-        });
-      } else {
-        // Authenticate existing customer using Storefront API
-        const result = await authenticateCustomer(email, password);
-        user = convertToLocalUser(result.customer);
-        
-        toast({
-          title: "Welcome back!",
-          description: "You've been logged in successfully. Your account is synced with Shopify.",
-        });
+      if (isSignup && name.length === 0) {
+        throw new Error('Please enter your full name');
       }
 
-      // Session is managed via httpOnly cookie by backend. Do not store tokens locally.
-      
-      // Migrate existing cart/wishlist data to user-specific storage
-      migrateUserData(user.id);
-      
-      onLogin(user);
-      onClose();
-      
-      // Navigate to profile page after successful login
-      navigate('/profile');
-
-    } catch (error) {
-      console.error('Auth error:', error);
-      
-      // Fallback to local authentication if Shopify fails
       const user = {
         id: Date.now().toString(),
         email,
-        name: isSignup ? name : email.split('@')[0],
+        name: isSignup ? name : (email ? email.split('@')[0] : 'User'),
         isShopifyCustomer: false,
       };
-      // Fallback only: not persisted as authenticated session
-      
-      // Migrate existing cart/wishlist data to user-specific storage
-      migrateUserData(user.id);
-      
-      onLogin(user);
-      onClose();
-      
-      // Navigate to profile page after fallback login
-      navigate('/profile');
 
       toast({
-        title: isSignup ? "Account created locally!" : "Welcome back!",
-        description: isSignup ? "Your account has been created locally. Some features may be limited." : "You've been logged in successfully.",
-        variant: "default",
+        title: isSignup ? "Account created!" : "Welcome back!",
+        description: isSignup ? "Your account has been created." : "You've been logged in successfully.",
       });
+
+      onLogin(user);
+      onClose();
+      navigate('/profile');
+    } catch (error: any) {
+      toast({ title: "Error", description: error?.message || "Authentication failed", variant: "destructive" });
     } finally {
       setIsLoading(false);
     }

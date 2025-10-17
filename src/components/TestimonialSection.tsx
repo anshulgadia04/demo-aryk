@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight, Star } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
@@ -55,7 +55,7 @@ const TestimonialSection = () => {
   return (
     <section 
       ref={sectionRef}
-      className="py-12 lg:py-16 bg-accent"
+      className="py-12 lg:py-16 bg-accent text-white"
     >
       <div className="container mx-auto px-4">
         <div className="flex flex-col lg:flex-row items-center justify-between max-w-6xl mx-auto gap-8 lg:gap-0">
@@ -67,11 +67,11 @@ const TestimonialSection = () => {
                 : 'opacity-0 scale-95 lg:-translate-x-8 translate-y-6'
             }`}
           >
-            <div className="aspect-square overflow-hidden max-w-xs mx-auto lg:max-w-none">
+            <div className="aspect-square overflow-hidden max-w-xs mx-auto lg:max-w-none rounded-3xl">
               <img
                 src={testimonials[currentSlide].image}
                 alt={testimonials[currentSlide].product}
-                className="w-full h-full object-cover transition-all duration-700 ease-out hover:scale-105"
+                className="w-full h-full object-cover transition-all duration-700 ease-out hover:scale-105 rounded-3xl"
                 loading="lazy"
               />
             </div>
@@ -87,7 +87,7 @@ const TestimonialSection = () => {
           >
             <div className="text-center lg:text-left">
               <p 
-                className={`text-sm lg:text-sm text-muted-foreground mb-4 lg:mb-4 uppercase tracking-wide transition-all duration-1000 ease-out delay-500 ${
+                className={`text-sm lg:text-sm text-white/80 mb-4 lg:mb-4 uppercase tracking-wide transition-all duration-1000 ease-out delay-500 ${
                   isSectionVisible 
                     ? 'opacity-100 scale-100 translate-y-0' 
                     : 'opacity-0 scale-95 translate-y-6'
@@ -97,7 +97,7 @@ const TestimonialSection = () => {
               </p>
               
               <blockquote 
-                className={`text-lg sm:text-xl lg:text-3xl font-serif text-foreground mb-6 lg:mb-8 leading-relaxed transition-all duration-1000 ease-out delay-600 ${
+                className={`text-lg sm:text-xl lg:text-3xl font-serif text-white mb-6 lg:mb-8 leading-relaxed transition-all duration-1000 ease-out delay-600 ${
                   isSectionVisible 
                     ? 'opacity-100 scale-100 translate-y-0' 
                     : 'opacity-0 scale-95 translate-y-8'
@@ -115,24 +115,9 @@ const TestimonialSection = () => {
               >
                 {/* Author hidden as requested */}
                 {/* <p className="text-foreground font-medium mb-2">- {testimonials[currentSlide].author}</p> */}
-                <Button variant="link" className="text-primary p-0 h-auto font-normal underline transition-colors duration-500 ease-out hover:text-primary/80 text-center lg:text-left">
+                <Button variant="link" className="text-white p-0 h-auto font-normal underline transition-colors duration-500 ease-out hover:text-white/80 text-center lg:text-left">
                   <span className="block sm:inline">SHOP {testimonials[currentSlide].product}</span>
                 </Button>
-                <div className="mt-3 flex items-center justify-center lg:justify-start gap-2">
-                  <div className="flex">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className={`h-4 w-4 transition-all duration-500 ease-out hover:scale-110 ${
-                          i < Math.floor(testimonials[currentSlide].rating) 
-                            ? 'fill-yellow-400 text-yellow-400' 
-                            : 'text-gray-300'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <span className="text-sm text-muted-foreground">({testimonials[currentSlide].reviewCount})</span>
-                </div>
               </div>
 
               {/* Navigation */}
@@ -147,7 +132,7 @@ const TestimonialSection = () => {
                   variant="ghost"
                   size="icon"
                   onClick={prevSlide}
-                  className="rounded-full border border-border transition-all duration-500 ease-out hover:scale-110 hover:bg-accent/50 hover:shadow-md"
+                  className="rounded-full border border-white/30 text-white transition-all duration-500 ease-out hover:scale-110 hover:bg-white/10 hover:shadow-md"
                 >
                   <ChevronLeft className="h-4 w-4" />
                 </Button>
@@ -158,7 +143,7 @@ const TestimonialSection = () => {
                     <button
                       key={index}
                       className={`w-2 h-2 rounded-full transition-all duration-500 ease-out hover:scale-125 ${
-                        index === currentSlide ? 'bg-primary' : 'bg-border'
+                        index === currentSlide ? 'bg-white' : 'bg-white/40'
                       }`}
                       onClick={() => setCurrentSlide(index)}
                     />
@@ -169,7 +154,7 @@ const TestimonialSection = () => {
                   variant="ghost"
                   size="icon"
                   onClick={nextSlide}
-                  className="rounded-full border border-border transition-all duration-500 ease-out hover:scale-110 hover:bg-accent/50 hover:shadow-md"
+                  className="rounded-full border border-white/30 text-white transition-all duration-500 ease-out hover:scale-110 hover:bg-white/10 hover:shadow-md"
                 >
                   <ChevronRight className="h-4 w-4" />
                 </Button>

@@ -6,6 +6,7 @@ import CartSidebar from "@/components/CartSidebar";
 import { Product } from "@/lib/products";
 import { ShopifyService } from "@/lib/shopifyService";
 import { useCart } from "@/contexts/CartContext";
+import { useShopifyCart } from "@/hooks/useShopify";
 import { Loader2 } from "lucide-react";
 
 const Favorites = () => {
@@ -16,11 +17,11 @@ const Favorites = () => {
     cartItems, 
     isCartOpen, 
     setIsCartOpen, 
-    addToCart, 
     updateCartQuantity, 
     removeFromCart, 
     getCartCount 
   } = useCart();
+  const { addToCart: addToShopifyCart } = useShopifyCart();
 
   useEffect(() => {
     const saved = localStorage.getItem("aryk_wishlist");
@@ -58,6 +59,24 @@ const Favorites = () => {
 
   const favoriteProducts = shopifyProducts.filter((p) => favorites.includes(p.id));
 
+  const handleAddToCart = async (product: Product) => {
+    try {
+      let variantId = product.variants?.find((v: any) => (v as any).availableForSale)?.id || product.variants?.[0]?.id;
+      if (!variantId && (product as any).handle) {
+        try {
+          const full = await ShopifyService.getProduct((product as any).handle);
+          const edges = full?.variants?.edges || [];
+          const availableEdge = edges.find((e: any) => e?.node?.availableForSale);
+          variantId = availableEdge?.node?.id || edges[0]?.node?.id;
+        } catch {}
+      }
+      if (!variantId) return;
+      await addToShopifyCart(String(variantId), 1);
+    } catch (e) {
+      // noop toast-less (Favorites page already minimal)
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header 
@@ -81,7 +100,7 @@ const Favorites = () => {
               <ProductCard
                 key={p.id}
                 {...p}
-                onAddToCart={addToCart}
+                onAddToCart={() => handleAddToCart(p)}
                 onToggleWishlist={toggleWishlist}
                 isWishlisted={true}
               />

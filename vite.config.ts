@@ -8,13 +8,6 @@ export default defineConfig(({ mode }) => ({
     host: true,
     port: 8081,
     allowedHosts: true,
-    proxy: {
-      '/api': {
-        target: 'http://127.0.0.1:3000',
-        changeOrigin: true,
-        secure: false,
-      },
-    },
   },
   plugins: [
     react(),

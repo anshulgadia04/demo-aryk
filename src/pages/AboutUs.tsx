@@ -96,7 +96,7 @@ const AboutUs = () => {
               </div>
 
               {/* Certified Organic */}
-              <div className="text-center">
+              <div id="certified-organic" className="text-center">
                 <div className="mb-6 md:mb-8">
                   <img 
                     src="/organic.png" 
@@ -144,7 +144,7 @@ const AboutUs = () => {
         <div className="py-16 md:py-24 bg-white">
           <div className="container mx-auto px-4">
             <div className="max-w-6xl mx-auto">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-light text-foreground text-center mb-10 md:mb-20">
+              <h2 id="our-story" className="text-3xl sm:text-4xl md:text-5xl font-serif font-light text-foreground text-center mb-10 md:mb-20">
                 Founder's Story
               </h2>
               
@@ -174,7 +174,7 @@ const AboutUs = () => {
                     <div className="w-28 h-28 md:w-40 md:h-40 bg-white rounded-full mx-auto mb-6 md:mb-8 flex items-center justify-center shadow-sm overflow-hidden">
                       <img 
                         src="/aryk img/1000_F_1334014397_GMDJFSX0q2UPKOxFVXUMigAjcwDCkRF6.jpg"
-                        alt="jay - Founder"
+                        alt="saryu nayak - Founder"
                         className="w-full h-full object-cover rounded-full"
                       />
                     </div>
@@ -213,16 +213,10 @@ const AboutUs = () => {
               <p className="text-base md:text-2xl text-muted-foreground font-light">
                 Mindfully made, from our formulas to our packaging.
               </p>
-              <Button 
-                variant="outline" 
-                className="mt-6 md:mt-8 text-base md:text-lg px-6 md:px-8 py-3 md:py-4 border-2 border-gray-300 hover:border-gray-400"
-                onClick={() => navigate("/relaxing-corner")}
-              >
-                Learn More
-              </Button>
+              {/* Learn More button removed as requested */}
             </div>
 
-            {/* Certifications Grid - EXACT KORA LAYOUT */}
+            {/* Certifications Grid */}
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6 md:gap-8 max-w-7xl mx-auto">
               {[
                 { icon: Leaf, label: "Certified Organic" },
@@ -233,23 +227,6 @@ const AboutUs = () => {
                 { icon: Star, label: "Powerful Results" }
               ].map((item, index) => (
                 <div key={index} className="text-center p-4 sm:p-6 md:p-8 bg-gray-50 rounded-2xl hover:bg-gray-100 transition-colors">
-                  <item.icon className="h-8 w-8 md:h-12 md:w-12 text-gray-600 mx-auto mb-2 md:mb-4" />
-                  <p className="text-sm md:text-base font-medium text-foreground">{item.label}</p>
-                </div>
-              ))}
-            </div>
-            
-            {/* Additional repeated grid for mobile responsiveness */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6 md:gap-8 max-w-7xl mx-auto mt-6 md:mt-8">
-              {[
-                { icon: Leaf, label: "Certified Organic" },
-                { icon: Globe, label: "Climate Neutral Certified" },
-                { icon: Heart, label: "Cruelty-Free" },
-                { icon: Shield, label: "Sustainable Formulas" },
-                { icon: Award, label: "Award Winning" },
-                { icon: Star, label: "Powerful Results" }
-              ].map((item, index) => (
-                <div key={`repeat-${index}`} className="text-center p-4 sm:p-6 md:p-8 bg-gray-50 rounded-2xl hover:bg-gray-100 transition-colors">
                   <item.icon className="h-8 w-8 md:h-12 md:w-12 text-gray-600 mx-auto mb-2 md:mb-4" />
                   <p className="text-sm md:text-base font-medium text-foreground">{item.label}</p>
                 </div>
@@ -275,14 +252,7 @@ const AboutUs = () => {
               >
                 Shop Now
               </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="text-base md:text-lg px-6 md:px-8 py-3 md:py-4 border-2 border-gray-300 hover:border-gray-400"
-                onClick={() => navigate("/relaxing-corner")}
-              >
-                Learn More
-              </Button>
+              {/* Learn More button removed as requested */}
             </div>
           </div>
         </div>

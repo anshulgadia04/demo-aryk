@@ -73,19 +73,7 @@ const ProductCard = ({
           </div>
         )}
 
-        {/* Rating overlay */}
-        <div className="absolute top-3 right-3 flex items-center gap-1 bg-white/80 backdrop-blur px-2 py-0.5 rounded-full border border-black/10 transition-all duration-500 ease-out group-hover:bg-white group-hover:scale-105 group-hover:shadow-md">
-          <span className="text-xs text-foreground">{rating.toFixed(1)}</span>
-          <div className="flex">
-            {[...Array(5)].map((_, i) => (
-              <Star
-                key={i}
-                className={`h-3 w-3 transition-all duration-500 ease-out ${i < Math.floor(rating) ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`}
-              />
-            ))}
-          </div>
-          <span className="text-[10px] text-muted-foreground">({reviewCount})</span>
-        </div>
+        {/* Rating overlay removed */}
 
         {/* Wishlist heart overlay */}
         <Button

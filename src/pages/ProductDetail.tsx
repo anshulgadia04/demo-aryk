@@ -11,6 +11,7 @@ import { Heart, Star, ArrowLeft, Minus, Plus, Loader2 } from "lucide-react";
 import { Product } from "@/lib/products";
 import { ShopifyService } from "@/lib/shopifyService";
 import { useCart } from "@/contexts/CartContext";
+import { useShopifyCart } from "@/hooks/useShopify";
 import { useToast } from "@/hooks/use-toast";
 
 const ProductDetail = () => {
@@ -32,11 +33,11 @@ const ProductDetail = () => {
     cartItems, 
     isCartOpen, 
     setIsCartOpen, 
-    addToCart, 
     updateCartQuantity, 
     removeFromCart, 
     getCartCount 
   } = useCart();
+  const { addToCart: addToShopifyCart } = useShopifyCart();
 
   useEffect(() => {
     localStorage.setItem('aryk_wishlist', JSON.stringify(wishlist));
@@ -102,23 +103,32 @@ const ProductDetail = () => {
     }
   }, [id, navigate, toast]);
 
-  const handleAddToCart = () => {
-    if (!product) return;
-    
-    const productToAdd = {
-      id: product.id,
-      name: product.name,
-      category: product.category,
-      price: product.price,
-      image: (product.images && product.images[activeImageIdx]) || product.image,
-      quantity: quantity
-    };
-
-    addToCart(productToAdd, quantity);
-    toast({
-      title: "Added to cart",
-      description: `${product.name} x${quantity} has been added to your cart.`,
-    });
+  const handleAddToCart = async (productArg?: any) => {
+    const baseProduct = productArg || product;
+    if (!baseProduct) return;
+    try {
+      let variantId = selectedVariant || baseProduct.variants?.find((v: any) => (v as any).availableForSale)?.id || baseProduct.variants?.[0]?.id;
+      if (!variantId && (baseProduct as any).handle) {
+        try {
+          const full = await ShopifyService.getProduct((baseProduct as any).handle);
+          const edges = full?.variants?.edges || [];
+          const availableEdge = edges.find((e: any) => e?.node?.availableForSale);
+          variantId = availableEdge?.node?.id || edges[0]?.node?.id;
+        } catch {}
+      }
+      if (!variantId) {
+        toast({ title: "Error", description: "Product variant not available", variant: "destructive" });
+        return;
+      }
+      await addToShopifyCart(String(variantId), quantity);
+      toast({
+        title: "Added to cart",
+        description: `${baseProduct.name} x${quantity} has been added to your cart.`,
+      });
+      setIsCartOpen(true);
+    } catch (e) {
+      toast({ title: "Error", description: "Failed to add to cart", variant: "destructive" });
+    }
   };
 
   const handleQuantityChange = (newQuantity: number) => {
@@ -240,20 +250,7 @@ const ProductDetail = () => {
               </p>
             </div>
 
-            {/* Rating */}
-            <div className="flex items-center gap-2">
-              <div className="flex">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className={`h-4 w-4 ${i < Math.floor(product.rating) ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`}
-                  />
-                ))}
-              </div>
-              <span className="text-sm text-muted-foreground">
-                {product.rating.toFixed(1)} ({product.reviewCount} reviews)
-              </span>
-            </div>
+            {/* Rating removed */}
 
             {/* Price */}
             <div className="flex items-center gap-3">
@@ -353,7 +350,7 @@ const ProductDetail = () => {
                 <ProductCard
                   key={suggestedProduct.id}
                   {...suggestedProduct}
-                  onAddToCart={addToCart}
+                  onAddToCart={handleAddToCart}
                   onToggleWishlist={toggleWishlist}
                   isWishlisted={wishlist.includes(suggestedProduct.id)}
                 />

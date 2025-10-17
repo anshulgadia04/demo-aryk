@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useMemo } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { useShopifyCart } from '@/hooks/useShopify';
 
 export interface CartItem {
   id: string | number;
@@ -14,9 +15,9 @@ interface CartContextType {
   cartItems: CartItem[];
   isCartOpen: boolean;
   setIsCartOpen: (open: boolean) => void;
-  addToCart: (product: Omit<CartItem, 'quantity'>, quantity?: number) => void;
-  updateCartQuantity: (id: string | number, quantity: number) => void;
-  removeFromCart: (id: string | number) => void;
+  addToCart: (product: Omit<CartItem, 'quantity'>, quantity?: number) => Promise<void> | void;
+  updateCartQuantity: (id: string | number, quantity: number) => Promise<void> | void;
+  removeFromCart: (id: string | number) => Promise<void> | void;
   clearCart: () => void;
   getCartCount: () => number;
   getCartTotal: () => number;
@@ -37,80 +38,79 @@ interface CartProviderProps {
 }
 
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { toast } = useToast();
+  const {
+    cart,
+    addToCart: shopifyAddToCart,
+    updateCartItem,
+    removeFromCart: shopifyRemoveFromCart,
+    clearCart: shopifyClearCart,
+    getCartItemCount,
+    getCartTotal: getShopifyCartTotal
+  } = useShopifyCart();
 
-  // Load cart from localStorage on mount
-  useEffect(() => {
-    const savedCart = localStorage.getItem('aryk_cart');
-    if (savedCart) {
-      try {
-        setCartItems(JSON.parse(savedCart));
-      } catch (error) {
-        console.error('Error parsing saved cart:', error);
-        localStorage.removeItem('aryk_cart');
-      }
+  const cartItems = useMemo<CartItem[]>(() => {
+    const edges = cart?.lines?.edges || [];
+    return edges.map((edge: any) => ({
+      id: edge.node.id,
+      name: edge.node.merchandise?.product?.title,
+      category: edge.node.merchandise?.product?.title,
+      price: parseFloat(edge.node.merchandise?.price?.amount || '0'),
+      image: edge.node.merchandise?.product?.images?.edges?.[0]?.node?.url || '/placeholder.svg',
+      quantity: edge.node.quantity,
+    }));
+  }, [cart]);
+
+  const addToCart = async (product: Omit<CartItem, 'quantity'>, quantity: number = 1) => {
+    try {
+      const safeQuantity = Math.max(1, Math.floor(quantity));
+      // We need a merchandise/variant id; try to accept product.id as variant id directly.
+      await shopifyAddToCart(String(product.id), safeQuantity);
+      toast({
+        title: "Added to cart",
+        description: `${product.name} has been added to your cart.`,
+      });
+    } catch (e) {
+      toast({ title: "Error", description: "Failed to add to cart", variant: "destructive" });
     }
-  }, []);
-
-  // Save cart to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem('aryk_cart', JSON.stringify(cartItems));
-  }, [cartItems]);
-
-  const addToCart = (product: Omit<CartItem, 'quantity'>, addQuantity: number = 1) => {
-    const safeQuantity = Math.max(1, Math.floor(addQuantity));
-    setCartItems(prev => {
-      const existingItem = prev.find(item => item.id === product.id);
-      if (existingItem) {
-        return prev.map(item =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + safeQuantity }
-            : item
-        );
-      }
-      return [...prev, { ...product, quantity: safeQuantity }];
-    });
-
-    toast({
-      title: "Added to cart",
-      description: `${product.name} has been added to your cart.`,
-    });
   };
 
-  const updateCartQuantity = (id: string | number, quantity: number) => {
-    if (quantity <= 0) {
-      removeFromCart(id);
-      return;
+  const updateCartQuantity = async (id: string | number, quantity: number) => {
+    try {
+      const safeQuantity = Math.max(0, Math.floor(quantity));
+      if (safeQuantity <= 0) {
+        await shopifyRemoveFromCart(String(id));
+        return;
+      }
+      await updateCartItem(String(id), safeQuantity);
+    } catch (e) {
+      toast({ title: "Error", description: "Failed to update quantity", variant: "destructive" });
     }
-    
-    setCartItems(prev =>
-      prev.map(item =>
-        item.id === id ? { ...item, quantity } : item
-      )
-    );
   };
 
-  const removeFromCart = (id: string | number) => {
-    setCartItems(prev => prev.filter(item => item.id !== id));
-    
-    toast({
-      title: "Removed from cart",
-      description: "Item has been removed from your cart.",
-    });
+  const removeFromCart = async (id: string | number) => {
+    try {
+      await shopifyRemoveFromCart(String(id));
+      toast({
+        title: "Removed from cart",
+        description: "Item has been removed from your cart.",
+      });
+    } catch (e) {
+      toast({ title: "Error", description: "Failed to remove from cart", variant: "destructive" });
+    }
   };
 
   const clearCart = () => {
-    setCartItems([]);
+    shopifyClearCart();
   };
 
   const getCartCount = () => {
-    return cartItems.reduce((total, item) => total + item.quantity, 0);
+    return getCartItemCount();
   };
 
   const getCartTotal = () => {
-    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+    return getShopifyCartTotal();
   };
 
   const value: CartContextType = {

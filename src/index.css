@@ -8,93 +8,87 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* ARYK Skincare Brand Colors - Warm & Natural */
-    --background: 35 25% 95%;
-    --foreground: 20 15% 15%;
+    /* Brand palette: #603d1f, #734c25, #f1f0ec, #ffffff */
+    --background: 48 15% 94%;
+    --foreground: 27 51% 25%;
 
-    --card: 35 30% 97%;
-    --card-foreground: 20 15% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 27 51% 25%;
 
-    --popover: 35 30% 97%;
-    --popover-foreground: 20 15% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 27 51% 25%;
 
-    /* Warm terracotta/earth primary color */
-    --primary: 15 45% 40%;
-    --primary-foreground: 35 30% 97%;
+    /* Primary CTA (lighter brown) */
+    --primary: 30 51% 30%;
+    --primary-foreground: 0 0% 100%;
 
-    /* Soft beige secondary */
-    --secondary: 35 25% 90%;
-    --secondary-foreground: 20 15% 25%;
+    /* Soft off-white secondary */
+    --secondary: 48 15% 94%;
+    --secondary-foreground: 27 40% 22%;
 
-    --muted: 35 20% 88%;
-    --muted-foreground: 20 12% 45%;
+    --muted: 48 12% 90%;
+    --muted-foreground: 27 25% 35%;
 
-    /* Warm accent color */
-    --accent: 25 35% 85%;
-    --accent-foreground: 20 15% 25%;
+    /* Accent uses darker brown */
+    --accent: 27 51% 25%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 65% 50%;
-    --destructive-foreground: 35 30% 97%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 35 15% 85%;
-    --input: 35 15% 90%;
-    --ring: 15 45% 40%;
+    --border: 48 10% 86%;
+    --input: 48 10% 90%;
+    --ring: 30 51% 30%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar */
+    --sidebar-background: 48 15% 94%;
+    --sidebar-foreground: 27 51% 25%;
+    --sidebar-primary: 30 51% 30%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 48 12% 90%;
+    --sidebar-accent-foreground: 27 40% 22%;
+    --sidebar-border: 48 10% 86%;
+    --sidebar-ring: 30 55% 40%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 27 25% 10%;
+    --foreground: 48 25% 96%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 27 25% 12%;
+    --card-foreground: 48 25% 96%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 27 25% 12%;
+    --popover-foreground: 48 25% 96%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 30 55% 50%;
+    --primary-foreground: 27 35% 12%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 27 20% 18%;
+    --secondary-foreground: 48 25% 96%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 27 18% 20%;
+    --muted-foreground: 48 15% 75%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 27 30% 24%;
+    --accent-foreground: 48 25% 96%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 62% 40%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --border: 27 18% 22%;
+    --input: 27 18% 22%;
+    --ring: 30 55% 50%;
+    --sidebar-background: 27 20% 12%;
+    --sidebar-foreground: 48 25% 95%;
+    --sidebar-primary: 30 60% 52%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 27 22% 18%;
+    --sidebar-accent-foreground: 48 25% 95%;
+    --sidebar-border: 27 22% 18%;
+    --sidebar-ring: 30 60% 52%;
   }
 }
 

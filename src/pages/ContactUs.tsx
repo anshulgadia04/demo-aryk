@@ -4,21 +4,11 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CartSidebar from "@/components/CartSidebar";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Mail, Phone, MapPin, Clock, MessageCircle, Send, Instagram, Facebook, Twitter } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, MessageCircle } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 
 const ContactUs = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-    inquiryType: ""
-  });
   const { 
     cartItems, 
     isCartOpen, 
@@ -28,18 +18,7 @@ const ContactUs = () => {
     getCartCount 
   } = useCart();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // TODO: Implement form submission
-    console.log("Form submitted:", formData);
-  };
-
-  const handleChange = (field: string, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  };
+  const [formLoaded, setFormLoaded] = useState(false);
 
   return (
     <>
@@ -71,15 +50,16 @@ const ContactUs = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Button
+                  aria-label="Email us"
                   onClick={() => { window.location.href = 'mailto:hello@arykorganics.com'; }}
-                  className="backdrop-blur bg-white/90 text-foreground hover:bg-white rounded-full px-6 h-11"
+                  className="bg-[#f1f0ec] text-[#603d1f] rounded-full px-6 h-11 shadow-sm hover:bg-[#f1f0ec] hover:opacity-90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#603d1f]/30 focus-visible:ring-offset-2"
                 >
                   <Mail className="h-4 w-4 mr-2" /> Email Us
                 </Button>
                 <Button
-                  variant="outline"
+                  aria-label="Call now"
                   onClick={() => { window.location.href = 'tel:+919876543210'; }}
-                  className="border-white text-white hover:bg-white hover:text-black rounded-full px-6 h-11"
+                  className="bg-[#f1f0ec] text-[#603d1f] rounded-full px-6 h-11 shadow-sm hover:bg-[#f1f0ec] hover:opacity-90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#603d1f]/30 focus-visible:ring-offset-2"
                 >
                   <Phone className="h-4 w-4 mr-2" /> Call Now
                 </Button>
@@ -141,91 +121,37 @@ const ContactUs = () => {
         </div>
 
         {/* Contact Form & Info */}
-        <div className="py-12 md:py-16 bg-background">
+        <div className="py-8 md:py-12 bg-background">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
               {/* Contact Form */}
-              <div className="bg-white p-6 md:p-8 rounded-2xl border">
-                <h2 className="text-2xl md:text-3xl font-serif font-light text-foreground mb-4 md:mb-6">
+              <div className="bg-white p-6 md:p-8 rounded-2xl border shadow-sm self-start">
+                <h2 className="text-2xl md:text-3xl font-serif font-light text-foreground">
                   Send us a Message
                 </h2>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">
-                        First Name *
-                      </label>
-                      <Input
-                        type="text"
-                        placeholder="Your name"
-                        value={formData.name}
-                        onChange={(e) => handleChange("name", e.target.value)}
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">
-                        Email *
-                      </label>
-                      <Input
-                        type="email"
-                        placeholder="your@email.com"
-                        value={formData.email}
-                        onChange={(e) => handleChange("email", e.target.value)}
-                        required
-                      />
-                    </div>
+                <p className="text-sm md:text-base text-muted-foreground mt-1 md:mt-2 mb-4 md:mb-6">
+                  We typically reply within 24 hours.
+                </p>
+                <div className="relative w-full">
+                  {/* Skeleton while the embedded form loads */}
+                  <div className={`absolute inset-0 transition-opacity duration-300 ${formLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+                    <div className="w-full h-[600px] md:h-[800px] rounded-lg bg-muted/40 animate-pulse" />
                   </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
-                      Inquiry Type
-                    </label>
-                    <Select value={formData.inquiryType} onValueChange={(value) => handleChange("inquiryType", value)}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select inquiry type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="general">General Inquiry</SelectItem>
-                        <SelectItem value="product">Product Question</SelectItem>
-                        <SelectItem value="order">Order Support</SelectItem>
-                        <SelectItem value="feedback">Feedback</SelectItem>
-                        <SelectItem value="partnership">Partnership</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
-                      Subject *
-                    </label>
-                    <Input
-                      type="text"
-                      placeholder="What's this about?"
-                      value={formData.subject}
-                      onChange={(e) => handleChange("subject", e.target.value)}
-                      required
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
-                      Message *
-                    </label>
-                    <Textarea
-                      placeholder="Tell us more..."
-                      rows={5}
-                      value={formData.message}
-                      onChange={(e) => handleChange("message", e.target.value)}
-                      required
-                    />
-                  </div>
-                  
-                  <Button type="submit" size="lg" className="w-full py-3 md:py-4 text-base md:text-lg">
-                    <Send className="h-4 w-4 mr-2" />
-                    Send Message
-                  </Button>
-                </form>
+                  <iframe
+                    src="https://docs.google.com/forms/d/e/1FAIpQLSdjEVKpgmpZjyuITnUmHsht08cjh9vtZqnuezq0aBfMSQVCKg/viewform?embedded=true"
+                    width="100%"
+                    height={800}
+                    frameBorder="0"
+                    marginHeight={0}
+                    marginWidth={0}
+                    className="rounded-lg"
+                    title="ARYK Organics Contact Form"
+                    onLoad={() => setFormLoaded(true)}
+                  >
+                    Loading…
+                  </iframe>
+                </div>
+                {/* Removed Follow Us and Quick Help sections as requested */}
               </div>
 
               {/* Contact Details */}
@@ -272,52 +198,15 @@ const ContactUs = () => {
                   </div>
                 </div>
 
-                {/* Social Media */}
-                <div>
-                  <h3 className="text-lg md:text-xl font-medium text-foreground mb-3 md:mb-4">
-                    Follow Us
-                  </h3>
-                  <div className="flex gap-3 md:gap-4">
-                    <Button variant="outline" size="icon" className="rounded-full h-10 w-10 md:h-12 md:w-12">
-                      <Instagram className="h-5 w-5" />
-                    </Button>
-                    <Button variant="outline" size="icon" className="rounded-full h-10 w-10 md:h-12 md:w-12">
-                      <Facebook className="h-5 w-5" />
-                    </Button>
-                    <Button variant="outline" size="icon" className="rounded-full h-10 w-10 md:h-12 md:w-12">
-                      <Twitter className="h-5 w-5" />
-                    </Button>
-                  </div>
-                </div>
-
-                {/* FAQ Quick Links */}
-                <div>
-                  <h3 className="text-lg md:text-xl font-medium text-foreground mb-3 md:mb-4">
-                    Quick Help
-                  </h3>
-                  <div className="space-y-2">
-                    <Button variant="ghost" className="w-full justify-start text-left py-3">
-                      How to track my order?
-                    </Button>
-                    <Button variant="ghost" className="w-full justify-start text-left py-3">
-                      What's your return policy?
-                    </Button>
-                    <Button variant="ghost" className="w-full justify-start text-left py-3">
-                      How to choose the right product?
-                    </Button>
-                    <Button variant="ghost" className="w-full justify-start text-left py-3">
-                      Are your products cruelty-free?
-                    </Button>
-                  </div>
-                </div>
+                {/* Social/Quick Help moved under the form */}
                 {/* Map preview */}
-                <div className="mt-4 rounded-xl overflow-hidden border">
+                 <div id="map-section" className="mt-4 rounded-xl overflow-hidden border self-start">
                   <iframe
                     title="Office map"
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30267.638!2d72.8777!3d19.076!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDA0JzMzLjYiTiA3MsKwNTInNDAuMCJF!5e0!3m2!1sen!2sin!4v1686400000000"
-                    className="w-full h-56"
+                    className="w-full h-80 md:h-96"
                   />
                 </div>
               </div>
@@ -327,7 +216,7 @@ const ContactUs = () => {
 
 
         {/* CTA Section */}
-        <div className="py-12 md:py-16 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+        <div className="py-12 md:py-16 bg-gradient-to-r from-[#603d1f] to-[#734c25] text-[#f1f0ec]">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-2xl md:text-3xl font-serif font-light mb-4 md:mb-6">
               Still Have Questions?
@@ -339,13 +228,18 @@ const ContactUs = () => {
               <Button
                 size="lg"
                 aria-label="Call now"
-                className="bg-white text-black px-6 md:px-8 py-3 md:py-4 text-base md:text-lg rounded-full shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-black/30"
+                className="bg-[#f1f0ec] text-[#603d1f] px-6 md:px-8 py-3 md:py-4 text-base md:text-lg rounded-full shadow-sm hover:bg-[#f1f0ec] hover:opacity-90 hover:shadow-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#603d1f]/30 focus-visible:ring-offset-2"
                 onClick={() => { window.location.href = 'tel:+919876543210'; }}
               >
                 <Phone className="h-4 w-4 mr-2" />
                 Call Now
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-6 md:px-8 py-3 md:py-4 text-base md:text-lg">
+              <Button
+                size="lg"
+                aria-label="Open live chat"
+                onClick={() => alert('Live chat coming soon!')}
+                className="bg-[#f1f0ec] text-[#603d1f] px-6 md:px-8 py-3 md:py-4 text-base md:text-lg rounded-full shadow-sm hover:bg-[#f1f0ec] hover:opacity-90 hover:shadow-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#603d1f]/30 focus-visible:ring-offset-2"
+              >
                 Live Chat
               </Button>
             </div>
