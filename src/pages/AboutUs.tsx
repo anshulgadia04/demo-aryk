@@ -153,29 +153,34 @@ const AboutUs = () => {
   </p>
   
   <p className="text-base md:text-xl text-muted-foreground leading-relaxed text-justify">
-    Beyond products, ARYK is a community that believes self-care is emotional maintenance, not indulgence. Our Relaxing Corner offers space to pause no perfection, just presence. The inverted “Y” in our logo represents you unique, imperfect, and radiant. Welcome home💛
+    Beyond products, ARYK is a community that believes self-care is emotional maintenance, not indulgence. Our Relaxing Corner offers space to pause no perfection, just presence. The inverted “Y” in our logo represents you unique, imperfect, and radiant. Welcome home
   </p>
 </div>
 
                 
                 <div className="text-center">
-                  <div className="bg-gray-50 p-10 md:p-16 rounded-3xl">
-                    <div className="w-28 h-28 md:w-40 md:h-40 bg-white rounded-full mx-auto mb-6 md:mb-8 flex items-center justify-center shadow-sm overflow-hidden">
-                      <img 
-                        src="/aryk img/1000_F_1334014397_GMDJFSX0q2UPKOxFVXUMigAjcwDCkRF6.jpg"
-                        alt="saryu nayak - Founder"
-                        className="w-full h-full object-cover rounded-full"
-                      />
-                    </div>
-                   
-                    <h3 className="text-xl md:text-2xl font-serif font-light text-foreground mb-2 md:mb-3">
-                      Saryu Nayak
-                    </h3>
-                    <p className="text-sm md:text-lg text-muted-foreground">
-                      Founder, CEO & Certified Health Coach
-                    </p>
+                <div className="bg-gray-50 p-10 md:p-16 rounded-3xl">
+                  {/* Image Container */}
+                  <div className="w-28 h-28 md:w-40 md:h-40 bg-white rounded-full mx-auto mb-6 md:mb-8 flex items-center justify-center shadow-sm overflow-hidden">
+                    <img 
+                      src="/aryk-img/1000_F_1334014397_GMDJFSX0q2UPKOxFVXUMigAjcwDCkRF6.jpg"
+                      alt="Saryu Nayak - Founder"
+                      className="w-full h-full object-cover rounded-full"
+                    />
                   </div>
+              
+                  {/* Name */}
+                  <h3 className="text-xl md:text-2xl font-serif font-light text-foreground mb-2 md:mb-3">
+                    Saryu Nayak
+                  </h3>
+              
+                  {/* Position */}
+                  <p className="text-sm md:text-lg text-muted-foreground">
+                    Founder, CEO
+                  </p>
                 </div>
+              </div>
+
               </div>
             </div>
           </div>
