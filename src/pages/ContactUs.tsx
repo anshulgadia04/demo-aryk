@@ -51,14 +51,14 @@ const ContactUs = () => {
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Button
                   aria-label="Email us"
-                  onClick={() => { window.location.href = 'mailto:hello@arykorganics.com'; }}
+                  onClick={() => { window.location.href = 'mailto:Arykwellness@gmail.com'; }}
                   className="bg-[#f1f0ec] text-[#603d1f] rounded-full px-6 h-11 shadow-sm hover:bg-[#f1f0ec] hover:opacity-90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#603d1f]/30 focus-visible:ring-offset-2"
                 >
                   <Mail className="h-4 w-4 mr-2" /> Email Us
                 </Button>
                 <Button
                   aria-label="Call now"
-                  onClick={() => { window.location.href = 'tel:+919876543210'; }}
+                  onClick={() => { window.location.href = 'tel:+919712033661'; }}
                   className="bg-[#f1f0ec] text-[#603d1f] rounded-full px-6 h-11 shadow-sm hover:bg-[#f1f0ec] hover:opacity-90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#603d1f]/30 focus-visible:ring-offset-2"
                 >
                   <Phone className="h-4 w-4 mr-2" /> Call Now
@@ -76,12 +76,12 @@ const ContactUs = () => {
                 <Mail className="h-8 w-8 md:h-12 md:w-12 text-blue-500 mx-auto mb-3 md:mb-4" />
                 <h3 className="text-lg md:text-xl font-medium text-foreground mb-2 md:mb-3">Email Us</h3>
                 <p className="text-muted-foreground mb-2">
-                  hello@arykorganics.com
+                  Arykwellness@gmail.com
                 </p>
                 <div className="flex items-center justify-center gap-2 text-xs md:text-sm text-muted-foreground">
                   <button
                     className="underline hover:text-foreground"
-                    onClick={() => navigator.clipboard?.writeText('hello@arykorganics.com')}
+                    onClick={() => navigator.clipboard?.writeText('Arykwellness@gmail.com')}
                   >
                     Copy email
                   </button>
@@ -94,7 +94,7 @@ const ContactUs = () => {
                 <Phone className="h-8 w-8 md:h-12 md:w-12 text-green-500 mx-auto mb-3 md:mb-4" />
                 <h3 className="text-lg md:text-xl font-medium text-foreground mb-2 md:mb-3">Call Us</h3>
                 <p className="text-muted-foreground mb-2">
-                  +91 98765 43210
+                  +91 97120 33661
                 </p>
                 <p className="text-muted-foreground text-xs md:text-sm">
                   Mon-Sat, 9 AM - 6 PM IST
@@ -102,19 +102,16 @@ const ContactUs = () => {
               </div>
               
               <div className="text-center p-5 md:p-6 bg-background/80 backdrop-blur rounded-xl border transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-                <MessageCircle className="h-8 w-8 md:h-12 md:w-12 text-purple-500 mx-auto mb-3 md:mb-4" />
-                <h3 className="text-lg md:text-xl font-medium text-foreground mb-2 md:mb-3">Live Chat</h3>
-                <p className="text-muted-foreground mb-2">
-                  Available 24/7
+                <MapPin className="h-8 w-8 md:h-12 md:w-12 text-red-500 mx-auto mb-3 md:mb-4" />
+                <h3 className="text-lg md:text-xl font-medium text-foreground mb-2 md:mb-3">Visit Us</h3>
+                <p className="text-muted-foreground mb-2 text-sm">
+                  SF3-JBR ARCADE<br />
+                  SCIENCE CITY AHMEDABAD<br />
+                  GUJARAT 380060
                 </p>
                 <p className="text-muted-foreground text-xs md:text-sm">
-                  Get instant help anytime
+                  Mon-Sat, 9 AM - 6 PM IST
                 </p>
-                <div className="mt-3">
-                  <Button variant="outline" className="rounded-full" onClick={() => alert('Live chat coming soon!')}>
-                    Start chat
-                  </Button>
-                </div>
               </div>
             </div>
           </div>
@@ -138,7 +135,7 @@ const ContactUs = () => {
                     <div className="w-full h-[600px] md:h-[800px] rounded-lg bg-muted/40 animate-pulse" />
                   </div>
                   <iframe
-                    src="https://docs.google.com/forms/d/e/1FAIpQLSdjEVKpgmpZjyuITnUmHsht08cjh9vtZqnuezq0aBfMSQVCKg/viewform?embedded=true"
+                    src="https://docs.google.com/forms/d/e/1FAIpQLSd-YetbJif8X8C0QWgk-jRtrmdG__9Q969Q9ocmGbQtIigAPw/viewform?usp=header"
                     width="100%"
                     height={800}
                     frameBorder="0"
@@ -166,9 +163,9 @@ const ContactUs = () => {
                       <div>
                         <h3 className="font-medium text-foreground">Head Office</h3>
                         <p className="text-muted-foreground">
-                          123 Nature Valley, Organic Lane<br />
-                          Mumbai, Maharashtra 400001<br />
-                          India
+                          SF3-JBR ARCADE<br />
+                          SCIENCE CITY AHMEDABAD<br />
+                          GUJARAT 380060
                         </p>
                       </div>
                     </div>
@@ -190,7 +187,7 @@ const ContactUs = () => {
                       <div>
                         <h3 className="font-medium text-foreground">Emergency Contact</h3>
                         <p className="text-muted-foreground">
-                          For urgent matters: +91 98765 43211<br />
+                          For urgent matters: +91 97120 33661<br />
                           Available 24/7
                         </p>
                       </div>
@@ -205,7 +202,7 @@ const ContactUs = () => {
                     title="Office map"
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30267.638!2d72.8777!3d19.076!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDA0JzMzLjYiTiA3MsKwNTInNDAuMCJF!5e0!3m2!1sen!2sin!4v1686400000000"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3671.5!2d72.6!3d23.0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e9b5b5b5b5b5b%3A0x5b5b5b5b5b5b5b5b!2sScience%20City%2C%20Ahmedabad%2C%20Gujarat%20380060!5e0!3m2!1sen!2sin!4v1686400000000"
                     className="w-full h-80 md:h-96"
                   />
                 </div>
@@ -229,7 +226,7 @@ const ContactUs = () => {
                 size="lg"
                 aria-label="Call now"
                 className="bg-[#f1f0ec] text-[#603d1f] px-6 md:px-8 py-3 md:py-4 text-base md:text-lg rounded-full shadow-sm hover:bg-[#f1f0ec] hover:opacity-90 hover:shadow-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#603d1f]/30 focus-visible:ring-offset-2"
-                onClick={() => { window.location.href = 'tel:+919876543210'; }}
+                onClick={() => { window.location.href = 'tel:+919712033661'; }}
               >
                 <Phone className="h-4 w-4 mr-2" />
                 Call Now

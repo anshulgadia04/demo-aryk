@@ -224,28 +224,21 @@ const RelaxingCorner = () => {
         <div className="container mx-auto px-4">
           <div className="mb-8">
             <h3 className="text-2xl font-serif font-light text-foreground">Video Testimonials</h3>
-            <p className="text-muted-foreground">Swipe sideways to watch more videos.</p>
+            <p className="text-muted-foreground">Coming soon - Amazing customer stories.</p>
           </div>
           <div className="relative">
             <div className="flex gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth py-2 [-ms-overflow-style:none] [scrollbar-width:none]">
               <style>{`.container ::-webkit-scrollbar{display:none}`}</style>
-              {videoTestimonials.map((vid) => (
-                <div key={vid.id} className="snap-start shrink-0 w-[280px] sm:w-[360px] md:w-[420px]">
-                  <div className="rounded-xl overflow-hidden border border-border bg-card">
-                    <div className="aspect-video bg-black">
-                      <video
-                        className="w-full h-full block"
-                        src={vid.src}
-                        controls
-                        preload="metadata"
-                      />
-                    </div>
-                    <div className="p-3 sm:p-4">
-                      <div className="text-sm text-muted-foreground">{vid.title}</div>
+              <div className="snap-start shrink-0 w-[280px] sm:w-[360px] md:w-[420px]">
+                <div className="rounded-xl overflow-hidden border border-border bg-card">
+                  <div className="aspect-video bg-muted/20 flex items-center justify-center">
+                    <div className="text-center">
+                      <h4 className="text-xl font-serif font-light text-foreground mb-2">COMING SOON</h4>
+                      <p className="text-sm text-muted-foreground">Video testimonials</p>
                     </div>
                   </div>
                 </div>
-              ))}
+              </div>
             </div>
           </div>
         </div>

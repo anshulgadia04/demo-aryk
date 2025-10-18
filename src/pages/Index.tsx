@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/contexts/CartContext";
 import { useShopifyCart } from "@/hooks/useShopify";
 import { ShopifyService } from "@/lib/shopifyService";
+import { markCheckoutInitiated } from "@/lib/checkoutUtils";
 
 interface User {
   id: number;
@@ -57,8 +58,18 @@ const Index = () => {
       // Fire-and-forget to avoid popup blockers; do not await before navigation
       ShopifyService.attachCustomerToCart(cart.id).catch(() => {});
     }
+    
+    // Mark that checkout was initiated
+    markCheckoutInitiated();
+    
+    // Add return URL parameter
+    const returnUrl = encodeURIComponent(window.location.origin);
+    const finalCheckoutUrl = checkoutUrl.includes('?') 
+      ? `${checkoutUrl}&return_to=${returnUrl}`
+      : `${checkoutUrl}?return_to=${returnUrl}`;
+    
     // Same-tab redirect avoids popup blockers in some browsers
-    window.location.href = checkoutUrl;
+    window.location.href = finalCheckoutUrl;
   };
 
   const handleLogin = (newUser: User) => {

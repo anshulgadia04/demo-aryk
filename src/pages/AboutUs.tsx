@@ -48,13 +48,11 @@ const AboutUs = () => {
           <div className="relative z-10 flex items-center justify-center h-full">
             <div className="text-center max-w-5xl mx-auto px-4">
               <h1 className="text-4xl sm:text-5xl md:text-7xl font-serif font-light text-white mb-6 md:mb-12 leading-tight">
-                YOUR BEST SKIN.<br />
-                ORGANICALLY.
+              YOUR BEST SELF.<br />
+              Willingly.
               </h1>
               <p className="text-base sm:text-lg md:text-2xl text-white/90 leading-relaxed max-w-3xl md:max-w-4xl mx-auto font-light px-2">
-                We believe everything we use can be powerful, gentle, and effective without compromising your health or our planet. 
-                Our formulas harness the best of nature to nourish, replenish, and detoxify your skin for a healthier glow you can see 
-                using the highest quality certified organic ingredients you can trust.
+              Caring for your skin is a powerful, gentle choice that nourishes more than just your complexion. Your daily routine is a moment you willingly create a practice of stillness to soothe, restore, and ground your sense of self. The result is an inner light you feel from within, simply by using the ingredients you can trust.
               </p>
             </div>
           </div>
@@ -79,19 +77,17 @@ const AboutUs = () => {
               <div className="text-center">
                 <div className="mb-6 md:mb-8">
                   <img 
-                    src="/effective.png" 
-                    alt="Highly Effective Products"
+                    src="/sanctuary-of-time.jpg" 
+                    alt="A Sanctuary of Time"
                     className="w-full h-40 sm:h-52 md:h-64 object-cover shadow-lg rounded-xl"
                   />
                 </div>
                 <h3 className="text-2xl md:text-3xl font-serif font-light text-foreground mb-4 md:mb-6">
-                  Highly Effective
+                 A Sanctuary of Time
                 </h3>
                 <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-                  Our results are clear, compelling, and proven.<br />
-                  We combine the highest quality plant-powered<br />
-                  ingredients with the latest technologies, delivering<br />
-                  results that are visible immediately and continuously.
+                 You step away from the noise. This welcomed pause, focused on your senses, is self-respect in action.
+
                 </p>
               </div>
 
@@ -99,18 +95,16 @@ const AboutUs = () => {
               <div id="certified-organic" className="text-center">
                 <div className="mb-6 md:mb-8">
                   <img 
-                    src="/organic.png" 
-                    alt="Certified Organic Ingredients"
+                    src="/power-of-connection.jpeg" 
+                    alt="The Power of Connection"
                     className="w-full h-40 sm:h-52 md:h-64 object-cover shadow-lg rounded-xl"
                   />
                 </div>
                 <h3 className="text-2xl md:text-3xl font-serif font-light text-foreground mb-4 md:mb-6">
-                  Certified Organic
+                The Power of Connection
                 </h3>
                 <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-                  Our products are formulated with certified organic ingredients that contain up to 60% more antioxidants. Our sustainable harvesting practices result in<br />
-                  less waste and no harmful ingredients.<br />
-                  We are good for you and our planet, too.
+                You engage your body and mind, reinforcing the belief that you are worthy of consistent, gentle care.
                 </p>
               </div>
 
@@ -118,20 +112,16 @@ const AboutUs = () => {
               <div className="text-center">
                 <div className="mb-6 md:mb-8">
                   <img 
-                    src="/uplifting.png" 
-                    alt="Always Uplifting Experience"
+                    src="/science-of-soul.jpg" 
+                    alt="The Science of Soul"
                     className="w-full h-40 sm:h-52 md:h-64 object-cover shadow-lg rounded-xl"
                   />
                 </div>
                 <h3 className="text-2xl md:text-3xl font-serif font-light text-foreground mb-4 md:mb-6">
-                  Always Uplifting
+                The Science of Soul
                 </h3>
                 <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-                  Our products are created to uplift and<br />
-                  inspire through a combination of crystals,<br />
-                  aromatherapy, and positive affirmations.<br />
-                  We believe in a 360 approach to wellness<br />
-                  for your mind, body, and skin.
+                Our formulations support your skin, while your intention supports your peace.
                 </p>
               </div>
             </div>
@@ -149,25 +139,24 @@ const AboutUs = () => {
               </h2>
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-20 items-start">
-                <div className="space-y-8">
-                  <p className="text-base md:text-xl text-muted-foreground leading-relaxed">
-                    When I was 16, my mother was diagnosed with cancer, and I started to take a closer look at what I was putting in and on my body. 
-                    This sparked my lifelong passion for organic ingredients and holistic health.
-                  </p>
-                  
-                  <p className="text-base md:text-xl text-muted-foreground leading-relaxed">
-                    Over the years, I found there wasn't anyone creating certified organic and effective skincare and in 2009, 
-                    I decided to make my own. After three years of partnering with some of the best chemists in the natural space, 
-                    I launched a range of skincare that followed both the strictest global standards of safety and the highest levels 
-                    of clinical performance for healthy, glowing skin.
-                  </p>
-                  
-                  <p className="text-base md:text-xl text-muted-foreground leading-relaxed">
-                    Today, we're in 40 countries and growing—using sustainable organic harvesting practices that result in less waste 
-                    for the planet, without toxins on your skin and up to 60% more antioxidants. I'm so proud of what we've created 
-                    and for you to experience the power of organics.
-                  </p>
-                </div>
+              <div className="space-y-8">
+  <p className="text-base md:text-xl text-muted-foreground leading-relaxed text-justify">
+    Hi, I’m Saryu a molecular biologist, skincare enthusiast, and eldest daughter who learned that strength can also mean slowing down.
+  </p>
+  
+  <p className="text-base md:text-xl text-muted-foreground leading-relaxed text-justify">
+    ARYK, pronounced ark, comes from Sanskrit, meaning a ray of sunshine. For me, skincare became just that light in a time when I couldn’t see myself clearly. Growing up, I watched my mum blend haldi, honey, and rose water into simple remedies. Those rituals weren’t about vanity but about care a reminder that beauty means cherishing, not changing, yourself.
+  </p>
+  
+  <p className="text-base md:text-xl text-muted-foreground leading-relaxed text-justify">
+    Years later, while struggling with body dysmorphia, I returned to those roots. Skincare became my stillness not to look perfect but to feel at peace. As a molecular biologist, I began seeing skincare as where science meets soul, where chemistry becomes care. Every ARYK formulation is clean, deeply researched, and crafted with intention to support both your skin and your sense of self.
+  </p>
+  
+  <p className="text-base md:text-xl text-muted-foreground leading-relaxed text-justify">
+    Beyond products, ARYK is a community that believes self-care is emotional maintenance, not indulgence. Our Relaxing Corner offers space to pause no perfection, just presence. The inverted “Y” in our logo represents you unique, imperfect, and radiant. Welcome home💛
+  </p>
+</div>
+
                 
                 <div className="text-center">
                   <div className="bg-gray-50 p-10 md:p-16 rounded-3xl">
@@ -192,63 +181,29 @@ const AboutUs = () => {
           </div>
         </div>
 
-        {/* Sustainability Section - EXACT KORA DESIGN with Background Image */}
-        <div className="py-16 md:py-24 relative overflow-hidden">
-          {/* Background Image */}
-          <div className="absolute inset-0">
-            <img 
-              src="/aryk img/WhatsApp Image 2025-08-23 at 14.40.37.jpeg"
-              alt="Sustainability Background"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-white/80"></div>
-          </div>
-          
-          {/* Content */}
-          <div className="relative z-10 container mx-auto px-4">
-            <div className="text-center max-w-5xl mx-auto mb-12 md:mb-20">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-light text-foreground mb-6 md:mb-8">
-                Sustainability Is In Our Nature
-              </h2>
-              <p className="text-base md:text-2xl text-muted-foreground font-light">
-                Mindfully made, from our formulas to our packaging.
-              </p>
-              {/* Learn More button removed as requested */}
-            </div>
-
-            {/* Certifications Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6 md:gap-8 max-w-7xl mx-auto">
-              {[
-                { icon: Leaf, label: "Certified Organic" },
-                { icon: Globe, label: "Climate Neutral Certified" },
-                { icon: Heart, label: "Cruelty-Free" },
-                { icon: Shield, label: "Sustainable Formulas" },
-                { icon: Award, label: "Award Winning" },
-                { icon: Star, label: "Powerful Results" }
-              ].map((item, index) => (
-                <div key={index} className="text-center p-4 sm:p-6 md:p-8 bg-gray-50 rounded-2xl hover:bg-gray-100 transition-colors">
-                  <item.icon className="h-8 w-8 md:h-12 md:w-12 text-gray-600 mx-auto mb-2 md:mb-4" />
-                  <p className="text-sm md:text-base font-medium text-foreground">{item.label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
+       
         {/* Final CTA Section - EXACT KORA STYLE */}
-        <div className="py-16 md:py-24 bg-gray-50">
-          <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl md:text-4xl font-serif font-light text-foreground mb-6 md:mb-8">
-              Experience the Power of Organics
+        <div className="relative py-16 md:py-24 overflow-hidden">
+          <div className="absolute inset-0">
+            <img
+              className="w-full h-full object-cover"
+              src="/hero-bg.jpeg"
+              alt="Self care background"
+            />
+            <div className="absolute inset-0 bg-black/40" />
+          </div>
+          <div className="relative z-10 container mx-auto px-4 text-center">
+            <h2 className="text-3xl md:text-4xl font-serif font-light text-white mb-6 md:mb-8">
+            Experience self care like never before.
             </h2>
-            <p className="text-base md:text-xl text-muted-foreground mb-8 md:mb-12 max-w-3xl mx-auto font-light px-2">
-              Join thousands of customers worldwide who have discovered the transformative power of natural, organic skincare.
+            <p className="text-base md:text-xl text-white/90 mb-8 md:mb-12 max-w-3xl mx-auto font-light px-2">
+            Step into our community of like-minded souls and explore products made to celebrate you. Because you’re the hero, and our products are your perfect sidekick
             </p>
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
               <Button 
                 size="lg" 
-                className="bg-gray-900 hover:bg-gray-800 text-white text-base md:text-lg px-6 md:px-8 py-3 md:py-4"
-                onClick={() => navigate("/shop")}
+                className="bg-white text-black hover:bg-white/90 text-base md:text-lg px-6 md:px-8 py-3 md:py-4 font-medium"
+                onClick={() => navigate("/shopify-shop")}
               >
                 Shop Now
               </Button>

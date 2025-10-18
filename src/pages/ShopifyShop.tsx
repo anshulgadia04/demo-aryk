@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Search, Filter, Grid, List, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/contexts/CartContext";
+import { markCheckoutInitiated } from "@/lib/checkoutUtils";
 
 const ShopifyShop = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -161,7 +162,17 @@ const ShopifyShop = () => {
     if (cart?.id) {
       ShopifyService.attachCustomerToCart(cart.id).catch(() => {});
     }
-    window.location.href = checkoutUrl;
+    
+    // Mark that checkout was initiated
+    markCheckoutInitiated();
+    
+    // Add return URL parameter
+    const returnUrl = encodeURIComponent(window.location.origin);
+    const finalCheckoutUrl = checkoutUrl.includes('?') 
+      ? `${checkoutUrl}&return_to=${returnUrl}`
+      : `${checkoutUrl}?return_to=${returnUrl}`;
+    
+    window.location.href = finalCheckoutUrl;
   };
 
   const handleToggleWishlist = (productId: number) => {
@@ -309,6 +320,15 @@ const ShopifyShop = () => {
             <div className="flex justify-center items-center py-16">
               <Loader2 className="h-8 w-8 animate-spin" />
               <span className="ml-2">Loading products...</span>
+            </div>
+          ) : products.length === 0 ? (
+            <div className="text-center py-16">
+              <h1 className="text-4xl md:text-6xl font-serif font-light text-foreground mb-6 leading-tight">
+                COMING SOON
+              </h1>
+              <p className="text-lg md:text-xl text-muted-foreground mb-8">
+                Our amazing products are on their way. Stay tuned for the launch!
+              </p>
             </div>
           ) : filteredProducts.length === 0 ? (
             <div className="text-center py-16">

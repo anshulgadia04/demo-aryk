@@ -37,12 +37,13 @@ const Footer = () => {
             <p className={`text-sm text-muted-foreground mt-10 transition-all duration-1000 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] delay-300 ${
               isFooterVisible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-6'
             }`}>
-              Natural Beauty, Naturally You. Clean, organic skincare crafted with care.
+              Natural Beauty, Naturally You.
             </p>
             <div className={`mt-6 space-y-2 text-sm transition-all duration-1000 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] delay-400 ${
               isFooterVisible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-6'
             }`}>
-              <div className="text-muted-foreground">Customer Care: support@arykorganics.com</div>
+              <div className="text-muted-foreground">Customer Care: Arykwellness@gmail.com</div>
+              <div className="text-muted-foreground">SF3-JBR ARCADE, SCIENCE CITY AHMEDABAD, GUJARAT 380060</div>
               <div className="text-muted-foreground">Hours: Mon–Fri, 9am–6pm IST</div>
               <div className="text-muted-foreground">Made in India • Sustainably Sourced</div>
             </div>
@@ -145,9 +146,7 @@ const Footer = () => {
             <ul className="space-y-2 text-sm text-muted-foreground">
               {[
                 { label: "Our Story", to: "/about#our-story" },
-                { label: "Blog", to: "/" },
-                { label: "Certified Organic", to: "/about#certified-organic" },
-                { label: "Sustainability", to: "/about" }
+                { label: "Blog", to: "/" }
               ].map((item, index) => (
                 <li key={item.label} className={`transition-all duration-800 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] delay-${600 + index * 150} ${
                   isFooterVisible ? 'opacity-100 scale-100 translate-x-0' : 'opacity-0 scale-95 -translate-x-4'
@@ -193,28 +192,17 @@ const Footer = () => {
               : 'opacity-0 scale-95 translate-y-8'
           }`}
         >
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            {/* Certifications */}
-            <div className={`flex items-center gap-4 mb-4 md:mb-0 transition-all duration-1000 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] delay-600 ${
-              isFooterVisible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-6'
-            }`}>
-              <div className="text-xs text-muted-foreground transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] hover:text-foreground hover:scale-105 hover:bg-primary/5 px-2 py-1 rounded">
-                Certified Organic
-              </div>
-              <div className="text-xs text-muted-foreground transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] hover:text-foreground hover:scale-105 hover:bg-primary/5 px-2 py-1 rounded">
-                Climate Neutral Certified
-              </div>
-            </div>
+          <div className="flex flex-col md:flex-row items-center relative">
 
-            {/* Logo */}
-            <div className={`mb-4 md:mb-0 transition-all duration-1000 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] delay-700 ${
+            {/* Logo - Centered */}
+            <div className={`mb-4 md:mb-0 md:absolute md:left-1/2 md:transform md:-translate-x-1/2 transition-all duration-1000 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] delay-700 ${
               isFooterVisible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-6'
             }`}>
               <img src="/logo-dark.svg" alt="Aryk logo" className="h-12 w-auto mx-auto" />
             </div>
 
-            {/* Social Icons */}
-            <div className={`flex items-center gap-4 transition-all duration-1000 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] delay-800 ${
+            {/* Social Icons - Right aligned */}
+            <div className={`flex items-center gap-4 md:ml-auto transition-all duration-1000 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] delay-800 ${
               isFooterVisible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-6'
             }`}>
               {[

@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { ShopifyService, ShopifyProduct, ShopifyCart } from '@/lib/shopifyService';
 import { Product } from '@/lib/products';
 import { useToast } from '@/hooks/use-toast';
+import { handleCheckoutReturn, CART_STORAGE_KEY } from '@/lib/checkoutUtils';
 
 // Hook for fetching products
 export const useShopifyProducts = (first: number = 20, after?: string) => {
@@ -99,21 +100,34 @@ export const useShopifyCart = () => {
 
   // Load cart from localStorage on mount
   useEffect(() => {
-    const savedCart = localStorage.getItem('aryk_shopify_cart');
+    // Check if user returned from checkout and clear cart if so
+    const checkoutCompleted = handleCheckoutReturn((message) => {
+      toast({
+        title: "Order Complete!",
+        description: message,
+      });
+    });
+    
+    if (checkoutCompleted) {
+      setCart(null);
+      return;
+    }
+
+    const savedCart = localStorage.getItem(CART_STORAGE_KEY);
     if (savedCart) {
       try {
         setCart(JSON.parse(savedCart));
       } catch (err) {
         console.error('Error parsing saved cart:', err);
-        localStorage.removeItem('aryk_shopify_cart');
+        localStorage.removeItem(CART_STORAGE_KEY);
       }
     }
-  }, []);
+  }, [toast]);
 
   // Save cart to localStorage whenever it changes
   useEffect(() => {
     if (cart) {
-      localStorage.setItem('aryk_shopify_cart', JSON.stringify(cart));
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
     }
   }, [cart]);
 
@@ -237,7 +251,7 @@ export const useShopifyCart = () => {
 
   const clearCart = useCallback(() => {
     setCart(null);
-    localStorage.removeItem('aryk_shopify_cart');
+    localStorage.removeItem(CART_STORAGE_KEY);
   }, []);
 
   const getCartItemCount = useCallback(() => {
