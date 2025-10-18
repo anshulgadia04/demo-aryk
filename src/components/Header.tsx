@@ -295,18 +295,11 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={() => {
-                    const domain = (import.meta as any).env?.VITE_SHOPIFY_STORE_DOMAIN;
-                    if (domain) {
-                      window.open(`https://${domain}/account`, '_blank');
-                    } else {
-                      onAuthClick();
-                    }
-                  }}
-                  className={`${headerVariant === 'transparent' ? 'text-white hover:text-white/90' : 'text-foreground hover:text-foreground/90'} hover:!bg-transparent transition-all duration-500 ease-out hover:scale-110 hover:shadow-md`}
-                >
+                  disabled
+                  className="cursor-not-allowed opacity-50">
                   <User className="h-5 w-5" />
                 </Button>
+
                 <Button
                   variant="ghost"
                   size="icon"
