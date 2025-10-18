@@ -202,26 +202,33 @@ const Footer = () => {
             </div>
 
             {/* Social Icons - Right aligned */}
-            <div className={`flex items-center gap-4 md:ml-auto transition-all duration-1000 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] delay-800 ${
-              isFooterVisible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-6'
-            }`}>
-              {[
-                { icon: Instagram, label: "Instagram" },
-                { icon: Facebook, label: "Facebook" },
-                { icon: Youtube, label: "Youtube" }
-              ].map((social, index) => (
-                <Button 
-                  key={social.label}
-                  variant="ghost" 
-                  size="icon" 
-                  className={`transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-110 hover:text-primary hover:bg-primary/5 hover:shadow-md`}
-                  aria-label={social.label}
-                >
-                  <social.icon className="h-5 w-5" />
-                </Button>
-              ))}
-            </div>
-          </div>
+              <div
+                className={`flex items-center gap-4 md:ml-auto transition-all duration-1000 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] delay-800 ${
+                  isFooterVisible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-6'
+                }`}
+              >
+                {[
+                  { icon: Instagram, label: "Instagram", url: "https://www.instagram.com/arykwellness?igsh=bmEwZ3RzNTM3Ymow" },
+                  { icon: Facebook, label: "Facebook", url: "#" },
+                  { icon: Youtube, label: "Youtube", url: "#" }
+                ].map((social) => (
+                  <Button 
+                    key={social.label}
+                    variant="ghost" 
+                    size="icon" 
+                    className="transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-110 hover:text-primary hover:bg-primary/5 hover:shadow-md"
+                    aria-label={social.label}
+                    onClick={() => {
+                      if (social.url && social.url !== "#") {
+                        window.open(social.url, "_blank");
+                      }
+                    }}
+                  >
+                    <social.icon className="h-5 w-5" />
+                  </Button>
+                ))}
+              </div>
+
 
           {/* Legal */}
           <div className={`flex flex-col md:flex-row justify-between items-center mt-8 pt-4 border-t border-border transition-all duration-1000 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] delay-900 ${
