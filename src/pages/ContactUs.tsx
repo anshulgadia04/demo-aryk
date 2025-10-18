@@ -177,7 +177,7 @@ const ContactUs = () => {
                         <p className="text-muted-foreground">
                           Monday - Friday: 9:00 AM - 6:00 PM<br />
                           Saturday: 10:00 AM - 4:00 PM<br />
-                          Sunday: 10:00 AM - 2:00 PM
+                          Sunday: 10:00 AM - 2:00PM<br />
                         </p>
                       </div>
                     </div>
