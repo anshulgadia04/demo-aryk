@@ -163,7 +163,7 @@ const AboutUs = () => {
                   {/* Image Container */}
                   <div className="w-28 h-28 md:w-40 md:h-40 bg-white rounded-full mx-auto mb-6 md:mb-8 flex items-center justify-center shadow-sm overflow-hidden">
                     <img 
-                      src="/aryk-img/1000_F_1334014397_GMDJFSX0q2UPKOxFVXUMigAjcwDCkRF6.jpg"
+                      src="/aryk img/1000_F_1334014397_GMDJFSX0q2UPKOxFVXUMigAjcwDCkRF6.jpg"
                       alt="Saryu Nayak - Founder"
                       className="w-full h-full object-cover rounded-full"
                     />
