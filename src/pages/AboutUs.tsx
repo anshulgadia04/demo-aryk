@@ -166,7 +166,7 @@ Hi, I’m Saryu, a molecular biologist, skincare enthusiast, and eldest daughter
                 <div className="bg-gray-50 p-10 md:p-16 rounded-3xl">
                   {/* Image Container */}
           <div className="w-28 h-28 md:w-40 md:h-40 bg-white rounded-full mx-auto mb-6 md:mb-8 flex items-center justify-center shadow-sm overflow-hidden"> 
-            <img src="demo-aryk/mainfounder.jpg"
+            <img src="/images/aryk/mainfounder1.jpg"
               alt="Saryu Nayak - Founder" 
               className="w-full h-full object-cover rounded-full"
               />
