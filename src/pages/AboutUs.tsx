@@ -141,20 +141,30 @@ const AboutUs = () => {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-20 items-start">
               <div className="space-y-8">
   <p className="text-base md:text-xl text-muted-foreground leading-relaxed text-justify">
-    Hi, I’m Saryu a molecular biologist, skincare enthusiast, and eldest daughter who learned that strength can also mean slowing down.
+Hi, I’m Saryu, a molecular biologist, skincare enthusiast, and eldest daughter who learned that strength can also mean slowing down.
+
   </p>
   
   <p className="text-base md:text-xl text-muted-foreground leading-relaxed text-justify">
-    ARYK, pronounced ark, comes from Sanskrit, meaning a ray of sunshine. For me, skincare became just that light in a time when I couldn’t see myself clearly. Growing up, I watched my mum blend haldi, honey, and rose water into simple remedies. Those rituals weren’t about vanity but about care a reminder that beauty means cherishing, not changing, yourself.
+
+ARYK, pronounced “ark,” comes from the Sanskrit word for a ray of sunshine, the same light skincare became for me when I couldn’t see myself clearly.
+
   </p>
   
   <p className="text-base md:text-xl text-muted-foreground leading-relaxed text-justify">
-    Years later, while struggling with body dysmorphia, I returned to those roots. Skincare became my stillness not to look perfect but to feel at peace. As a molecular biologist, I began seeing skincare as where science meets soul, where chemistry becomes care. Every ARYK formulation is clean, deeply researched, and crafted with intention to support both your skin and your sense of self.
-  </p>
+Inspired by my mum’s haldi, honey, and rose water rituals, I grew to see skincare not as vanity, but care. Years later, when I struggled with body dysmorphia, those roots grounded me again; skincare became my calm, my way back to peace.
   
   <p className="text-base md:text-xl text-muted-foreground leading-relaxed text-justify">
-    Beyond products, ARYK is a community that believes self-care is emotional maintenance, not indulgence. Our Relaxing Corner offers space to pause no perfection, just presence. The inverted “Y” in our logo represents you unique, imperfect, and radiant. Welcome home
+As a scientist, I see skincare as the meeting point of science and soul; where chemistry turns into care. Every ARYK formula is clean, intentional, and made to support both your skin and your sense of self.
   </p>
+     <p className="text-base md:text-xl text-muted-foreground leading-relaxed text-justify">
+       
+Beyond products, ARYK is a community. A safe space to connect, slow down, and remind each other that healing feels softer when shared. The inverted Y in our logo is you, who is unique, growing, and beautifully your own.
+
+       </p>
+    <p className="text-base md:text-xl text-muted-foreground leading-relaxed text-justify">
+      ARYK is your ray of sunshine, and a reminder that the science of caring begins with you.
+      </p>
 </div>
 
                 
@@ -163,10 +173,12 @@ const AboutUs = () => {
                   {/* Image Container */}
             <div className="w-28 h-28 md:w-40 md:h-40 bg-white rounded-full mx-auto mb-6 md:mb-8 flex items-center justify-center shadow-sm overflow-hidden">
   <img 
-    src="/images/aryk/mainfounder.jpg"
-    alt="Saryu Nayak - Founder"
-    className="w-full h-full object-cover rounded-full scale-200"
-  />
+  src="/images/aryk/mainfounder.jpg"
+  alt="Saryu Nayak - Founder"
+  className="w-full h-full object-cover rounded-full transition-transform duration-700"
+  style={{ transform: "scale(2.2)" }}
+/>
+
 </div>
 
                   {/* Name */}
