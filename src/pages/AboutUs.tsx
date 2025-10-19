@@ -51,8 +51,7 @@ const AboutUs = () => {
              Your Best Self. Willingly.
               </h1>
               <p className="text-base sm:text-lg md:text-2xl text-white/90 leading-relaxed max-w-3xl md:max-w-4xl mx-auto font-light px-2">
-              Caring for your skin is a powerful, gentle choice that nourishes more than just your complexion. Your daily routine is a moment you willingly create a practice of stillness to soothe, restore, and ground your sense of self. The result is an inner light you feel from within, simply by using the ingredients you can trust.
-              </p>
+Caring for your skin is a quiet kind of strength, it’s a moment to slow down, soothe, and reconnect with yourself. It nourishes more than your complexion, bringing out a light that feels as real within as it looks outside.              </p>
             </div>
           </div>
         </div>
