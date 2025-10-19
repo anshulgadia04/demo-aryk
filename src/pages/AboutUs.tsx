@@ -48,8 +48,7 @@ const AboutUs = () => {
           <div className="relative z-10 flex items-center justify-center h-full">
             <div className="text-center max-w-5xl mx-auto px-4">
               <h1 className="text-4xl sm:text-5xl md:text-7xl font-serif font-light text-white mb-6 md:mb-12 leading-tight">
-              YOUR BEST SELF.<br />
-              Willingly.
+             Your Best Self. Willingly.
               </h1>
               <p className="text-base sm:text-lg md:text-2xl text-white/90 leading-relaxed max-w-3xl md:max-w-4xl mx-auto font-light px-2">
               Caring for your skin is a powerful, gentle choice that nourishes more than just your complexion. Your daily routine is a moment you willingly create a practice of stillness to soothe, restore, and ground your sense of self. The result is an inner light you feel from within, simply by using the ingredients you can trust.
@@ -166,15 +165,12 @@ Hi, I’m Saryu, a molecular biologist, skincare enthusiast, and eldest daughter
                 <div className="text-center">
                 <div className="bg-gray-50 p-10 md:p-16 rounded-3xl">
                   {/* Image Container */}
-            <div className="w-28 h-28 md:w-40 md:h-40 bg-white rounded-full mx-auto mb-6 md:mb-8 flex items-center justify-center shadow-sm overflow-hidden">
-  <img 
-  src="/images/aryk/mainfounder.jpg"
-  alt="Saryu Nayak - Founder"
-  className="w-full h-full object-cover rounded-full transition-transform duration-700"
-  style={{ transform: "scale(2.2)" }}
-/>
-
-</div>
+          <div className="w-28 h-28 md:w-40 md:h-40 bg-white rounded-full mx-auto mb-6 md:mb-8 flex items-center justify-center shadow-sm overflow-hidden"> 
+            <img src="demo-aryk/mainfounder.jpg"
+              alt="Saryu Nayak - Founder" 
+              className="w-full h-full object-cover rounded-full"
+              />
+            </div>
 
                   {/* Name */}
                   <h3 className="text-xl md:text-2xl font-serif font-light text-foreground mb-2 md:mb-3">
