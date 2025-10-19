@@ -62,7 +62,7 @@ Caring for your skin is a quiet kind of strength, it’s a moment to slow down, 
           <div className="absolute inset-0">
             <img 
               src="/aryk img/WhatsApp Image 2025-08-23 at 14.40.37.jpeg"
-              alt="ARYK Background"
+              alt=""
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-white/80"></div>
