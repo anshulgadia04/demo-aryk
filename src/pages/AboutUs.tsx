@@ -153,7 +153,7 @@ Hi, I’m Saryu, a molecular biologist, skincare enthusiast, and eldest daughter
          As a scientist, I see skincare as the meeting point of science and soul; where chemistry turns into care. Every ARYK formula is clean, intentional, and made to support both your skin and your sense of self.
      </p>
      <p className="text-base md:text-xl text-muted-foreground leading-relaxed text-justify">    
-        Beyond products, ARYK is a community. A safe space to connect, slow down, and remind each other that healing feels softer when shared. The inverted "Y"in our logo is you, who is unique, growing, and beautifully your own.
+        Beyond products, ARYK is a community. A safe space to connect, slow down, and remind each other that healing feels softer when shared. The inverted "Y" in our logo is you, who is unique, growing, and beautifully your own.
      </p>
     <p className="text-base md:text-xl text-muted-foreground leading-relaxed text-justify">
       ARYK is your ray of sunshine, and a reminder that the science of caring begins with you.
