@@ -161,14 +161,14 @@ const AboutUs = () => {
                 <div className="text-center">
                 <div className="bg-gray-50 p-10 md:p-16 rounded-3xl">
                   {/* Image Container */}
-                  <div className="w-28 h-28 md:w-40 md:h-40 bg-white rounded-full mx-auto mb-6 md:mb-8 flex items-center justify-center shadow-sm overflow-hidden">
-                    <img 
-                      src="/images/aryk/mainfounder.jpg"
-                      alt="Saryu Nayak - Founder"
-                      className="w-full h-full object-cover rounded-full"
-                    />
-                  </div>
-              
+            <div className="w-28 h-28 md:w-40 md:h-40 bg-white rounded-full mx-auto mb-6 md:mb-8 flex items-center justify-center shadow-sm overflow-hidden">
+  <img 
+    src="/images/aryk/mainfounder.jpg"
+    alt="Saryu Nayak - Founder"
+    className="w-full h-full object-cover rounded-full scale-110"
+  />
+</div>
+
                   {/* Name */}
                   <h3 className="text-xl md:text-2xl font-serif font-light text-foreground mb-2 md:mb-3">
                     Saryu Nayak
