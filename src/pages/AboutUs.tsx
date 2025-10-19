@@ -142,26 +142,21 @@ const AboutUs = () => {
               <div className="space-y-8">
   <p className="text-base md:text-xl text-muted-foreground leading-relaxed text-justify">
 Hi, I’m Saryu, a molecular biologist, skincare enthusiast, and eldest daughter who learned that strength can also mean slowing down.
-
   </p>
   
   <p className="text-base md:text-xl text-muted-foreground leading-relaxed text-justify">
-
-ARYK, pronounced “ark,” comes from the Sanskrit word for a ray of sunshine, the same light skincare became for me when I couldn’t see myself clearly.
-
+      ARYK, pronounced “ark,” comes from the Sanskrit word for a ray of sunshine, the same light skincare became for me when I couldn’t see myself clearly.
   </p>
   
   <p className="text-base md:text-xl text-muted-foreground leading-relaxed text-justify">
-Inspired by my mum’s haldi, honey, and rose water rituals, I grew to see skincare not as vanity, but care. Years later, when I struggled with body dysmorphia, those roots grounded me again; skincare became my calm, my way back to peace.
-  
-  <p className="text-base md:text-xl text-muted-foreground leading-relaxed text-justify">
-As a scientist, I see skincare as the meeting point of science and soul; where chemistry turns into care. Every ARYK formula is clean, intentional, and made to support both your skin and your sense of self.
+    Inspired by my mum’s haldi, honey, and rose water rituals, I grew to see skincare not as vanity, but care. Years later, when I struggled with body dysmorphia, those roots grounded me again; skincare became my calm, my way back to peace.
   </p>
      <p className="text-base md:text-xl text-muted-foreground leading-relaxed text-justify">
-       
-Beyond products, ARYK is a community. A safe space to connect, slow down, and remind each other that healing feels softer when shared. The inverted Y in our logo is you, who is unique, growing, and beautifully your own.
-
-       </p>
+         As a scientist, I see skincare as the meeting point of science and soul; where chemistry turns into care. Every ARYK formula is clean, intentional, and made to support both your skin and your sense of self.
+     </p>
+     <p className="text-base md:text-xl text-muted-foreground leading-relaxed text-justify">    
+        Beyond products, ARYK is a community. A safe space to connect, slow down, and remind each other that healing feels softer when shared. The inverted Y in our logo is you, who is unique, growing, and beautifully your own.
+     </p>
     <p className="text-base md:text-xl text-muted-foreground leading-relaxed text-justify">
       ARYK is your ray of sunshine, and a reminder that the science of caring begins with you.
       </p>
