@@ -165,7 +165,7 @@ const AboutUs = () => {
   <img 
     src="/images/aryk/mainfounder.jpg"
     alt="Saryu Nayak - Founder"
-    className="w-full h-full object-cover rounded-full scale-110"
+    className="w-full h-full object-cover rounded-full scale-200"
   />
 </div>
 
