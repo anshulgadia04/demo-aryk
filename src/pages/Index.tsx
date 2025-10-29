@@ -10,9 +10,8 @@ import CartSidebar from "@/components/CartSidebar";
 import ScrollToTop from "@/components/ScrollToTop";
 import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/contexts/CartContext";
-import { useShopifyCart } from "@/hooks/useShopify";
 import { ShopifyService } from "@/lib/shopifyService";
-import { markCheckoutInitiated } from "@/lib/checkoutUtils";
+import { markCheckoutInitiated, CART_STORAGE_KEY } from "@/lib/checkoutUtils";
 
 interface User {
   id: number;
@@ -25,18 +24,27 @@ const Index = () => {
   const [user, setUser] = useState<User | null>(null);
   const { toast } = useToast();
   const { 
+    cartItems,
     isCartOpen, 
-    setIsCartOpen 
+    setIsCartOpen,
+    addToCart,
+    updateCartQuantity,
+    removeFromCart,
+    getCartCount
   } = useCart();
 
-  // Shopify cart (single source of truth for checkout)
-  const { 
-    cart, 
-    addToCart: addToShopifyCart, 
-    updateCartItem, 
-    removeFromCart: removeFromShopifyCart, 
-    getCartItemCount 
-  } = useShopifyCart();
+  // Get the raw Shopify cart from localStorage for checkout
+  const getCart = () => {
+    const savedCart = localStorage.getItem(CART_STORAGE_KEY);
+    if (savedCart) {
+      try {
+        return JSON.parse(savedCart);
+      } catch (err) {
+        return null;
+      }
+    }
+    return null;
+  };
 
   // Load user from localStorage on component mount
   useEffect(() => {
@@ -47,6 +55,7 @@ const Index = () => {
   }, []);
 
   const handleCheckout = async () => {
+    const cart = getCart();
     // Allow guest checkout to work across browsers (localStorage won't sync across browsers)
     const checkoutUrl = cart?.checkoutUrl;
     if (!checkoutUrl) {
@@ -85,8 +94,6 @@ const Index = () => {
     });
   };
 
-  const cartCount = getCartItemCount();
-
   // Wishlist
   const [wishlist, setWishlist] = useState<number[]>(() => {
     const saved = localStorage.getItem('aryk_wishlist');
@@ -101,35 +108,13 @@ const Index = () => {
       <Header 
         onCartClick={() => setIsCartOpen(true)}
         onAuthClick={() => setIsAuthModalOpen(true)}
-        cartCount={cartCount}
+        cartCount={getCartCount()}
         variant="transparent"
       />
       
       <main>
         <HeroSection />
-        <ProductGrid onAddToCart={async (product: any) => {
-          try {
-            let variantId = product.variants?.find((v: any) => v.availableForSale)?.id || product.variants?.[0]?.id;
-            if (!variantId && product.handle) {
-              try {
-                const full = await ShopifyService.getProduct(product.handle);
-                const edges = full?.variants?.edges || [];
-                const availableEdge = edges.find((e: any) => e?.node?.availableForSale);
-                variantId = availableEdge?.node?.id || edges[0]?.node?.id;
-              } catch {}
-            }
-            if (!variantId) {
-              toast({ title: "Error", description: "Product variant not available", variant: "destructive" });
-              return;
-            }
-            await addToShopifyCart(variantId, 1);
-            toast({ title: "Added to cart", description: "Item has been added to your cart." });
-            setIsCartOpen(true);
-          } catch (error) {
-            console.error('Error adding to cart:', error);
-            toast({ title: "Error", description: "Failed to add to cart", variant: "destructive" });
-          }
-        }} />
+        <ProductGrid onAddToCart={addToCart} />
         <YouTubeCarousel
           videoIds={[
             "dQw4w9WgXcQ",
@@ -155,24 +140,9 @@ const Index = () => {
       <CartSidebar
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
-        items={(cart?.lines?.edges || []).map((edge: any) => ({
-          id: edge.node.id,
-          name: edge.node.merchandise.product.title,
-          category: edge.node.merchandise.product.title,
-          price: parseFloat(edge.node.merchandise.price.amount),
-          image: edge.node.merchandise.product.images.edges[0]?.node.url || '/placeholder.svg',
-          quantity: edge.node.quantity,
-        }))}
-        onUpdateQuantity={async (id, quantity) => {
-          if (quantity <= 0) {
-            await removeFromShopifyCart(String(id));
-            return;
-          }
-          await updateCartItem(String(id), quantity);
-        }}
-        onRemoveItem={async (id) => {
-          await removeFromShopifyCart(String(id));
-        }}
+        items={cartItems}
+        onUpdateQuantity={updateCartQuantity}
+        onRemoveItem={removeFromCart}
         onCheckout={handleCheckout}
       />
 

@@ -8,6 +8,8 @@ import AuthModal from "@/components/AuthModal";
 import CartSidebar from "@/components/CartSidebar";
 import { useToast } from "@/hooks/use-toast";
 import { useCart, CartItem } from "@/contexts/CartContext";
+import { saveThought } from "@/services/googleSheetsService";
+import ThoughtsDisplay from "@/components/ThoughtsDisplay";
 
 type Bubble = {
   id: number;
@@ -54,15 +56,12 @@ const RelaxingCorner = () => {
     { id: 6, src: "/videos/about-background.mp4", title: "Customer Testimonial #6" },
   ];
 
-  type Review = {
-    id: number;
-    name: string;
-    message: string;
-    createdAt: string;
-  };
-  const [reviews, setReviews] = useState<Review[]>([]);
+  // No local storage - data only stored in Google Sheets
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -131,23 +130,7 @@ const RelaxingCorner = () => {
     }
   }, []);
 
-
-  // Load saved thoughts/reviews
-  useEffect(() => {
-    const saved = localStorage.getItem("aryk_relax_reviews");
-    if (saved) {
-      try {
-        setReviews(JSON.parse(saved));
-      } catch {
-        // ignore corrupt storage
-      }
-    }
-  }, []);
-
-  // Persist thoughts/reviews
-  useEffect(() => {
-    localStorage.setItem("aryk_relax_reviews", JSON.stringify(reviews));
-  }, [reviews]);
+  // No loading - only storing thoughts to Google Sheets
 
   const onCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -182,18 +165,66 @@ const RelaxingCorner = () => {
     toast({ title: 'Logged out', description: 'You have been logged out successfully.' });
   };
 
-  const submitThought = (e: React.FormEvent) => {
+  const submitThought = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate input
     const trimmedMessage = message.trim();
-    if (!trimmedMessage) return;
-    const newReview: Review = {
-      id: Date.now(),
+    if (!trimmedMessage) {
+      toast({
+        title: 'Message required',
+        description: 'Please enter a message before sharing.',
+        variant: 'destructive'
+      });
+      return;
+    }
+    
+    // Prevent multiple submissions
+    if (isSyncing) {
+      console.log('Already syncing, ignoring duplicate submission');
+      return;
+    }
+    
+    setIsSyncing(true);
+    
+    const thoughtData = {
       name: name.trim() || "Anonymous",
       message: trimmedMessage,
-      createdAt: new Date().toISOString(),
     };
-    setReviews((prev) => [newReview, ...prev]);
-    setMessage("");
+    
+    console.log('Submitting thought:', thoughtData);
+    
+    try {
+      // Save to Google Sheets
+      const success = await saveThought(thoughtData.name, thoughtData.message);
+      
+      if (success) {
+        toast({ 
+          title: 'Thought shared! ✨', 
+          description: 'Thank you for sharing! Your thought will be reviewed and updated within 24 hours.' 
+        });
+        
+        // Clear form after successful submission
+        setMessage("");
+        setName("");
+        
+        // Trigger refresh of thoughts display
+        setRefreshTrigger(prev => prev + 1);
+        
+        console.log('✅ Thought submitted and form cleared');
+      } else {
+        throw new Error('Failed to save to Google Sheets');
+      }
+    } catch (error) {
+      console.error('❌ Error submitting thought:', error);
+      toast({ 
+        title: 'Error', 
+        description: 'Failed to save your thought. Please check your connection and try again.',
+        variant: 'destructive'
+      });
+    } finally {
+      setIsSyncing(false);
+    }
   };
 
   return (
@@ -258,29 +289,53 @@ const RelaxingCorner = () => {
               onChange={(e) => setName(e.target.value)}
               placeholder="Your name (optional)"
               className="md:col-span-1"
+              disabled={isSyncing}
+              maxLength={100}
             />
             <Textarea
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Write your thought..."
               className="md:col-span-2 min-h-[96px]"
+              disabled={isSyncing}
+              maxLength={500}
             />
-            <div className="md:col-span-3 flex justify-end">
-              <Button type="submit" className="bg-foreground text-background hover:bg-foreground/90">Share</Button>
+            <div className="md:col-span-3 flex justify-between items-center">
+              <div className="text-sm text-muted-foreground">
+                {message.length}/500 characters
+              </div>
+              <Button 
+                type="submit" 
+                disabled={isSyncing || !message.trim()}
+                className="bg-foreground text-background hover:bg-foreground/90 disabled:opacity-50"
+              >
+                {isSyncing ? (
+                  <>
+                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Saving...
+                  </>
+                ) : (
+                  'Share Thought'
+                )}
+              </Button>
             </div>
           </form>
 
-          <div className="space-y-4">
-            {reviews.length === 0 && (
-              <div className="text-sm text-muted-foreground">No thoughts yet. Be the first to share!</div>
-            )}
-            {reviews.map((r) => (
-              <div key={r.id} className="p-4 rounded-xl border border-border bg-card">
-                <blockquote className="italic text-foreground">“{r.message}”</blockquote>
-                <div className="mt-2 text-xs text-muted-foreground">— {r.name} · {new Date(r.createdAt).toLocaleString()}</div>
-              </div>
-            ))}
+        </div>
+      </section>
+
+      {/* Display Shared Thoughts */}
+      <section className="py-16 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="mb-8">
+            <h3 className="text-2xl font-serif font-light text-foreground">Community Thoughts</h3>
+            <p className="text-muted-foreground">See what others are sharing in our relaxing corner.</p>
           </div>
+          
+          <ThoughtsDisplay refreshTrigger={refreshTrigger} />
         </div>
       </section>
 

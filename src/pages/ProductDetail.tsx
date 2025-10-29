@@ -11,7 +11,6 @@ import { Heart, Star, ArrowLeft, Minus, Plus, Loader2 } from "lucide-react";
 import { Product } from "@/lib/products";
 import { ShopifyService } from "@/lib/shopifyService";
 import { useCart } from "@/contexts/CartContext";
-import { useShopifyCart } from "@/hooks/useShopify";
 import { useToast } from "@/hooks/use-toast";
 
 const ProductDetail = () => {
@@ -37,7 +36,6 @@ const ProductDetail = () => {
     removeFromCart, 
     getCartCount 
   } = useCart();
-  const { addToCart: addToShopifyCart } = useShopifyCart();
 
   useEffect(() => {
     localStorage.setItem('aryk_wishlist', JSON.stringify(wishlist));
@@ -103,28 +101,41 @@ const ProductDetail = () => {
     }
   }, [id, navigate, toast]);
 
+  const { addToCart: addToCartViaContext } = useCart();
+
   const handleAddToCart = async (productArg?: any) => {
     const baseProduct = productArg || product;
     if (!baseProduct) return;
     try {
+      // Find the appropriate variant ID
       let variantId = selectedVariant || baseProduct.variants?.find((v: any) => (v as any).availableForSale)?.id || baseProduct.variants?.[0]?.id;
+      
+      // If no variant found and we have a handle, fetch full product details
       if (!variantId && (baseProduct as any).handle) {
         try {
           const full = await ShopifyService.getProduct((baseProduct as any).handle);
           const edges = full?.variants?.edges || [];
           const availableEdge = edges.find((e: any) => e?.node?.availableForSale);
           variantId = availableEdge?.node?.id || edges[0]?.node?.id;
-        } catch {}
+        } catch (err) {
+          console.error('Error fetching product details:', err);
+        }
       }
+      
       if (!variantId) {
         toast({ title: "Error", description: "Product variant not available", variant: "destructive" });
         return;
       }
-      await addToShopifyCart(String(variantId), quantity);
-      toast({
-        title: "Added to cart",
-        description: `${baseProduct.name} x${quantity} has been added to your cart.`,
-      });
+
+      // Use CartContext's addToCart which handles toast and proper state update
+      await addToCartViaContext({
+        id: String(variantId),
+        name: baseProduct.name,
+        category: baseProduct.category,
+        price: baseProduct.price,
+        image: baseProduct.image || '/placeholder.svg',
+      }, quantity);
+      
       setIsCartOpen(true);
     } catch (e) {
       toast({ title: "Error", description: "Failed to add to cart", variant: "destructive" });

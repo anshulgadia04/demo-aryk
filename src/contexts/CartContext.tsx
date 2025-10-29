@@ -52,7 +52,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   const cartItems = useMemo<CartItem[]>(() => {
     const edges = cart?.lines?.edges || [];
-    return edges.map((edge: any) => ({
+    const items = edges.map((edge: any) => ({
       id: edge.node.id,
       name: edge.node.merchandise?.product?.title,
       category: edge.node.merchandise?.product?.title,
@@ -60,6 +60,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       image: edge.node.merchandise?.product?.images?.edges?.[0]?.node?.url || '/placeholder.svg',
       quantity: edge.node.quantity,
     }));
+    return items;
   }, [cart]);
 
   const addToCart = async (product: Omit<CartItem, 'quantity'>, quantity: number = 1) => {
@@ -67,11 +68,13 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       const safeQuantity = Math.max(1, Math.floor(quantity));
       // We need a merchandise/variant id; try to accept product.id as variant id directly.
       await shopifyAddToCart(String(product.id), safeQuantity);
+      // Show toast with product name
       toast({
         title: "Added to cart",
-        description: `${product.name} has been added to your cart.`,
+        description: `${product.name} x${safeQuantity} has been added to your cart.`,
       });
     } catch (e) {
+      console.error('Error adding to cart:', e);
       toast({ title: "Error", description: "Failed to add to cart", variant: "destructive" });
     }
   };

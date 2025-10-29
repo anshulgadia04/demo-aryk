@@ -90,7 +90,7 @@ const ProductCard = ({
         <div className="absolute inset-x-3 bottom-3">
           <Button
             variant="outline"
-            className="w-full rounded-full border border-black/20 bg-white/70 backdrop-blur supports-[backdrop-filter]:backdrop-blur-md hover:bg-white text-foreground transition-all duration-500 ease-out shadow-sm hover:shadow-md hover:scale-105"
+            className="w-full rounded-full border border-black/20 bg-white/70 backdrop-blur supports-[backdrop-filter]:backdrop-blur-md hover:bg-white text-foreground hover:text-foreground transition-all duration-500 ease-out shadow-sm hover:shadow-md hover:scale-105"
             onClick={() => onAddToCart(product)}
           >
             ADD TO CART

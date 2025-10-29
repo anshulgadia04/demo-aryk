@@ -394,7 +394,7 @@ const ShopifyShop = () => {
                         {/* Actions */}
                         <div className="flex flex-col justify-center gap-2 sm:gap-3">
                           <button
-                            className="inline-flex items-center justify-center whitespace-nowrap rounded-full border border-black/20 bg-white px-4 h-9 sm:h-10 text-sm font-medium shadow-sm transition hover:shadow-md"
+                            className="inline-flex items-center justify-center whitespace-nowrap rounded-full border border-black/20 bg-white px-4 h-9 sm:h-10 text-sm font-medium shadow-sm transition hover:shadow-md text-foreground hover:text-foreground"
                             onClick={() => handleAddToCart(product)}
                           >
                             Add to cart

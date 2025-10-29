@@ -22,7 +22,7 @@ const CartSidebar = ({
   onCheckout
 }: CartSidebarProps) => {
   const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const shipping = subtotal > 2000 ? 0 : 200;
+  const shipping = 0; // Free shipping
   const total = subtotal + shipping;
 
   return (
@@ -120,9 +120,9 @@ const CartSidebar = ({
                   <span>Subtotal</span>
                   <span>₹{subtotal.toLocaleString()}</span>
                 </div>
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-sm text-muted-foreground">
                   <span>Shipping</span>
-                  <span>{shipping === 0 ? 'Free' : `₹${shipping}`}</span>
+                  <span>Free</span>
                 </div>
                 <Separator />
                 <div className="flex justify-between font-medium">
@@ -131,11 +131,6 @@ const CartSidebar = ({
                 </div>
               </div>
 
-              {shipping > 0 && (
-                <p className="text-xs text-muted-foreground">
-                  Free shipping on orders over ₹2,000
-                </p>
-              )}
 
               <Button 
                 className="w-full" 
