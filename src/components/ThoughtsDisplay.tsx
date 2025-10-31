@@ -15,50 +15,16 @@ const ThoughtsDisplay = ({ refreshTrigger }: ThoughtsDisplayProps) => {
   // Static thoughts - manually added (more thoughts for pagination demo)
   const staticThoughts: Thought[] = [
     {
-      timestamp: "2025-10-29T15:07:44.964Z",
-      name: "Sarah",
-      message: "Taking a moment to breathe and appreciate the small joys in life. This relaxing corner is exactly what I needed today. 🌸"
+      timestamp: "",
+      name: "",
+      message: ""
     },
     {
-      timestamp: "2025-10-29T13:07:44.964Z",
-      name: "Michael",
-      message: "The gentle sounds and peaceful atmosphere here help me find my center. Grateful for this space to reflect and recharge."
+      timestamp: "",
+      name: "",
+      message: ""
     },
-    {
-      timestamp: "2025-10-29T10:07:44.964Z",
-      name: "Emma",
-      message: "Sometimes we need to slow down and just be present. This corner reminds me to appreciate the beauty in simplicity. ✨"
-    },
-    {
-      timestamp: "2025-10-29T04:07:44.964Z",
-      name: "David",
-      message: "Nature has a way of healing the soul. Even a few minutes in this peaceful space can transform your entire day."
-    },
-    {
-      timestamp: "2025-10-28T22:07:44.964Z",
-      name: "Luna",
-      message: "Mindfulness isn't about emptying your mind, it's about being present with whatever arises. Thank you for this sanctuary. 🧘‍♀️"
-    },
-    {
-      timestamp: "2025-10-28T16:07:44.964Z",
-      name: "Alex",
-      message: "In the rush of daily life, we forget to pause. This corner reminds me that stillness is not a luxury, but a necessity."
-    },
-    {
-      timestamp: "2025-10-28T04:07:44.964Z",
-      name: "Maya",
-      message: "The soft colors and gentle ambiance here create the perfect environment for reflection and inner peace. 🌿"
-    },
-    {
-      timestamp: "2025-10-27T16:07:44.964Z",
-      name: "James",
-      message: "Sometimes the most productive thing you can do is rest. This space understands that beautiful truth."
-    },
-    {
-      timestamp: "2025-10-27T16:07:44.964Z",
-      name: "James",
-      message: "Sometimes the most productive thing you can do is rest. This space understands that beautiful truth."
-    }
+  
   ];
 
   const [thoughts] = useState<Thought[]>(staticThoughts);
@@ -176,3 +142,4 @@ const ThoughtsDisplay = ({ refreshTrigger }: ThoughtsDisplayProps) => {
 };
 
 export default ThoughtsDisplay;
+
