@@ -14,7 +14,7 @@ interface ThoughtsDisplayProps {
 const ThoughtsDisplay = ({ refreshTrigger }: ThoughtsDisplayProps) => {
   // Static thoughts - manually added (more thoughts for pagination demo)
   const staticThoughts: Thought[] = [
-    {
+   /* {
       timestamp: "",
       name: "",
       message: ""
@@ -24,7 +24,7 @@ const ThoughtsDisplay = ({ refreshTrigger }: ThoughtsDisplayProps) => {
       name: "",
       message: ""
     },
-  
+  */
   ];
 
   const [thoughts] = useState<Thought[]>(staticThoughts);
@@ -142,4 +142,5 @@ const ThoughtsDisplay = ({ refreshTrigger }: ThoughtsDisplayProps) => {
 };
 
 export default ThoughtsDisplay;
+
 
