@@ -298,7 +298,7 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
                   onClick={() => {
                     const domain = (import.meta as any).env?.VITE_SHOPIFY_STORE_DOMAIN;
                     if (domain) {
-                      window.open(`https://${domain}/account`, '_blank');
+                       window.location.href = `https://${domain}/account`;                   
                     } else {
                       onAuthClick();
                     }
@@ -437,3 +437,4 @@ const Header = ({ onCartClick, onAuthClick, cartCount, variant = "transparent" }
 };
 
 export default Header;
+
