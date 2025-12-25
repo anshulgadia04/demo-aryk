@@ -116,14 +116,14 @@ const Index = () => {
         <HeroSection />
         <ProductGrid onAddToCart={addToCart} />
         <YouTubeCarousel
-          /*videoIds={[
+          videoIds={[
             " ",
             "",
             "",
             "",
             ""
           ]} 
-          */
+          
           title="Our YouTube Channel"
           subtitle="Scroll to explore our latest videos"
         />
@@ -153,6 +153,7 @@ const Index = () => {
 };
 
 export default Index;
+
 
 
 
