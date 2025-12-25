@@ -15,7 +15,7 @@ const HeroSection = () => {
       <div className="absolute inset-0">
         <video
           className="w-full h-full object-cover"
-          src="/videos/IMG_4474.jpg"
+          src="/videos/mainimg.jpg"
           autoPlay
           muted
           loop
@@ -86,3 +86,4 @@ const HeroSection = () => {
 
 
 export default HeroSection;
+
