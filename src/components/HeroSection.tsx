@@ -14,7 +14,7 @@ const HeroSection = () => {
       {/* Background video */}
      <div className="absolute inset-0">
   <img
-    src="/videos/mainimg.jpg"
+    src="/images/aryk/IMG_4474.jpg"
     alt="Background"
     className="w-full h-full object-cover"
   />
@@ -83,6 +83,7 @@ const HeroSection = () => {
 
 
 export default HeroSection;
+
 
 
 
