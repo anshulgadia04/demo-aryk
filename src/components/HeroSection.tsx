@@ -12,13 +12,14 @@ const HeroSection = () => {
   return (
     <section className="relative h-[60vh] md:h-[70vh] overflow-hidden">
       {/* Background video */}
-     <div className="absolute inset-0">
+  <div className="absolute inset-0">
   <img
     src="/images/aryk/IMG_4474.jpg"
     alt="Background"
     className="w-full h-full object-cover"
   />
   <div className="absolute inset-0 bg-black/30" />
+ </div>
 </div>
   
       {/* Content */}
@@ -83,6 +84,7 @@ const HeroSection = () => {
 
 
 export default HeroSection;
+
 
 
 
