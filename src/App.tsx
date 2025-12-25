@@ -7,6 +7,7 @@ import { CartProvider } from "@/contexts/CartContext";
 import { useEffect } from "react";
 import { handleCheckoutReturn } from "@/lib/checkoutUtils";
 import Index from "./pages/Index";
+import ComingSoon from "./pages/ComingSoon";
 import RelaxingCorner from "./pages/RelaxingCorner";
 import NotFound from "./pages/NotFound";
 import Favorites from "./pages/Favorites";
@@ -55,4 +56,5 @@ const App = () => {
 };
 
 export default App;
+
 
