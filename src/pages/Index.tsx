@@ -117,7 +117,7 @@ const Index = () => {
         <ProductGrid onAddToCart={addToCart} />
         <YouTubeCarousel
           videoIds={[
-            "",
+            " ",
             "",
             "",
             "",
@@ -152,4 +152,5 @@ const Index = () => {
 };
 
 export default Index;
+
 
