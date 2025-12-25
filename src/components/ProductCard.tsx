@@ -110,7 +110,7 @@ const ProductCard = ({
         </div>
 
         <p className="text-xs sm:text-sm text-muted-foreground mb-2 uppercase transition-colors duration-500 ease-out group-hover:text-foreground">
-          {category} • 2 SIZES
+          {category}
         </p>
         
         {/* Price */}
