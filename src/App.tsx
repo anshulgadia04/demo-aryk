@@ -36,7 +36,7 @@ const App = () => {
           <BrowserRouter>
             <ScrollToTopOnRoute />
             <Routes>
-              <Route path="/" element={<ComingSoon/>} />
+              <Route path="/" element={<Index />} />
               <Route path="/shop" element={<ShopifyShop />} />
               <Route path="/shopify-shop" element={<ShopifyShop />} />
               <Route path="/product/:id" element={<ProductDetail />} />
