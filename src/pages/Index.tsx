@@ -117,11 +117,11 @@ const Index = () => {
         <ProductGrid onAddToCart={addToCart} />
         <YouTubeCarousel
           videoIds={[
-            "dQw4w9WgXcQ",
-            "3JZ_D3ELwOQ",
-            "oHg5SJYRHA0",
-            "V-_O7nl0Ii0",
-            "tVj0ZTS4WF4"
+            "",
+            "",
+            "",
+            "",
+            ""
           ]}
           title="Our YouTube Channel"
           subtitle="Scroll to explore our latest videos"
@@ -152,3 +152,4 @@ const Index = () => {
 };
 
 export default Index;
+
