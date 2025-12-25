@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+/*import { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AuthModal from "@/components/AuthModal";
@@ -118,3 +118,5 @@ const ComingSoon = () => {
 
 
 export default ComingSoon;
+
+*/
