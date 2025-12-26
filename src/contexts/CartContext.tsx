@@ -71,7 +71,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       // Show toast with product name
       toast({
         title: "Added to cart",
-        description: `${product.name} x${safeQuantity} has been added to your cart.`,
+        description: `item has been added to your cart.`,
       });
     } catch (e) {
       console.error('Error adding to cart:', e);
