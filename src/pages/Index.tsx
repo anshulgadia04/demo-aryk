@@ -103,6 +103,47 @@ const Index = () => {
     localStorage.setItem('aryk_wishlist', JSON.stringify(wishlist));
   }, [wishlist]);
 
+  const handleAddToCart = async (product: any) => {
+    try {
+      // Prefer first available-for-sale variant, then any
+      let variantId = product.variants?.find((v: any) => v.availableForSale)?.id || product.variants?.[0]?.id;
+
+      // Fallback: fetch full product from Shopify to get variant ID
+      if (!variantId && product.handle) {
+        try {
+          const full = await ShopifyService.getProduct(product.handle);
+          // Try to get first available variant from raw response
+          const edges = full?.variants?.edges || [];
+          const availableEdge = edges.find((e: any) => e?.node?.availableForSale);
+          variantId = availableEdge?.node?.id || edges[0]?.node?.id;
+        } catch (e) {
+          // ignore, will show error below
+        }
+      }
+
+      if (!variantId) {
+        toast({
+          title: "Error",
+          description: "Product variant not available",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Pass the product with variant ID to CartContext's addToCart
+      await addToCart({
+        id: variantId,
+        name: product.name,
+        category: product.category,
+        price: product.price,
+        image: product.image || '/placeholder.svg',
+      }, 1);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      toast({ title: "Error", description: "Failed to add to cart", variant: "destructive" });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header 
@@ -114,7 +155,7 @@ const Index = () => {
       
       <main>
         <HeroSection />
-        <ProductGrid onAddToCart={addToCart} />
+        <ProductGrid onAddToCart={handleAddToCart} />
         <YouTubeCarousel
           videoIds={[
             " ",
