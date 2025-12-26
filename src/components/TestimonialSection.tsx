@@ -17,27 +17,27 @@ const TestimonialSection = () => {
   const testimonials = [
     {
       id: 1,
-      text: "I am already obsessing over this mask. My fave mask I've ever used!",
-      author: "Allyson D.",
-      product: "TURMERIC BRIGHTENING & EXFOLIATING MASK",
+      text: "It doesn’t leave traces or flaky skin. My skin is dry. And skin feels bouncy",
+      author: "Deval Shukla",
+      product: "Smooth Operator",
       rating: 4.9,
       reviewCount: 2134,
       image: imgTurmeric
     },
     {
       id: 2,
-      text: "This serum has transformed my skin completely. I can't imagine my routine without it!",
-      author: "Sarah M.",
-      product: "VITAMIN C BRIGHTENING SERUM",
+      text: "My skin is very sensitive and I just use a specific cream for face. This doesn’t irritate my skin neither does it leave it dry",
+      author: "Surbhi Saxena",
+      product: "Glow Getter",
       rating: 4.8,
       reviewCount: 789,
       image: imgVitaminC
     },
     {
       id: 3,
-      text: "The most luxurious skincare experience. My skin feels so nourished and healthy.",
-      author: "Emma K.",
-      product: "ASHWAGANDHA BOUNCE MOISTURISER",
+      text: "The lightweight consistency is what I am looking for. It does not feel heavy on my skin",
+      author: " Priyanka Udani",
+      product: "Trouble Tamer",
       rating: 4.8,
       reviewCount: 1367,
       image: imgAshwagandha
@@ -114,7 +114,7 @@ const TestimonialSection = () => {
                 }`}
               >
                 {/* Author hidden as requested */}
-                {/* <p className="text-foreground font-medium mb-2">- {testimonials[currentSlide].author}</p> */}
+                <p className="text-foreground font-medium mb-2">- {testimonials[currentSlide].author}</p> 
                 <Button variant="link" className="text-white p-0 h-auto font-normal underline transition-colors duration-500 ease-out hover:text-white/80 text-center lg:text-left">
                   <span className="block sm:inline">SHOP {testimonials[currentSlide].product}</span>
                 </Button>
@@ -166,5 +166,6 @@ const TestimonialSection = () => {
     </section>
   );
 };
+
 
 export default TestimonialSection;
