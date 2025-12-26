@@ -2,9 +2,9 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
-import imgAshwagandha from "../../aryk img/WhatsApp Image 2025-08-19 at 20.33.55_f82027bb.jpg";
-import imgVitaminC from "../../aryk img/WhatsApp Image 2025-08-19 at 20.33.52_9cb19fa4.jpg";
-import imgTurmeric from "../../aryk img/WhatsApp Image 2025-08-19 at 20.33.53_9ec97964.jpg";
+import imgAshwagandha from "../../aryk img/IMG_4470.jpg";
+import imgVitaminC from "../../aryk img/IMG_4512.jpg";
+import imgTurmeric from "../../aryk img/IMG_4501.jpg";
 
 const TestimonialSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -169,6 +169,7 @@ const TestimonialSection = () => {
 
 
 export default TestimonialSection;
+
 
 
 
