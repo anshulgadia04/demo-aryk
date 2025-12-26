@@ -22,7 +22,7 @@ const TestimonialSection = () => {
       product: "Smooth Operator",
       rating: 4.9,
       reviewCount: 2134,
-      image: imgTurmeric
+      image: imgAshwagandha
     },
     {
       id: 2,
@@ -40,7 +40,7 @@ const TestimonialSection = () => {
       product: "Trouble Tamer",
       rating: 4.8,
       reviewCount: 1367,
-      image: imgAshwagandha
+      image: imgTurmeric
     }
   ];
 
@@ -169,6 +169,7 @@ const TestimonialSection = () => {
 
 
 export default TestimonialSection;
+
 
 
 
