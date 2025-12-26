@@ -12,6 +12,7 @@ import { Product } from "@/lib/products";
 import { ShopifyService } from "@/lib/shopifyService";
 import { useCart } from "@/contexts/CartContext";
 import { useToast } from "@/hooks/use-toast";
+import { markCheckoutInitiated, CART_STORAGE_KEY } from "@/lib/checkoutUtils";
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -107,37 +108,41 @@ const ProductDetail = () => {
     const baseProduct = productArg || product;
     if (!baseProduct) return;
     try {
-      // Find the appropriate variant ID
-      let variantId = selectedVariant || baseProduct.variants?.find((v: any) => (v as any).availableForSale)?.id || baseProduct.variants?.[0]?.id;
-      
-      // If no variant found and we have a handle, fetch full product details
-      if (!variantId && (baseProduct as any).handle) {
+      // Prefer first available-for-sale variant, then any, or use selected variant
+      let variantId = selectedVariant || baseProduct.variants?.find((v: any) => v.availableForSale)?.id || baseProduct.variants?.[0]?.id;
+
+      // Fallback: fetch full product from Shopify to get variant ID
+      if (!variantId && baseProduct.handle) {
         try {
-          const full = await ShopifyService.getProduct((baseProduct as any).handle);
+          const full = await ShopifyService.getProduct(baseProduct.handle);
+          // Try to get first available variant from raw response
           const edges = full?.variants?.edges || [];
           const availableEdge = edges.find((e: any) => e?.node?.availableForSale);
           variantId = availableEdge?.node?.id || edges[0]?.node?.id;
-        } catch (err) {
-          console.error('Error fetching product details:', err);
+        } catch (e) {
+          // ignore, will show error below
         }
       }
-      
+
       if (!variantId) {
-        toast({ title: "Error", description: "Product variant not available", variant: "destructive" });
+        toast({
+          title: "Error",
+          description: "Product variant not available",
+          variant: "destructive",
+        });
         return;
       }
 
-      // Use CartContext's addToCart which handles toast and proper state update
+      // Pass the product with variant ID to CartContext's addToCart
       await addToCartViaContext({
-        id: String(variantId),
+        id: variantId,
         name: baseProduct.name,
         category: baseProduct.category,
         price: baseProduct.price,
         image: baseProduct.image || '/placeholder.svg',
       }, quantity);
-      
-      setIsCartOpen(true);
-    } catch (e) {
+    } catch (error) {
+      console.error('Error adding to cart:', error);
       toast({ title: "Error", description: "Failed to add to cart", variant: "destructive" });
     }
   };
@@ -146,6 +151,46 @@ const ProductDetail = () => {
     if (newQuantity >= 1 && newQuantity <= 10) {
       setQuantity(newQuantity);
     }
+  };
+
+  // Get the raw Shopify cart from localStorage for checkout
+  const getCart = () => {
+    const savedCart = localStorage.getItem(CART_STORAGE_KEY);
+    if (savedCart) {
+      try {
+        return JSON.parse(savedCart);
+      } catch (err) {
+        return null;
+      }
+    }
+    return null;
+  };
+
+  const handleCheckout = async () => {
+    const cart = getCart();
+    // Allow guest checkout to work across browsers (localStorage won't sync across browsers)
+    const checkoutUrl = cart?.checkoutUrl;
+    if (!checkoutUrl) {
+      toast({ title: "Error", description: "No checkout URL available", variant: "destructive" });
+      return;
+    }
+    // Best-effort: attach customer in background if logged in on server
+    if (cart?.id) {
+      // Fire-and-forget to avoid popup blockers; do not await before navigation
+      ShopifyService.attachCustomerToCart(cart.id).catch(() => {});
+    }
+    
+    // Mark that checkout was initiated
+    markCheckoutInitiated();
+    
+    // Add return URL parameter
+    const returnUrl = encodeURIComponent(window.location.origin);
+    const finalCheckoutUrl = checkoutUrl.includes('?') 
+      ? `${checkoutUrl}&return_to=${returnUrl}`
+      : `${checkoutUrl}?return_to=${returnUrl}`;
+    
+    // Same-tab redirect avoids popup blockers in some browsers
+    window.location.href = finalCheckoutUrl;
   };
 
   if (loading) {
@@ -379,17 +424,7 @@ const ProductDetail = () => {
         items={cartItems}
         onUpdateQuantity={updateCartQuantity}
         onRemoveItem={removeFromCart}
-        onCheckout={() => {
-          // Check if user is signed in
-          const savedUser = localStorage.getItem('aryk_user');
-          if (!savedUser) {
-            // Redirect to sign in
-            window.location.href = '/shopify-shop';
-            return;
-          }
-          // Redirect to Shopify shop for checkout
-          window.location.href = '/shopify-shop';
-        }}
+        onCheckout={handleCheckout}
       />
     </div>
   );
