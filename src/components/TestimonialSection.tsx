@@ -17,7 +17,7 @@ const TestimonialSection = () => {
   const testimonials = [
     {
       id: 1,
-      text: "It doesn’t leave traces or flaky skin. My skin is dry. And skin feels bouncy  -Deval Shukla " ,
+      text: "It doesn’t leave traces or flaky skin. My skin is dry. And skin feels bouncy" ,
       author: "Deval Shukla",
       product: "Smooth Operator",
       rating: 4.9,
@@ -169,6 +169,7 @@ const TestimonialSection = () => {
 
 
 export default TestimonialSection;
+
 
 
 
