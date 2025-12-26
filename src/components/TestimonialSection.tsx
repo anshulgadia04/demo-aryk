@@ -22,7 +22,8 @@ const TestimonialSection = () => {
       product: "Smooth Operator",
       rating: 4.9,
       reviewCount: 2134,
-      image: imgAshwagandha
+      image: imgAshwagandha,
+      link: 8279096721595
     },
     {
       id: 2,
@@ -31,7 +32,8 @@ const TestimonialSection = () => {
       product: "Glow Getter",
       rating: 4.8,
       reviewCount: 789,
-      image: imgVitaminC
+      image: imgVitaminC,
+      link:8279096819899
     },
     {
       id: 3,
@@ -40,7 +42,8 @@ const TestimonialSection = () => {
       product: "Trouble Tamer",
       rating: 4.8,
       reviewCount: 1367,
-      image: imgTurmeric
+      image: imgTurmeric ,
+      link : 8279097114811
     }
   ];
 
@@ -115,7 +118,9 @@ const TestimonialSection = () => {
               >
                 {/* Author hidden as requested */}
                 <p className="text-foreground font-medium mb-2 text-white">- {testimonials[currentSlide].author}</p> 
-                <Button variant="link" className="text-white p-0 h-auto font-normal underline transition-colors duration-500 ease-out hover:text-white/80 text-center lg:text-left">
+                <Button variant="link"   onClick={() =>
+    window.location.href = `https://www.aryk.in/product/${testimonials[currentSlide].link}`
+  } className="text-white p-0 h-auto font-normal underline transition-colors duration-500 ease-out hover:text-white/80 text-center lg:text-left">
                   <span className="block sm:inline">SHOP {testimonials[currentSlide].product}</span>
                 </Button>
               </div>
@@ -169,6 +174,7 @@ const TestimonialSection = () => {
 
 
 export default TestimonialSection;
+
 
 
 
