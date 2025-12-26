@@ -114,7 +114,7 @@ const TestimonialSection = () => {
                 }`}
               >
                 {/* Author hidden as requested */}
-                <p className="text-foreground font-medium mb-2">- {testimonials[currentSlide].author}</p> 
+                <p className="text-foreground font-medium mb-2" color = "#fff">- {testimonials[currentSlide].author}</p> 
                 <Button variant="link" className="text-white p-0 h-auto font-normal underline transition-colors duration-500 ease-out hover:text-white/80 text-center lg:text-left">
                   <span className="block sm:inline">SHOP {testimonials[currentSlide].product}</span>
                 </Button>
@@ -169,5 +169,6 @@ const TestimonialSection = () => {
 
 
 export default TestimonialSection;
+
 
 
