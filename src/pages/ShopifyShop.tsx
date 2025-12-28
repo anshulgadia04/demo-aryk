@@ -169,8 +169,8 @@ const ShopifyShop = () => {
     // Add return URL parameter
     const returnUrl = encodeURIComponent(window.location.origin);
     const finalCheckoutUrl = checkoutUrl.includes('?') 
-      ? ⁠ ${checkoutUrl}&return_to=${returnUrl} ⁠
-      : ⁠ ${checkoutUrl}?return_to=${returnUrl} ⁠;
+      ? `${checkoutUrl}&return_to=${returnUrl}`
+      : `${checkoutUrl}?return_to=${returnUrl}`;
     
     window.location.href = finalCheckoutUrl;
   };
@@ -297,7 +297,7 @@ const ShopifyShop = () => {
               <Button
                 variant="ghost"
                 size="icon"
-                className={⁠ ${viewMode === 'grid' ? 'bg-amber-900 text-white' : 'bg-muted/30 text-foreground'} h-12 w-12 rounded-none ⁠}
+                className={`${viewMode === 'grid' ? 'bg-amber-900 text-white' : 'bg-muted/30 text-foreground'} h-12 w-12 rounded-none`}
                 onClick={() => setViewMode("grid")}
                 aria-pressed={viewMode === 'grid'}
               >
@@ -306,7 +306,7 @@ const ShopifyShop = () => {
               <Button
                 variant="ghost"
                 size="icon"
-                className={⁠ ${viewMode === 'list' ? 'bg-amber-900 text-white' : 'bg-muted/30 text-foreground'} h-12 w-12 rounded-none ⁠}
+                className={`${viewMode === 'list' ? 'bg-amber-900 text-white' : 'bg-muted/30 text-foreground'} h-12 w-12 rounded-none`}
                 onClick={() => setViewMode("list")}
                 aria-pressed={viewMode === 'list'}
               >
@@ -402,7 +402,7 @@ const ShopifyShop = () => {
                           <button
                             className="inline-flex items-center justify-center whitespace-nowrap rounded-full border border-transparent bg-muted/50 px-4 h-9 sm:h-10 text-sm font-medium"
                             onClick={() => {
-                              window.location.href = ⁠ /product/${product.id} ⁠;
+                              window.location.href = `/product/${product.id}`;
                             }}
                           >
                             View
