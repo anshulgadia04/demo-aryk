@@ -15,37 +15,6 @@ import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/contexts/CartContext";
 import { markCheckoutInitiated } from "@/lib/checkoutUtils";
 
-const handleToggleWishlist = (productId: number | string) => {
-  let updatedWishlist: (number | string)[];
-
-  if (wishlist.includes(productId)) {
-    updatedWishlist = wishlist.filter(id => id !== productId);
-    toast({
-      title: "Removed from Wishlist",
-      description: "Product removed from your wishlist",
-    });
-  } else {
-    updatedWishlist = [...wishlist, productId];
-    toast({
-      title: "Added to Wishlist",
-      description: "Product added to your wishlist",
-    });
-  }
-
-  setWishlist(updatedWishlist);
-  localStorage.setItem("aryk_wishlist", JSON.stringify(updatedWishlist));
-};
-useEffect(() => {
-  const syncWishlist = () => {
-    const saved = localStorage.getItem("aryk_wishlist");
-    setWishlist(saved ? JSON.parse(saved) : []);
-  };
-
-  window.addEventListener("storage", syncWishlist);
-  return () => window.removeEventListener("storage", syncWishlist);
-}, []);
-
-
 const ShopifyShop = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -378,12 +347,12 @@ const ShopifyShop = () => {
                 <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                   {filteredProducts.map((product) => (
                     <div key={product.id} className="w-full">
-                  <ProductCard
+                      <ProductCard
                         {...product}
                         onAddToCart={handleAddToCart}
-                        onToggleWishlist={() => handleToggleWishlist(product.id)}
-                        isWishlisted={wishlist.includes(product.id)}
-                        />
+                        onToggleWishlist={handleToggleWishlist}
+                        isWishlisted={false}
+                      />
                     </div>
                   ))}
                 </div>
@@ -482,4 +451,3 @@ const ShopifyShop = () => {
 };
 
 export default ShopifyShop;
-
